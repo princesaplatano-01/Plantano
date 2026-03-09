@@ -1,0 +1,155 @@
+"use client"
+
+import Image from "next/image"
+import Link from "next/link"
+import { useRef, useState, useEffect } from "react"
+import { useTranslation } from "@/lib/translations"
+
+function MarqueeBar() {
+  const { t } = useTranslation()
+  const baseMarqueeItems = [
+    t("newCollection"),
+    t("sale"),
+    t("aboutPrincesaPlatano"),
+  ]
+  // To ensure the marquee is long enough for a seamless loop on wide screens,
+  // we repeat the items.
+  const marqueeItems = Array(5).fill(baseMarqueeItems).flat();
+
+  const MarqueeItem = ({ text }: { text: string }) => (
+    <span className="px-8 text-xs uppercase tracking-widest">{text}</span>
+  )
+
+  return (
+    <>
+      <style>
+        {`
+          @keyframes marquee {
+            0% { transform: translateX(0%); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee {
+            /* Increased duration for the longer content */
+            animation: marquee 150s linear infinite;
+            will-change: transform;
+          }
+        `}
+      </style>
+      <div className="w-full overflow-hidden border-y border-border bg-background text-foreground py-4">
+        <div className="flex animate-marquee whitespace-nowrap">
+          <div className="flex flex-shrink-0 items-center">
+            {marqueeItems.map((item, index) => <MarqueeItem key={index} text={item} />)}
+          </div>
+          <div className="flex flex-shrink-0 items-center" aria-hidden="true">
+            {marqueeItems.map((item, index) => <MarqueeItem key={index + marqueeItems.length} text={item} />)}
+          </div>
+        </div>
+      </div>
+    </>
+  )
+}
+
+export function HeroSection() {
+    // ...existing code...
+    // Add logo overlay
+  const containerRef = useRef<HTMLElement>(null)
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [isHovering, setIsHovering] = useState(false)
+  const { t } = useTranslation()
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!containerRef.current) return
+      
+      const rect = containerRef.current.getBoundingClientRect()
+      const x = (e.clientX - rect.left) / rect.width - 0.5
+      const y = (e.clientY - rect.top) / rect.height - 0.5
+      
+      setMousePosition({ x, y })
+    }
+
+    const container = containerRef.current
+    if (container) {
+      container.addEventListener("mousemove", handleMouseMove)
+      return () => container.removeEventListener("mousemove", handleMouseMove)
+    }
+  }, [])
+
+  // Hide logo if menu is open
+  const isMenuOpen = typeof window !== "undefined" && document.body.classList.contains("menu-open");
+  return (
+    <>
+      <section 
+        ref={containerRef}
+        className="cursor-pointer relative"
+        onMouseEnter={() => setIsHovering(true)}
+        onMouseLeave={() => setIsHovering(false)}
+      >
+        {/* Logo overlay */}
+        {!isMenuOpen && (
+          <div className="absolute top-8 left-[88px] z-[60]">
+            <img src="/Collares/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo Title" className="h-36 md:h-54" />
+          </div>
+        )}
+        <Link href="#" className="relative h-[70vh] md:h-[100vh] overflow-hidden block">
+          {/* Background Image with parallax */}
+          <div 
+            className="absolute inset-[-20px] transition-transform duration-300 ease-out"
+            style={{
+              transform: isHovering 
+                ? `translate(${mousePosition.x * -30}px, ${mousePosition.y * -30}px) scale(1.05)` 
+                : 'translate(0, 0) scale(1)'
+            }}
+          >
+            <Image
+                src="/Collares/DSC07126_a.jpg"
+              alt="Spring Summer Collection"
+              fill
+              className="object-cover"
+              priority
+            />
+          </div>
+          
+          {/* Overlay */}
+          <div 
+            className="absolute inset-0 bg-black/20 transition-opacity duration-300"
+            style={{ opacity: isHovering ? 0.3 : 0.2 }}
+          />
+          
+          {/* Text content with opposite parallax */}
+          <div 
+            className="absolute bottom-8 left-6 md:bottom-16 md:left-12 transition-transform duration-200 ease-out"
+            style={{
+              transform: isHovering 
+                ? `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)` 
+                : 'translate(0, 0)'
+            }}
+          >
+            <p 
+              className="text-white/80 text-xs tracking-widest uppercase mb-2 transition-transform duration-150 ease-out"
+              style={{
+                transform: isHovering 
+                  ? `translate(${mousePosition.x * 10}px, ${mousePosition.y * 10}px)` 
+                  : 'translate(0, 0)'
+              }}
+            >
+              {t("newCollection")}
+            </p>
+            <span 
+              className="inline-block text-white text-xs tracking-widest uppercase border-b border-white pb-0.5 transition-all duration-150 ease-out"
+              style={{
+                transform: isHovering 
+                  ? `translate(${mousePosition.x * 8}px, ${mousePosition.y * 8}px)` 
+                  : 'translate(0, 0)'
+              }}
+            >
+              {t("shopNow")}
+            </span>
+          </div>
+
+        </Link>
+      </section>
+      <MarqueeBar />
+    </>
+  )
+}
