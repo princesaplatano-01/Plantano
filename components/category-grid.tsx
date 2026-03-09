@@ -1,43 +1,116 @@
 "use client"
 
-import Image from "next/image"
-import Link from "next/link"
-import { useTranslation } from "@/lib/translations"
+import { useMemo, useState, useEffect, useRef } from "react"
 
-const categoryKeys = [
-  { key: "sneakers", image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=400&q=80" },
-  { key: "balletFlats", image: "https://images.unsplash.com/photo-1543163521-1bf539c55dd2?w=400&q=80" },
-  { key: "loafers", image: "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=400&q=80" },
-  { key: "barefoot", image: "https://images.unsplash.com/photo-1560343090-f0409e644b44?w=400&q=80" },
-  { key: "boots", image: "https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=400&q=80" },
-  { key: "sandals", image: "https://images.unsplash.com/photo-1603487742131-4160ec999306?w=400&q=80" },
-  { key: "heels", image: "https://images.unsplash.com/photo-1596703263926-eb0762ee17e4?w=400&q=80" },
-] as const
+const images = [
+  "/Polaroids/DSC06217%20pola.jpg",
+  "/Polaroids/DSC06217%20polaro.jpg",
+  "/Polaroids/DSC06217%20polaroid.jpg",
+  "/Polaroids/DSC06217%20polaroido.jpg",
+  "/Polaroids/DSC06217%20polaroodi.jpg",
+]
 
 export function CategoryGrid() {
-  const { t } = useTranslation()
+  const [hovered, setHovered] = useState<number | null>(null)
+  const containerRef = useRef<HTMLDivElement | null>(null)
+  const [layout, setLayout] = useState<Array<any>>([])
+
+  // seed rotates/jitter stable per mount
+  const seed = useMemo(() => {
+    return images.map((_, i) => {
+      let rotate = Number((Math.random() * 16 - 8).toFixed(2)) // -8..+8
+      if (i === 0) rotate = rotate - 6
+      const jitter = Math.round(Math.random() * 40 - 20)
+      return { rotate, jitter, zBase: i }
+    })
+  }, [])
+
+  useEffect(() => {
+    function compute() {
+      const el = containerRef.current
+      if (!el) return
+      const width = el.clientWidth || 1200
+
+      // image width responsive: up to 640px, at least 120px
+      const baseImgW = Math.min(640, Math.max(120, Math.floor(width * 0.5)))
+      // reduce current display size by additional 30% relative to previous scale
+      // previous scale was 0.7, so new scale = 0.7 * 0.7 = 0.49
+      // increase by 10% as requested -> 0.49 * 1.1 = 0.539
+      const scaleFactor = 0.539
+      const imgW = Math.max(40, Math.floor(baseImgW * scaleFactor))
+      const minCenterSep = imgW * 0.75 // ensure centers separated so overlap ≤25%
+
+      const centerX = width / 2
+      const results = seed.map((s, i) => {
+        const base = centerX + (i - (images.length - 1) / 2) * (minCenterSep + 40)
+        const extra = (Math.random() * minCenterSep) - (minCenterSep / 2)
+        let left = Math.round(base + extra + s.jitter)
+
+        // allow up to 20% out-of-frame for centers
+        const minCenter = -0.2 * width + imgW / 2
+        const maxCenter = 1.2 * width - imgW / 2
+        left = Math.min(Math.max(left, Math.round(minCenter)), Math.round(maxCenter))
+
+        const yOffset = Math.round(Math.random() * 40)
+        return { rotate: s.rotate, left, yOffset, zBase: s.zBase, imgW }
+      })
+
+      // Adjust pairwise to ensure min separation
+      for (let pass = 0; pass < 4; pass++) {
+        for (let i = 1; i < results.length; i++) {
+          const prev = results[i - 1]
+          const cur = results[i]
+          const sep = cur.left - prev.left
+          if (sep < minCenterSep) {
+            const needed = Math.ceil(minCenterSep - sep)
+            cur.left += Math.ceil(needed / 2)
+            prev.left -= Math.floor(needed / 2)
+            // clamp
+            const minCenter = -0.2 * width + imgW / 2
+            const maxCenter = 1.2 * width - imgW / 2
+            cur.left = Math.min(Math.max(cur.left, Math.round(minCenter)), Math.round(maxCenter))
+            prev.left = Math.min(Math.max(prev.left, Math.round(minCenter)), Math.round(maxCenter))
+          }
+        }
+      }
+
+      setLayout(results)
+    }
+
+    compute()
+    window.addEventListener("resize", compute)
+    return () => window.removeEventListener("resize", compute)
+  }, [seed])
 
   return (
     <section className="py-12 md:py-16 px-4 md:px-6">
-      <h2 className="text-lg md:text-xl font-medium text-center mb-6">{t("ourCategories")}</h2>
+      <div ref={containerRef} className="relative flex justify-center items-start mt-[25px] h-[360px] md:h-[520px]">
+        {images.map((src, i) => {
+          const item = layout[i]
+          const isHovered = hovered === i
+          const zIndex = isHovered ? 999 : 10 + (item?.zBase ?? i)
 
-      {/* Horizontal scrolling categories (flexbox) */}
-      <div className="flex gap-4 overflow-x-auto no-scrollbar py-2">
-        {categoryKeys.map((category) => (
-          <Link key={category.key} href="#" className="flex-shrink-0 w-44 md:w-56 group">
-            <div className="relative w-44 md:w-56 h-32 md:h-40 overflow-hidden rounded-lg bg-muted">
-              <Image
-                src={category.image}
-                alt={t(category.key)}
-                fill
-                className="object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-            </div>
-            <h3 className="text-xs md:text-sm text-center capitalize mt-2 group-hover:underline">
-              {t(category.key)}
-            </h3>
-          </Link>
-        ))}
+          return (
+            <img
+              key={i}
+              src={src}
+              alt={`Editorial ${i + 1}`}
+              onMouseEnter={() => setHovered(i)}
+              onMouseLeave={() => setHovered(null)}
+              className="pointer-events-auto select-none rounded-sm transition-transform duration-300 ease-out"
+              style={{
+                position: "absolute",
+                left: item ? `${item.left}px` : "50%",
+                top: item ? `${item.yOffset}px` : "0px",
+                transform: `translateX(-50%) rotate(${item ? item.rotate : 0}deg) ${isHovered ? 'scale(1.08)' : 'scale(1)'}`,
+                zIndex,
+                boxShadow: "5px 5px 15px rgba(0,0,0,0.1)",
+                width: item ? `${item.imgW}px` : "320px",
+                height: "auto",
+              }}
+            />
+          )
+        })}
       </div>
     </section>
   )

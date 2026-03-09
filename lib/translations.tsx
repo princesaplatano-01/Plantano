@@ -15,7 +15,9 @@ const translations = {
     readyToShip: "Ready to ship | in Stock",
     s26Collection: "S26 Collection",
     sale: "Sale",
-    aboutPrincesaPlatano: "About Princesa Platano",
+    aboutPrincesaPlatano: "About Princesa Plátano",
+    aLittleSacred: "A Little Sacred",
+    aLittleStrange: "A Little Strange",
     
     // Hero
     newCollection: "New Collection",
@@ -97,7 +99,9 @@ const translations = {
     readyToShip: "Listo para enviar | En Stock",
     s26Collection: "Colección S26",
     sale: "Rebajas",
-    aboutPrincesaPlatano: "Sobre Princesa Platano",
+    aboutPrincesaPlatano: "Sobre Princesa Plátano",
+    aLittleSacred: "Un Poco Sagrado",
+    aLittleStrange: "Un Poco Extraño",
     
     // Hero
     newCollection: "Nueva Colección",

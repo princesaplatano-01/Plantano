@@ -9,8 +9,9 @@ function MarqueeBar() {
   const { t } = useTranslation()
   const baseMarqueeItems = [
     t("newCollection"),
-    t("sale"),
+    t("aLittleSacred"),
     t("aboutPrincesaPlatano"),
+    t("aLittleStrange"),
   ]
   // To ensure the marquee is long enough for a seamless loop on wide screens,
   // we repeat the items.
@@ -30,12 +31,12 @@ function MarqueeBar() {
           }
           .animate-marquee {
             /* Increased duration for the longer content */
-            animation: marquee 150s linear infinite;
+            animation: marquee 47s linear infinite;
             will-change: transform;
           }
         `}
       </style>
-      <div className="w-full overflow-hidden border-y border-border bg-background text-foreground py-4">
+      <div className="w-full overflow-hidden border-y border-border bg-white text-foreground py-4">
         <div className="flex animate-marquee whitespace-nowrap">
           <div className="flex flex-shrink-0 items-center">
             {marqueeItems.map((item, index) => <MarqueeItem key={index} text={item} />)}
@@ -88,7 +89,7 @@ export function HeroSection() {
         {/* Logo overlay */}
         {!isMenuOpen && (
           <div className="absolute top-8 left-[88px] z-[60]">
-            <img src="/Collares/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo Title" className="h-36 md:h-54" />
+            <img src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo Title" className="h-36 md:h-54" />
           </div>
         )}
         <Link href="#" className="relative h-[70vh] md:h-[100vh] overflow-hidden block">
@@ -102,7 +103,7 @@ export function HeroSection() {
             }}
           >
             <Image
-                src="/Collares/DSC07126_a.jpg"
+                src="/Front/DSC07126_a.jpg"
               alt="Spring Summer Collection"
               fill
               className="object-cover"
@@ -125,18 +126,8 @@ export function HeroSection() {
                 : 'translate(0, 0)'
             }}
           >
-            <p 
-              className="text-white/80 text-xs tracking-widest uppercase mb-2 transition-transform duration-150 ease-out"
-              style={{
-                transform: isHovering 
-                  ? `translate(${mousePosition.x * 10}px, ${mousePosition.y * 10}px)` 
-                  : 'translate(0, 0)'
-              }}
-            >
-              {t("newCollection")}
-            </p>
             <span 
-              className="inline-block text-white text-xs tracking-widest uppercase border-b border-white pb-0.5 transition-all duration-150 ease-out"
+              className="inline-block text-[#1E1D1D] text-xs tracking-widest uppercase border-b border-[#1E1D1D] pb-0.5 transition-all duration-150 ease-out"
               style={{
                 transform: isHovering 
                   ? `translate(${mousePosition.x * 8}px, ${mousePosition.y * 8}px)` 

@@ -34,8 +34,8 @@ export function PromoPopup() {
           >
             <X size={14} strokeWidth={1.5} />
           </button>
-          <div className="block text-center cursor-pointer" onClick={() => setShowMenu(true)}>
-            <p className="text-lg font-semibold tracking-wide mb-0">10% OFF</p>
+            <div className="block text-center cursor-pointer" onClick={() => setShowMenu(true)}>
+            <p className="text-lg font-semibold tracking-wide mb-0" style={{ color: '#dcdcdc' }}>10% OFF</p>
           </div>
         </div>
       </div>

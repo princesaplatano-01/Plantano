@@ -9,7 +9,7 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<any[]>([]);
   // Hide search after 2s of inactivity
   useEffect(() => {
     if (!searchOpen) return;
@@ -56,7 +56,7 @@ export function Header() {
                   onChange={e => setSearchValue(e.target.value)}
                   autoFocus
                   placeholder="Search"
-                  className="w-full px-2 py-1 text-xs rounded bg-transparent text-black focus:outline-none"
+                  className="w-full px-2 py-1 text-xs rounded bg-transparent text-foreground placeholder:text-muted-foreground focus:outline-none"
                   style={{ background: 'none', border: 'none' }}
                 />
               </form>
@@ -65,7 +65,10 @@ export function Header() {
                 {/* Search Bar Drawer */}
           <button className="hover:opacity-60 transition-opacity relative" aria-label="Cart" onClick={() => setCartOpen(true)}>
             <ShoppingBag size={20} strokeWidth={1.5} />
-            <span className="absolute -top-1.5 -right-1.5 bg-foreground text-background text-[9px] w-4 h-4 rounded-full flex items-center justify-center">
+            <span
+              className="absolute -top-1.5 -right-1.5 text-[9px] w-4 h-4 rounded-full flex items-center justify-center"
+              style={{ background: '#ffffff', color: '#1E1D1D' }}
+            >
               {cartItems.length}
             </span>
           </button>
