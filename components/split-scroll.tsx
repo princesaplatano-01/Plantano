@@ -1,8 +1,10 @@
 "use client"
 
 import React, { useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
 
 export function SplitScroll() {
+  const router = useRouter()
   const videoRef = useRef<HTMLVideoElement | null>(null)
 
   useEffect(() => {
@@ -55,13 +57,30 @@ export function SplitScroll() {
             <img
               src="/SCROLL/DSC08190.jpg"
               alt="Right item 1"
-              className="w-full h-auto object-cover"
+              className="w-full h-auto object-cover cursor-pointer"
               style={{ objectFit: "cover", aspectRatio: "3 / 4" }}
+              onClick={() => router.push('/new-in')}
             />
              <div className="mt-6 text-center">
-               <div className="text-lg font-semibold text-[#dbdbdb]">THE DROP</div>
+               <div
+                 role="button"
+                 tabIndex={0}
+                 onClick={() => router.push('/new-in')}
+                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/new-in') }}
+                 className="text-lg font-semibold text-[#dbdbdb] cursor-pointer"
+               >
+                 THE DROP
+               </div>
                <div className="mt-4">
-                 <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">SHOP NOW</span>
+                 <span
+                   role="button"
+                   tabIndex={0}
+                   onClick={() => router.push('/new-in')}
+                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/new-in') }}
+                   className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md cursor-pointer"
+                 >
+                   SHOP NOW
+                 </span>
                </div>
              </div>
           </div>
@@ -70,11 +89,20 @@ export function SplitScroll() {
             <img
               src="/SCROLL/DSC07425.jpg"
               alt="Right item 2"
-              className="w-full h-auto object-cover"
+              className="w-full h-auto object-cover cursor-pointer"
               style={{ objectFit: "cover", aspectRatio: "3 / 4" }}
+              onClick={() => router.push('/s26')}
             />
              <div className="mt-6 text-center">
-               <div className="text-lg font-semibold text-[#dbdbdb]">SACRED SPRING</div>
+               <div
+                 role="button"
+                 tabIndex={0}
+                 onClick={() => router.push('/s26')}
+                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/s26') }}
+                 className="text-lg font-semibold text-[#dbdbdb] cursor-pointer"
+               >
+                 SACRED SPRING
+               </div>
                <div className="mt-4">
                  <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">SHOP NOW</span>
                </div>
