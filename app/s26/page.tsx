@@ -9,10 +9,16 @@ export default function S26Page() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-20 py-12 px-4 md:px-8 bg-background text-foreground">
+  // Use images stored in public/SC26 for the masonry gallery
+  const SC26_IMAGES = [
+    "/SC26/IMG_3201.jpg",
+    "/SC26/IMG_3202.jpg",
+    "/SC26/IMG_3232.jpg",
+    "/SC26/gif.gif",
+  ]
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-center mb-6">
-            <img src="/Front/PP-LOGO-LTTRNG-A-02.png" alt="S26" width={192} height={50} className="object-contain" />
+    const allImages = SC26_IMAGES
           </div>
 
           <h1 className="text-xl md:text-2xl font-semibold mb-6 italic text-[#dbdbdb]">S26 Collection</h1>
