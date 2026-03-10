@@ -8,7 +8,6 @@ const SC26_IMAGES = [
   "/SC26/gif collar.gif",
   "/SC26/IMG_3202.jpg",
   "/SC26/IMG_3232.jpg",
-  "/SC26/gif.gif",
 ]
 
 export default function S26Page() {
