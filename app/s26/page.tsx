@@ -39,6 +39,16 @@ export default function S26Page() {
                       loading="lazy"
                     />
                   )}
+
+                  {src === "/SC26/IMG_3201.jpg" && (
+                    <img
+                      src="/SC26/PP-LOGO-STKR-01 copy.png"
+                      alt="pp logo"
+                      className="absolute bottom-0 left-0 w-36 md:w-48 pointer-events-none"
+                      style={{ transform: 'translateY(50%)' }}
+                      loading="lazy"
+                    />
+                  )}
                 </div>
               </div>
             ))}
