@@ -4,7 +4,6 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import { Search, ShoppingBag, Menu, X, Globe } from "lucide-react"
 import { useTranslation } from "@/lib/translations"
-import { usePathname } from "next/navigation"
 
 export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
@@ -25,10 +24,6 @@ export function Header() {
           </Link>
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { language, setLanguage, t } = useTranslation()
-  const pathname = typeof window !== 'undefined' ? usePathname() : undefined
-
-  // Hide header controls on specific full-page sections
-  const hideControls = pathname === "/new-in" || pathname === "/new-in/"
 
   useEffect(() => {
     if (typeof document === "undefined") return
@@ -46,20 +41,17 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50" style={{background: 'transparent', border: 'none'}}>
       <nav className="flex items-center justify-between px-4 md:px-6 py-3" style={{background: 'transparent', border: 'none'}}>
         {/* Left - Hamburger Menu */}
-        {!hideControls && (
-          <button 
-            className="hover:opacity-60 transition-opacity"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
-          </button>
-        )}
+        <button 
+          className="hover:opacity-60 transition-opacity"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label="Toggle menu"
+        >
+          {mobileMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+        </button>
 
 
         {/* Right - Search and Cart */}
-        {!hideControls && (
-          <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4">
           <div className="relative">
             <button className="hover:opacity-60 transition-opacity" aria-label="Search" onClick={() => setSearchOpen(true)}>
               <Search size={20} strokeWidth={1.5} />
@@ -116,8 +108,7 @@ export function Header() {
                   </div>
                 </div>
               )}
-          </div>
-        )}
+        </div>
       </nav>
 
       {/* Slide-out Menu */}
@@ -139,6 +130,7 @@ export function Header() {
             </div>
             <div className="flex flex-col py-2 flex-1">
               <Link href="#" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
+              <Link href="/new-in" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
                 {t("newIn")}
               </Link>
               <Link href="#" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">

@@ -112,6 +112,8 @@ export function CategoryGrid() {
           )
         })}
       </div>
+
+      {/* (Removed standalone scroll image — split-screen inserted directly after CategoryGrid.) */}
     </section>
   )
 }
