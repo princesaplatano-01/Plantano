@@ -9,8 +9,8 @@ export default function ContactPage() {
         <div className="mt-8">
           <Link href="/">
             <img
-              src="/Front/PP-LOGO-STKR-01.png"
-              alt="PP Logo"
+              src="/Front/Princesa%20pl%C3%A1tano%20ct%C3%A1logo%20neckless.JPG"
+              alt="Princesa Plátano catalog"
               className="mx-auto w-40 md:w-56 object-contain transform -translate-y-[90px] cursor-pointer"
             />
           </Link>

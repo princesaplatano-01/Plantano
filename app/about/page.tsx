@@ -9,8 +9,8 @@ export default function AboutPage() {
         <div className="mt-8">
           <Link href="/">
             <img
-              src="/Front/PP-LOGO-STKR-01.png"
-              alt="PP Logo"
+              src="/Front/Princesa%20pl%C3%A1tano%20ct%C3%A1logo%20neckless.JPG"
+              alt="Princesa Plátano catalog"
               className="mx-auto w-40 md:w-56 object-contain transform -translate-y-[90px] cursor-pointer"
             />
           </Link>
@@ -24,7 +24,10 @@ export default function AboutPage() {
           </p>
 
           <p className="mt-6 text-sm md:text-base text-[#d6d6d6]" style={{ textAlign: 'justify' }}>
-            Princesa Plátano creates one of a kind pieces, handmade in Mexico. Crafted with global treasures I’ve discovered through my adventures around the world. Each piece is eclectic, special, and truly unique. <span className="font-semibold">No repeats. No copies.</span>
+            Princesa Plátano creates one of a kind pieces, handmade in Mexico. Crafted with global treasures I’ve discovered through my adventures around the world. Each piece is eclectic, special, and truly unique.
+          </p>
+          <p className="mt-4 text-sm md:text-base text-[#d6d6d6] font-semibold text-center">
+            No repeats. No copies.
           </p>
         </div>
       </main>
