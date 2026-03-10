@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect } from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { useCart } from "@/components/cart"
 import Link from "next/link"
 import { Search, ShoppingBag, Menu, X, Globe } from "lucide-react"
@@ -25,6 +25,10 @@ export function Header() {
   }, [searchOpen]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { language, setLanguage, t } = useTranslation()
+  const pathname = usePathname()
+  const isHome = pathname === "/"
+  const navTextColor = isHome ? "#dbdbdb" : "#bdbdbd"
+  const iconColor = isHome ? "#4b4b4b" : "#909090"
 
   useEffect(() => {
     if (typeof document === "undefined") return
@@ -57,14 +61,14 @@ export function Header() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50" style={{background: 'transparent', border: 'none'}}>
-      <nav className="flex items-center justify-between px-4 md:px-6 py-3 text-[#dbdbdb]" style={{background: 'transparent', border: 'none'}}>
+      <nav className="flex items-center justify-between px-4 md:px-6 py-3" style={{background: 'transparent', border: 'none', color: navTextColor}}>
         {/* Left - Hamburger Menu */}
         <button 
           className="hover:opacity-60 transition-opacity"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X size={20} strokeWidth={1.5} color="#4b4b4b" /> : <Menu size={20} strokeWidth={1.5} color="#4b4b4b" />}
+          {mobileMenuOpen ? <X size={20} strokeWidth={1.5} color={iconColor} /> : <Menu size={20} strokeWidth={1.5} color={iconColor} />}
         </button>
 
 
@@ -72,7 +76,7 @@ export function Header() {
         <div className="flex items-center gap-4">
           <div className="relative">
             <button className="hover:opacity-60 transition-opacity" aria-label="Search" onClick={() => setSearchOpen(true)}>
-              <Search size={20} strokeWidth={1.5} color="#4b4b4b" />
+              <Search size={20} strokeWidth={1.5} color={iconColor} />
             </button>
             {searchOpen && (
               <form
@@ -97,7 +101,7 @@ export function Header() {
           </div>
                 {/* Search Bar Drawer */}
           <button className="hover:opacity-60 transition-opacity relative" aria-label="Cart" onClick={() => setCartOpen(true)}>
-              <ShoppingBag size={20} strokeWidth={1.5} color="#4b4b4b" />
+              <ShoppingBag size={20} strokeWidth={1.5} color={iconColor} />
             <span
               className="absolute -top-1.5 -right-1.5 text-[9px] w-4 h-4 rounded-full flex items-center justify-center"
               style={{ background: '#ffffff', color: '#1E1D1D' }}

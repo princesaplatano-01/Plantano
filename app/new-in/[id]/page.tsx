@@ -6,7 +6,8 @@ import { useRouter, useParams } from "next/navigation"
 import { useCart } from "@/components/cart"
 import AddToCart from "@/components/add-to-cart"
 import { Header } from "@/components/header"
-import { IMAGES, PRICES, SOLD } from "@/lib/products"
+import { IMAGES, PRICES, SOLD, DESCRIPTIONS } from "@/lib/products"
+import { useTranslation } from "@/lib/translations"
 import { useState, useRef, useEffect } from "react"
 
 // IMAGES, PRICES, SOLD imported from lib/products
@@ -15,12 +16,18 @@ export default function ProductPage() {
   const params = useParams()
   const id = parseInt((params?.id as string) || "1", 10)
   const idx = Math.max(0, Math.min(IMAGES.length - 1, id - 1))
-  const src = IMAGES[idx]
+  const raw = IMAGES[idx]
+  const images = Array.isArray(raw) ? raw : [raw]
+  const [imageIdx, setImageIdx] = useState(0)
+  const src = images[imageIdx]
+  const nextImage = () => setImageIdx((i) => (i + 1) % images.length)
+  const prevImage = () => setImageIdx((i) => (i - 1 + images.length) % images.length)
   const price = PRICES[idx] ?? PRICES[0]
   const priceLabel = `${price.toLocaleString()} MXN`
   const router = useRouter()
 
   const { addToCart } = useCart()
+  const { t } = useTranslation()
 
   const [email, setEmail] = useState("")
   const [sent, setSent] = useState(false)
@@ -52,13 +59,50 @@ export default function ProductPage() {
         <button onClick={handleBack} className="text-sm mb-4 text-muted-foreground">Back</button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
-          <div>
-            <img src={src} alt={`Product ${id}`} className="w-full h-auto object-cover rounded" />
+          <div className="relative group">
+            <div className="overflow-hidden bg-muted rounded" style={{ aspectRatio: "3 / 4", width: '100%' }}>
+              <img
+                src={src}
+                alt={`Product ${id}`}
+                className="w-full h-full object-cover rounded"
+              />
+            </div>
+
+            {images.length > 1 && (
+              <>
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    prevImage()
+                  }}
+                  aria-label="Previous image"
+                  className="opacity-0 group-hover:opacity-100 transition absolute left-2 top-1/2 -translate-y-1/2 text-[#454545] rounded p-2 bg-white/10"
+                >
+                  ‹
+                </button>
+
+                <button
+                  onClick={(e) => {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    nextImage()
+                  }}
+                  aria-label="Next image"
+                  className="opacity-0 group-hover:opacity-100 transition absolute right-2 top-1/2 -translate-y-1/2 text-[#454545] rounded p-2 bg-white/10"
+                >
+                  ›
+                </button>
+              </>
+            )}
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-2xl font-semibold text-[#dbdbdb]">Product {id}</h2>
+            <h2 className="text-2xl font-semibold text-[#dbdbdb]">{t((`product${id}`) as any)}</h2>
             <div className="text-xl" style={{ color: "#909090" }}>{priceLabel}</div>
+            {DESCRIPTIONS[idx] && (
+              <div className="text-sm text-muted-foreground mt-2">{DESCRIPTIONS[idx]}</div>
+            )}
             {SOLD[idx] ? (
               <>
                 <div className="text-sm text-muted-foreground">OUT OF STOCK</div>
