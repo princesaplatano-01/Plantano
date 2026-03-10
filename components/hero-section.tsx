@@ -87,11 +87,9 @@ export function HeroSection() {
         onMouseLeave={() => setIsHovering(false)}
       >
         {/* Logo overlay */}
-        {!isMenuOpen && (
-          <div className="absolute top-8 left-[88px] z-[60]">
-            <img src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo Title" className="h-36 md:h-54" />
-          </div>
-        )}
+        <div className="absolute top-8 left-[88px] z-[60] logo-overlay">
+          <img src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo Title" className="h-36 md:h-54" />
+        </div>
         <Link href="#" className="relative h-[70vh] md:h-[100vh] overflow-hidden block">
           {/* Background Image with parallax */}
           <div 
