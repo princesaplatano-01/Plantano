@@ -125,6 +125,18 @@
   }
 }
 
+/* When mobile menu opens, hide overlay logos so menu sits cleanly above everything */
+body.menu-open .logo-overlay {
+  opacity: 0 !important;
+  pointer-events: none;
+  transform: translateY(0) !important;
+}
+
+/* smooth fade for overlay logos */
+.logo-overlay {
+  transition: opacity 160ms ease-in-out;
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0);

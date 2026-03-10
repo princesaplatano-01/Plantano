@@ -19,7 +19,7 @@ export function Header() {
     return () => clearTimeout(timer);
   }, [searchOpen]);
           {/* Left - Logo Title */}
-          <Link href="/" className="absolute top-8 left-8 z-[60]">
+          <Link href="/" className="absolute top-8 left-8 z-[60] logo-overlay">
             <img src="/Collares/PP-LOGO-LTTRNG-VERSION-01.svg" alt="Platano Logo Title" className="h-16 md:h-24 drop-shadow-lg" />
           </Link>
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
