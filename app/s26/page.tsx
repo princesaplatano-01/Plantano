@@ -34,7 +34,8 @@ export default function S26Page() {
                     <img
                       src="/SC26/coliflow.png"
                       alt="coliflow"
-                      className="absolute bottom-2 right-2 w-32 md:w-40 pointer-events-none"
+                      className="absolute bottom-0 right-0 w-48 md:w-56 pointer-events-none"
+                      style={{ transform: 'translate(-30%, -30%)' }}
                       loading="lazy"
                     />
                   )}
