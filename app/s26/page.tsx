@@ -35,7 +35,7 @@ export default function S26Page() {
                       src="/SC26/coliflow.png"
                       alt="coliflow"
                       className="absolute bottom-0 right-0 w-48 md:w-56 pointer-events-none"
-                      style={{ transform: 'translate(-30%, -30%)' }}
+                      style={{ transform: 'translate(calc(-30% + 50px), -30%)' }}
                       loading="lazy"
                     />
                   )}
