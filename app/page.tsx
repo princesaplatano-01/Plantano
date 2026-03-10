@@ -15,13 +15,13 @@ export default function Home() {
       <SplitScroll />
       <div className="mt-[100px] relative">
         <img
-          src="/SCROLL/DSC07548.jpg?v=3"
+          src="/SCROLL/DSC07548.jpg?v=4"
           alt="Scroll detail"
           className="w-full object-cover"
           style={{ height: "auto" }}
         />
         <div className="absolute inset-0 flex items-center justify-center z-10">
-          <img src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo" className="w-[44%] md:w-[28%] h-auto transform translate-y-5" />
+          <img src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo" className="w-[44%] md:w-[28%] h-auto transform translate-y-6" />
         </div>
       </div>
       {/* FeaturedCollection and ProductGrid sections removed */}
