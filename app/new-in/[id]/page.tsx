@@ -56,7 +56,12 @@ export default function ProductPage() {
       <Header />
       <main className="min-h-screen pt-20 py-12 px-4 md:px-8 bg-background text-foreground">
         <div className="max-w-6xl mx-auto">
-        <button onClick={handleBack} className="text-sm mb-4 text-muted-foreground">Back</button>
+        <button
+          onClick={handleBack}
+          className={`text-sm mb-4 ${id === 10 ? 'text-[#dcdcdc]' : 'text-muted-foreground'}`}
+        >
+          Back
+        </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
           <div className="relative group">
@@ -113,7 +118,7 @@ export default function ProductPage() {
                       onClick={() => setModalOpen(true)}
                       className="w-full py-2 bg-white text-black font-medium"
                     >
-                      NOTIFY ME WHEN AVAILABLE
+                      DON'T MISS THE NEXT DROP
                     </button>
                   </div>
                 ) : (
@@ -147,7 +152,7 @@ export default function ProductPage() {
                 >
                   <div className="bg-background p-6 rounded shadow-lg text-foreground" style={{ width: modalCoords ? modalCoords.w : 320 }}>
                     <div className="flex items-start justify-between">
-                      <h2 className="text-lg font-semibold uppercase" style={{ color: '#dcdcdc' }}>NOTIFY ME WHEN AVAILABLE</h2>
+                      <h2 className="text-lg font-semibold uppercase" style={{ color: '#dcdcdc' }}>DON'T MISS THE NEXT DROP</h2>
                       <button onClick={() => setModalOpen(false)} aria-label="Close" className="text-muted-foreground text-xl leading-none">×</button>
                     </div>
                     <p className="mt-2 text-sm text-muted-foreground">We'll notify you when this product is back in stock.</p>
