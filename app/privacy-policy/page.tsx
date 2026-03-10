@@ -1,8 +1,19 @@
 "use client"
 
+import Link from "next/link"
+import { X } from "lucide-react"
+
 export default function PrivacyPolicyPage() {
   return (
-    <main className="max-w-3xl mx-auto py-16 px-4 text-[#dbdbdb]">
+    <main className="relative max-w-3xl mx-auto py-16 px-4 text-[#dbdbdb]">
+      <Link
+        href="/"
+        aria-label="Close privacy policy"
+        className="absolute top-6 right-6 text-[#dbdbdb] hover:opacity-80 transition-opacity"
+      >
+        <X size={20} strokeWidth={1.5} />
+      </Link>
+
       <h1 className="text-2xl md:text-3xl font-semibold mb-6">Privacy policy</h1>
 
       <h2 className="text-sm font-semibold mb-2">THE INFORMATION THAT PRINCESA PLÁTANO COLLECTS, AND HOW IT IS COLLECTED:</h2>
