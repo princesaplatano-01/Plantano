@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useCart } from "@/components/cart"
 import Link from "next/link"
 import { Search, ShoppingBag, Menu, X, Globe } from "lucide-react"
 import { useTranslation } from "@/lib/translations"
@@ -9,7 +10,7 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<any[]>([]);
+  const { items: cartItems, removeItem } = useCart()
   // Hide search after 2s of inactivity
   useEffect(() => {
     if (!searchOpen) return;
@@ -100,7 +101,10 @@ export function Header() {
                       ) : (
                         <ul>
                           {cartItems.map((item, idx) => (
-                            <li key={idx} className="mb-4 text-white">{item.name}</li>
+                            <li key={idx} className="mb-4 text-white flex items-center justify-between">
+                              <span>{item.name} × {item.qty || 1}</span>
+                              <button className="text-xs underline" onClick={() => removeItem(item.id)}>Remove</button>
+                            </li>
                           ))}
                         </ul>
                       )}
@@ -129,7 +133,6 @@ export function Header() {
               </button>
             </div>
             <div className="flex flex-col py-2 flex-1">
-              <Link href="#" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
               <Link href="/new-in" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
                 {t("newIn")}
               </Link>
