@@ -94,7 +94,7 @@ export function Footer() {
 
         {/* Bottom Bar */}
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="text-sm font-medium tracking-[0.02em] text-[#dbdbdb]">
+          <div className="text-sm font-medium tracking-[0.02em] text-muted-foreground">
             © 2026, PRINCESA PLÁTANO jewelry . por @bybambou
           </div>
           <div className="flex flex-wrap justify-center gap-4 text-[10px] text-muted-foreground">
