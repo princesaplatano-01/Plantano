@@ -14,7 +14,8 @@ export default function ContactPage() {
             <img
               src="/Front/Princesa%20pl%C3%A1tano%20ct%C3%A1logo%20neckless.JPG"
               alt="Princesa Plátano catalog"
-              className="mx-auto w-40 md:w-56 object-contain transform -translate-y-[90px] cursor-pointer"
+              className="mx-auto w-full object-contain transform -translate-y-[90px] cursor-pointer"
+              style={{ maxWidth: 'calc(36rem - 100px)' }}
             />
           </Link>
         </div>
