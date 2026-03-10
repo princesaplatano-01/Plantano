@@ -11,7 +11,8 @@ export default function AboutPage() {
             <img
               src="/Front/PP-LOGO-STKR-01.png"
               alt="PP Logo"
-              className="mx-auto w-40 md:w-56 object-contain transform -translate-y-[90px] cursor-pointer"
+              className="mx-auto w-full object-contain transform -translate-y-[90px] cursor-pointer"
+              style={{ maxWidth: 'calc(36rem - 100px)' }}
             />
           </Link>
         </div>
