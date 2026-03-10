@@ -9,18 +9,15 @@ export default function ContactPage() {
     <>
       <Header />
       <main className="min-h-screen pt-[90px] flex flex-col items-center bg-background text-foreground" style={{ filter: flash ? 'invert(1)' : 'none', transition: 'filter 200ms ease' }}>
-        <div className="mt-8">
+
+        <div className="max-w-xl mt-0 px-4" style={{ maxWidth: 'calc(36rem - 100px)' }}>
           <Link href="/">
             <img
               src="/Front/Princesa%20pl%C3%A1tano%20ct%C3%A1logo%20neckless.JPG"
               alt="Princesa Plátano catalog"
               className="mx-auto w-full object-contain transform -translate-y-[90px] cursor-pointer"
-              style={{ maxWidth: 'calc(36rem - 100px)' }}
             />
           </Link>
-        </div>
-
-        <div className="max-w-xl mt-0 px-4" style={{ maxWidth: 'calc(36rem - 100px)' }}>
           <p className="-mt-10 text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-left">
             Contact
           </p>
