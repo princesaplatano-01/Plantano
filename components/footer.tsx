@@ -29,7 +29,7 @@ export function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
           {/* Shop Links */}
           <div>
-            <h3 className="text-[11px] tracking-wider mb-4 uppercase">{t("shop")}</h3>
+            <h3 className="text-[11px] tracking-wider mb-4 uppercase text-[#dbdbdb]">{t("shop")}</h3>
             <nav className="flex flex-col gap-2">
               {shopLinks.map((link) => (
                 <Link 
@@ -45,7 +45,7 @@ export function Footer() {
 
           {/* Help Links */}
           <div>
-            <h3 className="text-[11px] tracking-wider mb-4 uppercase">{t("help")}</h3>
+            <h3 className="text-[11px] tracking-wider mb-4 uppercase text-[#dbdbdb]">{t("help")}</h3>
             <nav className="flex flex-col gap-2">
               {helpLinks.map((link) => (
                 <Link 
@@ -61,7 +61,7 @@ export function Footer() {
 
           {/* About Links */}
           <div>
-            <h3 className="text-[11px] tracking-wider mb-4 uppercase">{t("about")}</h3>
+            <h3 className="text-[11px] tracking-wider mb-4 uppercase text-[#dbdbdb]">{t("about")}</h3>
             <nav className="flex flex-col gap-2">
               {aboutLinks.map((link) => (
                 <Link 
@@ -77,9 +77,13 @@ export function Footer() {
 
           {/* Social */}
           <div>
-            <h3 className="text-[11px] tracking-wider mb-4 uppercase">{t("followUs")}</h3>
+            <h3 className="text-[11px] tracking-wider mb-4 uppercase text-[#dbdbdb]">{t("followUs")}</h3>
             <div className="flex gap-4">
-              <a href="#" className="hover:opacity-60 transition-opacity" aria-label="Instagram">
+              <a
+                href="#"
+                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                aria-label="Instagram"
+              >
                 <Instagram size={18} strokeWidth={1.5} />
               </a>
             </div>
