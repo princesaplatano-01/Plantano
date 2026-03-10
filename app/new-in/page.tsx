@@ -32,7 +32,7 @@ export default function NewInPage() {
             <Link href={`/new-in/${idx + 1}`}>
               <img
                 src={images[imageIdx]}
-                alt={`Product ${idx + 1}`}
+                alt={t((`product${idx + 1}`) as any)}
                 className={`w-full h-full object-cover block ${SOLD[idx] ? 'brightness-90' : ''}`}
                 loading="lazy"
               />

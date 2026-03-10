@@ -68,7 +68,7 @@ export default function ProductPage() {
             <div className="overflow-hidden bg-muted rounded" style={{ aspectRatio: "3 / 4", width: '100%' }}>
               <img
                 src={src}
-                alt={`Product ${id}`}
+                alt={t((`product${id}`) as any)}
                 className="w-full h-full object-cover rounded"
               />
             </div>
@@ -139,7 +139,7 @@ export default function ProductPage() {
             ) : (
               <>
                 <div className="text-sm text-muted-foreground">IN STOCK</div>
-                <AddToCart id={`newin-${id}`} name={`Product ${id}`} price={price} image={src} className="mt-4 px-4 py-2 border border-white text-white">Add to cart</AddToCart>
+                <AddToCart id={`newin-${id}`} name={t((`product${id}`) as any)} price={price} image={src} className="mt-4 px-4 py-2 border border-white text-white">Add to cart</AddToCart>
               </>
             )}
             </div>
