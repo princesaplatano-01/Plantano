@@ -4,7 +4,7 @@ import { CategoryGrid } from "@/components/category-grid"
 // FeaturedCollection and ProductGrid removed per request
 import { Footer } from "@/components/footer"
 import { PromoPopup } from "@/components/promo-popup"
-import SplitScroll from "@/components/split-scroll"
+import { SplitScroll } from "@/components/split-scroll"
 
 export default function Home() {
   return (
