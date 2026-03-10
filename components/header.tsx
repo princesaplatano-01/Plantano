@@ -103,10 +103,10 @@ export function Header() {
       {mobileMenuOpen && (
         <>
           <div 
-            className="fixed inset-0 bg-black/40 z-40"
+            className="fixed inset-0 bg-black/40 z-[9999]"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="fixed top-0 left-0 h-full w-80 max-w-[85vw] z-[100] shadow-2xl flex flex-col bg-black text-white" style={{border: 'none'}}>
+          <div className="fixed top-0 left-0 h-full w-80 max-w-[85vw] z-[10001] shadow-2xl flex flex-col bg-black text-white" style={{border: 'none'}}>
             <div className="flex items-center justify-between p-4">
               <span className="text-sm font-medium tracking-wider">{t("menu")}</span>
               <button 
