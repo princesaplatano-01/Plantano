@@ -15,7 +15,7 @@ export default function Home() {
       <SplitScroll />
       <div className="mt-[100px] relative">
         <img
-          src="/SCROLL/DSC07548.jpg"
+          src={`/SCROLL/DSC07548.jpg?v=${Date.now()}`}
           alt="Scroll detail"
           className="w-full object-cover"
           style={{ height: "auto" }}
