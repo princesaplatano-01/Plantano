@@ -98,7 +98,7 @@ export function Footer() {
             © 2026, PRINCESA PLÁTANO jewelry . por @bybambou
           </div>
           <div className="flex flex-wrap justify-center gap-4 text-[10px] text-muted-foreground">
-            <Link href="#" className="hover:text-foreground transition-colors">{t("privacyPolicy")}</Link>
+            <Link href="/privacy-policy" className="hover:text-foreground transition-colors">{t("privacyPolicy")}</Link>
             <Link href="#" className="hover:text-foreground transition-colors">{t("termsOfService")}</Link>
             <Link href="#" className="hover:text-foreground transition-colors">{t("cookies")}</Link>
           </div>
