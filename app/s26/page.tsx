@@ -27,11 +27,9 @@ export default function S26Page() {
           <section className="columns-1 gap-4">
             {allImages.map((src, i) => (
               <div key={i} style={{ breakInside: 'avoid' }} className="mb-4">
-                {src.toLowerCase().endsWith('.gif') ? (
+                <div className="mx-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
                   <img src={src} alt={`S26 ${i + 1}`} className="w-full h-auto rounded" loading="lazy" />
-                ) : (
-                  <img src={src} alt={`S26 ${i + 1}`} className="w-full h-auto rounded" loading="lazy" />
-                )}
+                </div>
               </div>
             ))}
           </section>
