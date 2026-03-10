@@ -37,7 +37,7 @@ export default function S26Page() {
                       src="/SC26/PP-LOGO-STKR-01 copy.png"
                       alt="pp logo"
                       className="absolute bottom-0 left-0 w-36 md:w-48 pointer-events-none z-10"
-                      style={{ transform: 'translateY(50%) translateX(-50px) rotate(-30deg)' }}
+                      style={{ transform: 'translateY(50%) translateX(-100px) rotate(-30deg)' }}
                       loading="lazy"
                     />
                   )}
