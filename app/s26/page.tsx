@@ -5,6 +5,7 @@ import { Header } from "@/components/header"
 // Use images stored in public/SC26 for the masonry gallery
 const SC26_IMAGES = [
   "/SC26/IMG_3201.jpg",
+  "/SC26/gif collar.gif",
   "/SC26/IMG_3202.jpg",
   "/SC26/IMG_3232.jpg",
   "/SC26/gif.gif",
