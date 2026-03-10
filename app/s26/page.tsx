@@ -40,7 +40,7 @@ export default function S26Page() {
                     />
                   )}
 
-                  {src === "/SC26/IMG_3201.jpg" && (
+                  {src === "/SC26/gif collar.gif" && (
                     <img
                       src="/SC26/PP-LOGO-STKR-01 copy.png"
                       alt="pp logo"
