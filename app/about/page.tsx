@@ -15,11 +15,11 @@ export default function AboutPage() {
             />
           </Link>
         </div>
-        <div className="max-w-xl mt-8 px-4">
-          <p className="text-lg md:text-xl italic font-semibold text-[#e6e6e6] text-left">
+        <div className="max-w-xl mt-0 px-4">
+          <p className="-mt-10 text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-left">
             Princesa Plátano is an ode to my inner child that's what I used to call myself.
           </p>
-          <p className="text-lg md:text-xl italic font-semibold text-[#e6e6e6] text-right mt-4">
+          <p className="text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-right mt-3">
             Now it's a brand that celebrates being different and unique.
           </p>
 
