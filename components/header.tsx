@@ -221,20 +221,20 @@ export function Header() {
             <div className="px-6 py-4 border-t border-border flex flex-col gap-3">
               <button
                 onClick={() => setLanguage("EN")}
-                className={`text-left text-sm tracking-wider transition-colors ${
-                  language === "EN" 
-                    ? "text-foreground" 
-                    : "text-muted-foreground hover:text-foreground"
+                className={`text-left text-sm tracking-wider transition-colors px-2 py-2 rounded ${
+                  language === "EN"
+                    ? "text-gray-200 font-semibold"
+                    : "text-gray-400 hover:text-gray-200"
                 }`}
               >
                 EN
               </button>
               <button
                 onClick={() => setLanguage("ES")}
-                className={`text-left text-sm tracking-wider transition-colors ${
-                  language === "ES" 
-                    ? "text-foreground" 
-                    : "text-muted-foreground hover:text-foreground"
+                className={`text-left text-sm tracking-wider transition-colors px-2 py-2 rounded ${
+                  language === "ES"
+                    ? "text-gray-200 font-semibold"
+                    : "text-gray-400 hover:text-gray-200"
                 }`}
               >
                 ES
