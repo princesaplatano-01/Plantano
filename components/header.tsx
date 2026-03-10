@@ -10,7 +10,7 @@ export function Header() {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const [cartOpen, setCartOpen] = useState(false);
-  const { items: cartItems, removeItem } = useCart()
+  const { items: cartItems, removeFromCart } = useCart()
   // Hide search after 2s of inactivity
   useEffect(() => {
     if (!searchOpen) return;
@@ -103,7 +103,7 @@ export function Header() {
                           {cartItems.map((item, idx) => (
                             <li key={idx} className="mb-4 text-white flex items-center justify-between">
                               <span>{item.name} × {item.qty || 1}</span>
-                              <button className="text-xs underline" onClick={() => removeItem(item.id)}>Remove</button>
+                              <button className="text-xs underline" onClick={() => removeFromCart(item.id)}>Remove</button>
                             </li>
                           ))}
                         </ul>

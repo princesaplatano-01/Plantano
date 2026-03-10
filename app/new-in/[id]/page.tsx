@@ -25,10 +25,10 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const src = IMAGES[idx]
   const router = useRouter()
 
-  const { addItem } = useCart()
+  const { addToCart } = useCart()
 
   function handleAdd() {
-    addItem({ id: `newin-${id}`, name: `Product ${id}`, price: 2000, qty: 1, src })
+    addToCart({ id: `newin-${id}`, name: `Product ${id}`, price: 2000, quantity: 1, image: src })
   }
 
   return (
