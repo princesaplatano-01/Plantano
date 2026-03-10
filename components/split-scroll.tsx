@@ -116,6 +116,10 @@ export function SplitScroll() {
               poster="/SCROLL/DSC07548_72y.jpg"
               className="w-full h-auto object-cover"
               style={{ objectFit: "cover", aspectRatio: "3 / 4" }}
+              role="button"
+              tabIndex={0}
+              onClick={() => router.push('/about')}
+              onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/about') }}
               muted
               loop
               autoPlay
@@ -123,7 +127,15 @@ export function SplitScroll() {
               preload="auto"
             />
                <div className="mt-6 text-center">
-                 <div className="text-lg font-semibold text-[#dbdbdb]">ABOUT PRINCESA PLÁTANO</div>
+                 <div
+                   role="button"
+                   tabIndex={0}
+                   onClick={() => router.push('/about')}
+                   onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/about') }}
+                   className="text-lg font-semibold text-[#dbdbdb] cursor-pointer"
+                 >
+                   ABOUT PRINCESA PLÁTANO
+                 </div>
                  <div className="mt-4">
                    <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">SHOP NOW</span>
                  </div>
