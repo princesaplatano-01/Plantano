@@ -13,10 +13,10 @@ export default function AboutPage() {
           />
         </div>
         <div className="max-w-3xl mt-8 px-4">
-          <p className="text-sm md:text-base text-left" style={{ color: '#bdbdbd' }}>
+          <p className="text-lg md:text-xl italic text-[#bdbdbd] text-left">
             Princesa Plátano is an ode to my inner child that's what I used to call myself.
           </p>
-          <p className="text-sm md:text-base text-right mt-2" style={{ color: '#bdbdbd' }}>
+          <p className="text-lg md:text-xl italic text-[#bdbdbd] text-right mt-4">
             Now it's a brand that celebrates being different and unique.
           </p>
         </div>
