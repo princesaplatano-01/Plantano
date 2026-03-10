@@ -1,6 +1,7 @@
 "use client"
 
 import { useMemo, useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
 
 const images = [
   "/Polaroids/DSC06217%20pola.jpg",
@@ -11,6 +12,7 @@ const images = [
 ]
 
 export function CategoryGrid() {
+  const router = useRouter()
   const [hovered, setHovered] = useState<number | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [layout, setLayout] = useState<Array<any>>([])
@@ -97,7 +99,10 @@ export function CategoryGrid() {
               alt={`Editorial ${i + 1}`}
               onMouseEnter={() => setHovered(i)}
               onMouseLeave={() => setHovered(null)}
-              className="pointer-events-auto select-none rounded-sm transition-transform duration-300 ease-out"
+              onClick={() => {
+                if (i === 0) router.push('/new-in/9')
+              }}
+              className={`pointer-events-auto select-none rounded-sm transition-transform duration-300 ease-out ${i === 0 ? 'cursor-pointer' : ''}`}
               style={{
                 position: "absolute",
                 left: item ? `${item.left}px` : "50%",
