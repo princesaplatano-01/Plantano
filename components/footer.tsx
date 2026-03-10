@@ -80,7 +80,9 @@ export function Footer() {
             <h3 className="text-[11px] tracking-wider mb-4 uppercase text-[#dbdbdb]">{t("followUs")}</h3>
             <div className="flex gap-4">
               <a
-                href="#"
+                href="https://www.instagram.com/princesa.platano?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-xs text-muted-foreground hover:text-foreground transition-colors"
                 aria-label="Instagram"
               >
