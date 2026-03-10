@@ -85,10 +85,12 @@ export function SplitScroll() {
             <video
               ref={videoRef}
               src="/SCROLL/Video_Adjustment_Less_Rotation_More_Sway.mp4"
+              poster="/SCROLL/DSC07548_72y.jpg"
               className="w-full h-auto object-cover"
               style={{ objectFit: "cover", aspectRatio: "3 / 4" }}
               muted
               loop
+              autoPlay
               playsInline
               preload="auto"
             />

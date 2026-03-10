@@ -90,7 +90,7 @@ export function HeroSection() {
         <div className="absolute top-8 left-[88px] z-[60] logo-overlay">
           <img src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo Title" className="h-36 md:h-54" />
         </div>
-        <Link href="#" className="relative h-[70vh] md:h-[100vh] overflow-hidden block">
+        <div className="relative h-[70vh] md:h-[100vh] overflow-hidden block">
           {/* Background Image with parallax */}
           <div 
             className="absolute inset-[-20px] transition-transform duration-300 ease-out"
@@ -124,7 +124,8 @@ export function HeroSection() {
                 : 'translate(0, 0)'
             }}
           >
-            <span 
+            <Link
+              href="/new-in"
               className="inline-block text-[#1E1D1D] text-xs tracking-widest uppercase border-b border-[#1E1D1D] pb-0.5 transition-all duration-150 ease-out"
               style={{
                 transform: isHovering 
@@ -133,10 +134,10 @@ export function HeroSection() {
               }}
             >
               {t("shopNow")}
-            </span>
+            </Link>
           </div>
 
-        </Link>
+        </div>
       </section>
       <MarqueeBar />
     </>

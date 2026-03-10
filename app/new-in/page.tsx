@@ -5,33 +5,7 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { Header } from "@/components/header"
 
-const IMAGES = [
-  "/NEW IN/P_01.jpg",
-  "/NEW IN/P_02.jpg",
-  "/NEW IN/P_03.jpg",
-  "/NEW IN/P_04.jpg",
-  "/NEW IN/P_05.jpg",
-  "/NEW IN/P_06.jpg",
-  "/NEW IN/P_07.jpg",
-  "/NEW IN/P_08.jpg",
-  "/NEW IN/P_09.jpg",
-  "/NEW IN/P_10.jpg",
-  "/NEW IN/P_11.jpg",
-]
-
-const PRICES = [
-  2000,
-  2000,
-  2000,
-  2000,
-  2000,
-  2000,
-  2000,
-  2000,
-  2000,
-  2000,
-  2000,
-]
+import { IMAGES, PRICES, SOLD } from "@/lib/products"
 
 export default function NewInPage() {
   const router = useRouter()
@@ -53,10 +27,17 @@ export default function NewInPage() {
               <img
                 src={src}
                 alt={`Product ${idx + 1}`}
-                className="w-full h-full object-cover block"
+                className={`w-full h-full object-cover block ${SOLD[idx] ? 'brightness-90' : ''}`}
                 loading="lazy"
               />
             </Link>
+            {SOLD[idx] && (
+              <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
+                <div className="text-center">
+                  <div className="text-xs tracking-widest uppercase text-white">NOTIFY ME WHEN AVAILABLE</div>
+                </div>
+              </div>
+            )}
           </div>
 
           <button
@@ -95,7 +76,7 @@ export default function NewInPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-20 py-12 px-4 md:px-8 bg-background text-foreground">
+      <main className="min-h-screen pt-12 py-12 px-4 md:px-8 bg-background text-foreground">
         <div className="max-w-6xl mx-auto">
         <div className="flex justify-center mb-6">
           <Link href="/">

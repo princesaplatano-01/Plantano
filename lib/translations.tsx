@@ -71,6 +71,7 @@ const translations = {
     privacyPolicy: "Privacy Policy",
     termsOfService: "Terms of Service",
     cookies: "Cookies",
+    footerCredit: "© 2026, PRINCESA PLÁTANO jewelry website by @bybambou",
     
     // Promo
     subscribeNow: "Subscribe Now",
@@ -155,6 +156,7 @@ const translations = {
     privacyPolicy: "Política de Privacidad",
     termsOfService: "Términos de Servicio",
     cookies: "Cookies",
+    footerCredit: "© 2026, PRINCESA PLÁTANO jewelry . por @bybambou",
     
     // Promo
     subscribeNow: "Suscríbete",

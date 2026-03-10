@@ -64,7 +64,7 @@ export function Header() {
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
-          {mobileMenuOpen ? <X size={20} strokeWidth={1.5} /> : <Menu size={20} strokeWidth={1.5} />}
+          {mobileMenuOpen ? <X size={20} strokeWidth={1.5} color="#4b4b4b" /> : <Menu size={20} strokeWidth={1.5} color="#4b4b4b" />}
         </button>
 
 
@@ -72,7 +72,7 @@ export function Header() {
         <div className="flex items-center gap-4">
           <div className="relative">
             <button className="hover:opacity-60 transition-opacity" aria-label="Search" onClick={() => setSearchOpen(true)}>
-              <Search size={20} strokeWidth={1.5} />
+              <Search size={20} strokeWidth={1.5} color="#4b4b4b" />
             </button>
             {searchOpen && (
               <form
@@ -80,7 +80,7 @@ export function Header() {
                 style={{ width: '160px' }}
                 onSubmit={(e) => handleSearchSubmit(e)}
               >
-                <input
+                  <input
                   type="text"
                   value={searchValue}
                   onChange={e => setSearchValue(e.target.value)}
@@ -89,7 +89,7 @@ export function Header() {
                   }}
                   autoFocus
                   placeholder="Search"
-                  className="w-full px-2 py-1 text-xs rounded bg-transparent text-[#dbdbdb] placeholder:text-muted-foreground focus:outline-none"
+                  className="w-full px-2 py-1 text-xs rounded bg-transparent text-[#4b4b4b] placeholder:text-[#6b6b6b] focus:outline-none"
                   style={{ background: 'none', border: 'none' }}
                 />
               </form>
@@ -97,7 +97,7 @@ export function Header() {
           </div>
                 {/* Search Bar Drawer */}
           <button className="hover:opacity-60 transition-opacity relative" aria-label="Cart" onClick={() => setCartOpen(true)}>
-              <ShoppingBag size={20} strokeWidth={1.5} />
+              <ShoppingBag size={20} strokeWidth={1.5} color="#4b4b4b" />
             <span
               className="absolute -top-1.5 -right-1.5 text-[9px] w-4 h-4 rounded-full flex items-center justify-center"
               style={{ background: '#ffffff', color: '#1E1D1D' }}
