@@ -15,7 +15,7 @@ export default function AboutPage() {
             />
           </Link>
         </div>
-        <div className="max-w-xl mt-0 px-4">
+        <div className="max-w-xl mt-0 px-4" style={{ maxWidth: 'calc(36rem - 100px)' }}>
           <p className="-mt-10 text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-left">
             Princesa Plátano is an ode to my inner child that's what I used to call myself.
           </p>
