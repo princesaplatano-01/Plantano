@@ -1,4 +1,5 @@
 import { Header } from "@/components/header"
+import Link from "next/link"
 
 export default function AboutPage() {
   return (
@@ -6,11 +7,13 @@ export default function AboutPage() {
       <Header />
       <main className="min-h-screen pt-[90px] flex flex-col items-center bg-background text-foreground">
         <div className="mt-8">
-          <img
-            src="/Front/PP-LOGO-STKR-01.png"
-            alt="PP Logo"
-            className="mx-auto w-40 md:w-56 object-contain"
-          />
+          <Link href="/">
+            <img
+              src="/Front/PP-LOGO-STKR-01.png"
+              alt="PP Logo"
+              className="mx-auto w-40 md:w-56 object-contain transform -translate-y-[90px] cursor-pointer"
+            />
+          </Link>
         </div>
         <div className="max-w-xl mt-8 px-4">
           <p className="text-lg md:text-xl italic font-semibold text-[#e6e6e6] text-left">
