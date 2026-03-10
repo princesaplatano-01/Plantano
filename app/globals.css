@@ -137,6 +137,15 @@ body.menu-open .logo-overlay {
   transition: opacity 160ms ease-in-out;
 }
 
+/* Utility: hide native scrollbars for elements that scroll */
+.scrollbar-hide {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari */
+}
+
 @keyframes marquee {
   0% {
     transform: translateX(0);

@@ -20,24 +20,14 @@ export default function NewInPage() {
       <div className="max-w-6xl mx-auto">
         <h1 className="text-xl md:text-2xl font-semibold mb-6">New In</h1>
 
-        {/* Horizontal scroller container */}
-        <div className="overflow-x-auto -mx-4 md:-mx-8 py-2">
-          <div
-            className="flex gap-0.5 px-4 md:px-8"
-            style={{
-              // keep a small 2px gap (Tailwind gap-0.5 = 2px)
-              WebkitOverflowScrolling: "touch",
-            }}
-          >
+        {/* Grid container: 4 columns on desktop, strict 3:4 aspect, 2px gaps */}
+        <div className="-mx-4 md:-mx-8 px-4 md:px-8">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-0.5 scrollbar-hide">
             {IMAGES.map((src, idx) => (
               <div
                 key={idx}
-                className="flex-shrink-0 bg-muted overflow-hidden rounded"
+                className="bg-muted overflow-hidden rounded"
                 style={{
-                  // On desktop: make exactly 4 images visible in viewport
-                  // width calc: (100% - 3*2px)/4 = (100% - 6px)/4
-                  width: "calc((100% - 6px) / 4)",
-                  // enforce strict 3:4 aspect ratio
                   aspectRatio: "3 / 4",
                 }}
               >
