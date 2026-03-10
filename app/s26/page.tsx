@@ -34,7 +34,7 @@ export default function S26Page() {
                     <img
                       src="/SC26/coliflow.png"
                       alt="coliflow"
-                      className="absolute bottom-2 right-2 w-16 md:w-20 pointer-events-none"
+                      className="absolute bottom-2 right-2 w-32 md:w-40 pointer-events-none"
                       loading="lazy"
                     />
                   )}
