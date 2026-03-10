@@ -30,15 +30,7 @@ export default function S26Page() {
                 <div className="mx-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg relative">
                   <img src={src} alt={`S26 ${i + 1}`} className="w-full h-auto rounded" loading="lazy" />
 
-                  {src === "/SC26/IMG_3232.jpg" && (
-                    <img
-                      src="/SC26/coliflow.png"
-                      alt="coliflow"
-                      className="absolute bottom-0 right-0 w-48 md:w-56 pointer-events-none"
-                      style={{ transform: 'translate(calc(-30% + 160px), calc(-30% + 120px))' }}
-                      loading="lazy"
-                    />
-                  )}
+                  {/* coliflow overlay removed */}
 
                   {src === "/SC26/gif collar.gif" && (
                     <img
