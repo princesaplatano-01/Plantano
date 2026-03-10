@@ -29,12 +29,18 @@ function reducer(state: State, action: Action): State {
     case "ADD": {
       const existing = state.items.find((i) => i.id === action.payload.id)
       if (existing) {
+        const newQty = existing.quantity + action.payload.quantity
+        if (newQty <= 0) {
+          return { items: state.items.filter((i) => i.id !== action.payload.id) }
+        }
         return {
           items: state.items.map((i) =>
-            i.id === action.payload.id ? { ...i, quantity: i.quantity + action.payload.quantity } : i
+            i.id === action.payload.id ? { ...i, quantity: newQty } : i
           ),
         }
       }
+      // only add if positive quantity
+      if (action.payload.quantity <= 0) return state
       return { items: [...state.items, action.payload] }
     }
     case "REMOVE":
@@ -51,6 +57,8 @@ type CartContextValue = {
   addToCart: (item: Omit<CartItem, "quantity"> & { quantity?: number }) => void
   removeFromCart: (id: string) => void
   clearCart: () => void
+  subtotal: number
+  itemCount: number
 }
 
 const CartContext = createContext<CartContextValue | undefined>(undefined)
@@ -90,7 +98,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = () => dispatch({ type: "CLEAR" })
 
-  const value = useMemo(() => ({ items: state.items, addToCart, removeFromCart, clearCart }), [state.items])
+  const subtotal = state.items.reduce((s, i) => s + i.price * i.quantity, 0)
+  const itemCount = state.items.reduce((s, i) => s + i.quantity, 0)
+
+  const value = useMemo(
+    () => ({ items: state.items, addToCart, removeFromCart, clearCart, subtotal, itemCount }),
+    [state.items, subtotal, itemCount]
+  )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
 }
