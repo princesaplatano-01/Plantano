@@ -33,7 +33,7 @@ export default function ContactPage() {
               <input placeholder="Your name" className="px-3 py-2 bg-transparent border border-[#454545] text-white" />
               <input placeholder="Your email" className="px-3 py-2 bg-transparent border border-[#454545] text-white" />
               <textarea placeholder="Message" className="px-3 py-2 bg-transparent border border-[#454545] text-white h-32" />
-              <button type="button" className="mt-2 py-2 bg-white text-black font-medium">Send</button>
+              <button type="button" className="mt-2 py-2 bg-white text-black font-medium mb-12">Send</button>
             </form>
           </div>
         </div>
