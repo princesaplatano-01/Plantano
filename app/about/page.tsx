@@ -12,7 +12,7 @@ export default function AboutPage() {
             className="mx-auto w-40 md:w-56 object-contain"
           />
         </div>
-        <div className="max-w-2xl mt-8 px-4">
+        <div className="max-w-xl mt-8 px-4">
           <p className="text-lg md:text-xl italic font-semibold text-[#e6e6e6] text-left">
             Princesa Plátano is an ode to my inner child that's what I used to call myself.
           </p>
