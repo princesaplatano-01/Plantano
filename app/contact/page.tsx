@@ -1,11 +1,13 @@
 import { Header } from "@/components/header"
 import Link from "next/link"
+import { useState } from "react"
 
 export default function ContactPage() {
+  const [flash, setFlash] = useState(false)
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-[90px] flex flex-col items-center bg-background text-foreground">
+      <main className="min-h-screen pt-[90px] flex flex-col items-center bg-background text-foreground" style={{ filter: flash ? 'invert(1)' : 'none', transition: 'filter 200ms ease' }}>
         <div className="mt-8">
           <Link href="/">
             <img
@@ -33,7 +35,16 @@ export default function ContactPage() {
               <input placeholder="Your name" className="px-3 py-2 bg-transparent border border-[#454545] text-white" />
               <input placeholder="Your email" className="px-3 py-2 bg-transparent border border-[#454545] text-white" />
               <textarea placeholder="Message" className="px-3 py-2 bg-transparent border border-[#454545] text-white h-32" />
-              <button type="button" className="mt-2 py-2 bg-white text-black font-medium mb-12">Send</button>
+              <button
+                type="button"
+                className="mt-2 py-2 bg-white text-black font-medium mb-12"
+                onClick={() => {
+                  setFlash(true)
+                  setTimeout(() => setFlash(false), 200)
+                }}
+              >
+                Send
+              </button>
             </form>
           </div>
         </div>
