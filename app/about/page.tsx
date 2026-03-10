@@ -4,7 +4,7 @@ export default function AboutPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen pt-20 flex flex-col items-center bg-background text-foreground">
+      <main className="min-h-screen pt-[90px] flex flex-col items-center bg-background text-foreground">
         <div className="mt-8">
           <img
             src="/Front/PP-LOGO-STKR-01.png"
