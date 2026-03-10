@@ -82,10 +82,21 @@ export default function ProductPage() {
                     prevImage()
                   }}
                   aria-label="Previous image"
-                  className="opacity-0 group-hover:opacity-100 transition absolute left-2 top-1/2 -translate-y-1/2 text-[#454545] rounded p-2 bg-white/10"
+                    className="opacity-0 group-hover:opacity-100 transition absolute left-2 top-1/2 -translate-y-1/2 text-[#454545] rounded text-3xl p-4 bg-white/10"
                 >
                   ‹
                 </button>
+                  <button
+                    onClick={(e) => {
+                      e.preventDefault()
+                      e.stopPropagation()
+                      nextImage()
+                    }}
+                    aria-label="Next image"
+                    className="opacity-0 group-hover:opacity-100 transition absolute right-2 top-1/2 -translate-y-1/2 text-[#454545] rounded text-3xl p-4 bg-white/10"
+                  >
+                    ›
+                  </button>
 
                 <button
                   onClick={(e) => {
@@ -94,7 +105,7 @@ export default function ProductPage() {
                     nextImage()
                   }}
                   aria-label="Next image"
-                  className="opacity-0 group-hover:opacity-100 transition absolute right-2 top-1/2 -translate-y-1/2 text-[#454545] rounded p-2 bg-white/10"
+                  className={`opacity-0 group-hover:opacity-100 transition absolute right-2 top-1/2 -translate-y-1/2 text-[#454545] rounded p-2 bg-white/10 ${id === 7 ? 'text-3xl p-4' : ''}`}
                 >
                   ›
                 </button>
