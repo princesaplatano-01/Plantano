@@ -19,7 +19,7 @@ export default function AboutPage() {
           <p className="-mt-10 text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-left">
             Princesa Plátano is an ode to my inner child that's what I used to call myself.
           </p>
-          <p className="text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-right mt-3">
+          <p className="text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-right mt-8">
             Now it's a brand that celebrates being different and unique.
           </p>
 
