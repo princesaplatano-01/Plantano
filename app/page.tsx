@@ -13,7 +13,7 @@ export default function Home() {
       <HeroSection />
       <CategoryGrid />
       <SplitScroll />
-      <div className="mt-[50px] relative">
+      <div className="mt-[100px] relative">
         <img
           src="/SCROLL/DSC07548.jpg"
           alt="Scroll detail"
