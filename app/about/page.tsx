@@ -12,8 +12,13 @@ export default function AboutPage() {
             className="mx-auto w-40 md:w-56 object-contain"
           />
         </div>
-        <div className="max-w-3xl mt-8 px-4 text-center">
-          {/* About content goes here */}
+        <div className="max-w-3xl mt-8 px-4">
+          <p className="text-sm md:text-base text-left" style={{ color: '#bdbdbd' }}>
+            Princesa Plátano is an ode to my inner child that's what I used to call myself.
+          </p>
+          <p className="text-sm md:text-base text-right mt-2" style={{ color: '#bdbdbd' }}>
+            Now it's a brand that celebrates being different and unique.
+          </p>
         </div>
       </main>
     </>
