@@ -72,6 +72,25 @@ export function Header() {
         </button>
 
 
+        {/* Center - Desktop nav (hidden on mobile) */}
+        <div className="hidden md:flex items-center gap-6 mx-4" style={{ color: navTextColor }}>
+          <Link href="/new-in" className="text-sm tracking-wider uppercase hover:opacity-80">
+            {t("newIn")}
+          </Link>
+          <Link href="/s26" className="text-sm tracking-wider uppercase hover:opacity-80">
+            {t("s26Collection")}
+          </Link>
+          <Link href="#" className="text-sm tracking-wider uppercase hover:opacity-80 text-accent">
+            {t("sale")}
+          </Link>
+          <Link href="/about" className="text-sm tracking-wider uppercase hover:opacity-80">
+            ABOUT US
+          </Link>
+          <Link href="/contact" className="text-sm tracking-wider uppercase hover:opacity-80">
+            CONTACT
+          </Link>
+        </div>
+
         {/* Right - Search and Cart */}
         <div className="flex items-center gap-4">
           <div className="relative">
