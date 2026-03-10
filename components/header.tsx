@@ -183,7 +183,7 @@ export function Header() {
               <Link href="#" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
                 {t("readyToShip")}
               </Link>
-              <Link href="#" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
+              <Link href="/s26" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
                 {t("s26Collection")}
               </Link>
               <Link href="#" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border text-accent">
