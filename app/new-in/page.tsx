@@ -41,7 +41,7 @@ export default function NewInPage() {
             {SOLD[idx] && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
                 <div className="text-center">
-                  <div className="text-xs tracking-widest uppercase text-white">DON'T MISS THE NEXT DROP</div>
+                  <div className="text-xs tracking-widest uppercase text-white">SOLD OUT</div>
                 </div>
               </div>
             )}
