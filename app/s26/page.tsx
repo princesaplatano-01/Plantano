@@ -27,8 +27,17 @@ export default function S26Page() {
           <section className="columns-1 gap-4">
             {allImages.map((src, i) => (
               <div key={i} style={{ breakInside: 'avoid' }} className="mb-4">
-                <div className="mx-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+                <div className="mx-auto max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg relative">
                   <img src={src} alt={`S26 ${i + 1}`} className="w-full h-auto rounded" loading="lazy" />
+
+                  {src === "/SC26/IMG_3232.jpg" && (
+                    <img
+                      src="/SC26/coliflow.png"
+                      alt="coliflow"
+                      className="absolute bottom-2 right-2 w-16 md:w-20 pointer-events-none"
+                      loading="lazy"
+                    />
+                  )}
                 </div>
               </div>
             ))}
