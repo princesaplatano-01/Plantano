@@ -83,7 +83,7 @@ export function Footer() {
                 href="https://www.instagram.com/princesa.platano?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-xs text-muted-foreground hover:text-foreground transition-colors"
+                className="inline-flex items-center justify-center w-10 h-10 p-2 rounded hover:bg-muted transition-colors"
                 aria-label="Instagram"
               >
                 <Instagram size={18} strokeWidth={1.5} />

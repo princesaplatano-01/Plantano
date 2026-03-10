@@ -63,8 +63,8 @@ export function Header() {
     <header className="fixed top-0 left-0 right-0 z-50" style={{background: 'transparent', border: 'none'}}>
       <nav className="flex items-center justify-between px-4 md:px-6 py-3" style={{background: 'transparent', border: 'none', color: navTextColor}}>
         {/* Left - Hamburger Menu */}
-        <button 
-          className="hover:opacity-60 transition-opacity"
+        <button
+          className="p-3 md:p-2 rounded hover:opacity-60 transition-opacity"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           aria-label="Toggle menu"
         >
@@ -75,7 +75,7 @@ export function Header() {
         {/* Right - Search and Cart */}
         <div className="flex items-center gap-4">
           <div className="relative">
-            <button className="hover:opacity-60 transition-opacity" aria-label="Search" onClick={() => setSearchOpen(true)}>
+            <button className="p-3 md:p-2 rounded hover:opacity-60 transition-opacity" aria-label="Search" onClick={() => setSearchOpen(true)}>
               <Search size={20} strokeWidth={1.5} color={iconColor} />
             </button>
             {searchOpen && (
@@ -100,7 +100,7 @@ export function Header() {
             )}
           </div>
                 {/* Search Bar Drawer */}
-          <button className="hover:opacity-60 transition-opacity relative" aria-label="Cart" onClick={() => setCartOpen(true)}>
+          <button className="p-3 md:p-2 rounded hover:opacity-60 transition-opacity relative" aria-label="Cart" onClick={() => setCartOpen(true)}>
               <ShoppingBag size={20} strokeWidth={1.5} color={iconColor} />
             <span
               className="absolute -top-1.5 -right-1.5 text-[9px] w-4 h-4 rounded-full flex items-center justify-center"
@@ -169,9 +169,10 @@ export function Header() {
           <div className="fixed top-0 left-0 h-full w-80 max-w-[85vw] z-[10001] shadow-2xl flex flex-col bg-black text-white" style={{border: 'none'}}>
             <div className="flex items-center justify-between p-4">
               <span className="text-sm font-medium tracking-wider">{t("menu")}</span>
-              <button 
+              <button
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Close menu"
+                className="p-2 rounded"
               >
                 <X size={20} strokeWidth={1.5} />
               </button>
