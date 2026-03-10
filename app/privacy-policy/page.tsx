@@ -5,7 +5,7 @@ import { X } from "lucide-react"
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="relative max-w-3xl mx-auto py-16 px-4 text-[#dbdbdb]">
+    <main className="relative max-w-2xl mx-auto py-16 px-4 text-[#dbdbdb] text-justify">
       <Link
         href="/"
         aria-label="Close privacy policy"
