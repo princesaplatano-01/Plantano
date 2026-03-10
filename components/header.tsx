@@ -25,6 +25,18 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const { language, setLanguage, t } = useTranslation()
 
+  useEffect(() => {
+    if (typeof document === "undefined") return
+    if (mobileMenuOpen) {
+      document.body.classList.add("menu-open")
+    } else {
+      document.body.classList.remove("menu-open")
+    }
+    return () => {
+      if (typeof document !== "undefined") document.body.classList.remove("menu-open")
+    }
+  }, [mobileMenuOpen])
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50" style={{background: 'transparent', border: 'none'}}>
       <nav className="flex items-center justify-between px-4 md:px-6 py-3" style={{background: 'transparent', border: 'none'}}>
