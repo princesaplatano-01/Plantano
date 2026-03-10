@@ -93,15 +93,14 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <Link href="/" className="text-sm font-semibold tracking-[0.15em]">
-            PLATANO
-          </Link>
+        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="text-sm font-medium tracking-[0.02em] text-[#dbdbdb]">
+            © 2026, PRINCESA PLÁTANO jewelry . por @bybambou
+          </div>
           <div className="flex flex-wrap justify-center gap-4 text-[10px] text-muted-foreground">
             <Link href="#" className="hover:text-foreground transition-colors">{t("privacyPolicy")}</Link>
             <Link href="#" className="hover:text-foreground transition-colors">{t("termsOfService")}</Link>
             <Link href="#" className="hover:text-foreground transition-colors">{t("cookies")}</Link>
-            <span>{new Date().getFullYear()} PLATANO</span>
           </div>
         </div>
       </div>
