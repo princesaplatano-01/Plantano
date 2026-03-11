@@ -56,7 +56,7 @@ export function SplitScroll() {
 
         {/* Right column: stacked items that scroll normally */}
         <div className="flex flex-col items-center">
-          <div className="h-screen w-full md:w-1/2 mb-[15vh]">
+          <div className="min-h-[60vh] w-full md:h-screen md:w-1/2 mb-[15vh]">
             <img
               src="/SCROLL/DSC08190.jpg"
               alt="Right item 1"
@@ -88,7 +88,7 @@ export function SplitScroll() {
              </div>
           </div>
 
-          <div className="h-screen w-full md:w-1/2 mb-[15vh]">
+          <div className="min-h-[60vh] w-full md:h-screen md:w-1/2 mb-[15vh]">
             <img
               src="/SCROLL/DSC07425.jpg"
               alt="Right item 2"
@@ -112,7 +112,7 @@ export function SplitScroll() {
              </div>
           </div>
 
-          <div className="h-screen w-full md:w-1/2" style={{ transform: 'translateY(-60px)' }}>
+          <div className="min-h-[60vh] w-full md:h-screen md:w-1/2" style={{ transform: 'translateY(-60px)' }}>
             <video
               ref={videoRef}
               src="/SCROLL/Video_Adjustment_Less_Rotation_More_Sway.mp4"
