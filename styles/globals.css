@@ -124,6 +124,23 @@
   }
 }
 
+/* Custom cursors: default and interactive (clickable) */
+/* Uses public/Front/mouse1.svg for normal, public/Front/mouse2.svg for clickable */
+/* Default mouse */
+:where(body) {
+  cursor: url('/Front/mouse1.png') 8 8, url('/Front/mouse1.svg') 8 8, auto !important;
+}
+
+/* Interactive / clickable elements */
+:where(a, button, [role="button"], input[type="button"], input[type="submit"], .cursor-pointer) {
+  cursor: url('/Front/mouse2.png') 8 8, url('/Front/mouse2.svg') 8 8, pointer !important;
+}
+
+/* Utility class to force clickable cursor when needed */
+.clickable {
+  cursor: url('/Front/mouse2.png') 8 8, url('/Front/mouse2.svg') 8 8, pointer !important;
+}
+
 /* Utility to hide scrollbar but keep scrolling functional */
 .no-scrollbar {
   -ms-overflow-style: none; /* IE and Edge */
