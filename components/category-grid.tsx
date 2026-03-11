@@ -86,7 +86,7 @@ export function CategoryGrid() {
 
   return (
     <section className="py-12 md:py-16 px-4 md:px-6">
-      <div ref={containerRef} className="relative flex justify-center items-start mt-[25px] h-[360px] md:h-[520px]">
+      <div ref={containerRef} className="relative flex justify-center items-start mt-[25px] h-auto md:h-[520px]">
         {images.map((src, i) => {
           const item = layout[i]
           const isHovered = hovered === i
