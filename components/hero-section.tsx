@@ -100,13 +100,27 @@ export function HeroSection() {
                 : 'translate(0, 0) scale(1)'
             }}
           >
-            <Image
-                src="/Front/DSC07126_a.jpg"
-              alt="Spring Summer Collection"
-              fill
-              className="object-cover"
-              priority
-            />
+              <div className="relative w-full h-full">
+                <div className="md:hidden relative w-full h-full translate-x-[90px]">
+                  <Image
+                    src="/Front/mobile_a.jpg"
+                    alt="Spring Summer Collection Mobile"
+                    fill
+                    className="object-cover object-right"
+                    priority
+                  />
+                </div>
+
+                <div className="hidden md:block relative w-full h-full">
+                  <Image
+                    src="/Front/DSC07126_a.jpg"
+                    alt="Spring Summer Collection"
+                    fill
+                    className="object-cover object-right md:object-center"
+                    priority
+                  />
+                </div>
+              </div>
           </div>
           
           {/* Overlay */}
