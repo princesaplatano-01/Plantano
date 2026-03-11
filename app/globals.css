@@ -186,23 +186,33 @@ body.use-custom-cursor button {
   image-rendering: optimizeQuality;
 }
 
-/* Ensure sidebar menu text and icons invert when the background changes on hover/active */
-[data-slot="sidebar"] [data-sidebar="menu-button"],
-[data-slot="sidebar"] [data-sidebar="menu-sub-button"] {
+/* Ensure sidebar menu text and icons invert when the background changes on hover/active.
+   Some elements may not be direct descendants of the sidebar slot, so include global
+   selectors for data-sidebar attributes. */
+[data-sidebar="menu-button"],
+[data-sidebar="menu-sub-button"],
+[data-sidebar="menu-action"],
+[data-sidebar="menu-badge"] {
   transition: color 120ms ease-in-out;
 }
 
-[data-slot="sidebar"] [data-sidebar="menu-button"]:hover,
-[data-slot="sidebar"] [data-sidebar="menu-button"][data-active="true"],
-[data-slot="sidebar"] [data-sidebar="menu-sub-button"]:hover,
-[data-slot="sidebar"] [data-sidebar="menu-sub-button"][data-active="true"] {
+[data-sidebar="menu-button"]:hover,
+[data-sidebar="menu-button"][data-active="true"],
+[data-sidebar="menu-sub-button"]:hover,
+[data-sidebar="menu-sub-button"][data-active="true"],
+[data-sidebar="menu-action"]:hover,
+[data-sidebar="menu-action"][data-active="true"] {
   color: var(--sidebar-accent-foreground) !important;
 }
 
-[data-slot="sidebar"] [data-sidebar="menu-button"]:hover svg,
-[data-slot="sidebar"] [data-sidebar="menu-button"][data-active="true"] svg,
-[data-slot="sidebar"] [data-sidebar="menu-sub-button"]:hover svg,
-[data-slot="sidebar"] [data-sidebar="menu-sub-button"][data-active="true"] svg {
+/* Ensure SVG icons inside menu items also use the inverted color */
+[data-sidebar="menu-button"]:hover svg,
+[data-sidebar="menu-button"][data-active="true"] svg,
+[data-sidebar="menu-sub-button"]:hover svg,
+[data-sidebar="menu-sub-button"][data-active="true"] svg,
+[data-sidebar="menu-action"]:hover svg,
+[data-sidebar="menu-action"][data-active="true"] svg,
+[data-sidebar="menu-badge"] svg {
   color: var(--sidebar-accent-foreground) !important;
-  fill: currentColor;
+  fill: currentColor !important;
 }
