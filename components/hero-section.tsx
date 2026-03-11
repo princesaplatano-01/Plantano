@@ -90,10 +90,10 @@ export function HeroSection() {
         <div className="absolute top-8 left-[88px] z-[60] logo-overlay">
           <img src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo Title" className="h-36 md:h-54" />
         </div>
-        <div className="relative h-[70vh] md:h-[100vh] overflow-hidden block">
+        <div className="relative h-screen md:h-[100vh] overflow-hidden block">
           {/* Background Image with parallax */}
           <div 
-            className="absolute inset-[-20px] transition-transform duration-300 ease-out"
+            className="absolute inset-0 md:inset-[-20px] transition-transform duration-300 ease-out"
             style={{
               transform: isHovering 
                 ? `translate(${mousePosition.x * -30}px, ${mousePosition.y * -30}px) scale(1.05)` 
@@ -101,12 +101,12 @@ export function HeroSection() {
             }}
           >
               <div className="relative w-full h-full">
-                <div className="md:hidden relative w-full h-full translate-x-[90px]">
+                <div className="md:hidden absolute inset-0 w-full h-full">
                   <Image
                     src="/Front/mobile_a.jpg"
                     alt="Spring Summer Collection Mobile"
                     fill
-                    className="object-cover object-right"
+                    className="object-cover object-center"
                     priority
                   />
                 </div>
