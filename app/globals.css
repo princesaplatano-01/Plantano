@@ -163,3 +163,46 @@ body.menu-open .logo-overlay {
 html {
   scroll-behavior: smooth;
 }
+
+/* Custom cursor using public/Front/mu1.png */
+/* hotspot at 16 16, fallback to auto */
+/* Use native cursor as fallback only; we'll provide a client cursor for scaling */
+body.use-custom-cursor {
+  cursor: none !important;
+}
+
+/* ensure form elements keep default cursor */
+body.use-custom-cursor input,
+body.use-custom-cursor textarea,
+body.use-custom-cursor select,
+body.use-custom-cursor button {
+  cursor: auto !important;
+}
+
+/* styled image for the custom cursor (2x smaller) */
+.custom-cursor-img {
+  width: 20px;
+  height: 20px;
+  image-rendering: optimizeQuality;
+}
+
+/* Ensure sidebar menu text and icons invert when the background changes on hover/active */
+[data-slot="sidebar"] [data-sidebar="menu-button"],
+[data-slot="sidebar"] [data-sidebar="menu-sub-button"] {
+  transition: color 120ms ease-in-out;
+}
+
+[data-slot="sidebar"] [data-sidebar="menu-button"]:hover,
+[data-slot="sidebar"] [data-sidebar="menu-button"][data-active="true"],
+[data-slot="sidebar"] [data-sidebar="menu-sub-button"]:hover,
+[data-slot="sidebar"] [data-sidebar="menu-sub-button"][data-active="true"] {
+  color: var(--sidebar-accent-foreground) !important;
+}
+
+[data-slot="sidebar"] [data-sidebar="menu-button"]:hover svg,
+[data-slot="sidebar"] [data-sidebar="menu-button"][data-active="true"] svg,
+[data-slot="sidebar"] [data-sidebar="menu-sub-button"]:hover svg,
+[data-slot="sidebar"] [data-sidebar="menu-sub-button"][data-active="true"] svg {
+  color: var(--sidebar-accent-foreground) !important;
+  fill: currentColor;
+}
