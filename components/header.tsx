@@ -28,7 +28,7 @@ export function Header() {
   const pathname = usePathname()
   const isHome = pathname === "/"
   const navTextColor = isHome ? "#dbdbdb" : "#bdbdbd"
-  const iconColor = isHome ? "#4b4b4b" : "#909090"
+  const iconColor = isHome ? "#4b4b4b" : "#8b8b8b"
 
   useEffect(() => {
     if (typeof document === "undefined") return

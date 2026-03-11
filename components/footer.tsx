@@ -8,19 +8,16 @@ export function Footer() {
   const { t } = useTranslation()
 
   const shopLinks = [
-    { nameKey: "newIn" as const, href: "#" },
-    { nameKey: "sale" as const, href: "#" },
-    { nameKey: "bestsellers" as const, href: "#" },
+    { nameKey: "newIn" as const, href: "/new-in" },
+    { nameKey: "sale" as const, href: "/sale" },
   ]
 
   const helpLinks = [
-    { nameKey: "shippingReturns" as const, href: "#" },
-    { nameKey: "contactUs" as const, href: "#" },
+    { nameKey: "contactUs" as const, href: "/contact" },
   ]
 
   const aboutLinks = [
-    { nameKey: "ourStory" as const, href: "#" },
-    { nameKey: "sustainability" as const, href: "#" },
+    { nameKey: "ourStory" as const, href: "/about" },
   ]
 
   return (
@@ -95,11 +92,14 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-sm font-medium tracking-[0.02em] text-muted-foreground">
-            {t("footerCredit")}
+            <span>
+              {t("footerCreditMain")}{' '}
+              <span className="text-xs md:text-[0.72rem] text-muted-foreground">{t("footerCreditBy")}</span>
+            </span>
           </div>
           <div className="flex flex-wrap justify-center gap-4 text-[10px] text-muted-foreground">
             <Link href="/privacy-policy" className="hover:text-foreground transition-colors">{t("privacyPolicy")}</Link>
-            <Link href="#" className="hover:text-foreground transition-colors">{t("termsOfService")}</Link>
+            <Link href="/terms-of-service" className="hover:text-foreground transition-colors">{t("termsOfService")}</Link>
             <Link href="#" className="hover:text-foreground transition-colors">{t("cookies")}</Link>
           </div>
         </div>

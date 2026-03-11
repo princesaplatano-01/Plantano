@@ -165,54 +165,39 @@ html {
 }
 
 /* Custom cursor using public/Front/mu1.png */
-/* hotspot at 16 16, fallback to auto */
-/* Use native cursor as fallback only; we'll provide a client cursor for scaling */
-body.use-custom-cursor {
+/* default cursor: public/Front/mu1.png (hotspot 2 2) */
+body {
+  cursor: url('/Front/mu1.png') 2 2, auto;
+}
+
+/* pointer/interactive elements should use the little pointing hand image mu2.png */
+.cursor-pointer,
+a,
+button,
+[role="button"],
+[role="link"] {
+  cursor: url('/Front/mu2.png') 2 2, pointer;
+}
+
+/* When our JS custom cursor is active, hide the native cursor globally
+   but keep text inputs selectable and editable (show text caret). */
+body.use-custom-cursor * {
   cursor: none !important;
 }
-
-/* ensure form elements keep default cursor */
 body.use-custom-cursor input,
 body.use-custom-cursor textarea,
-body.use-custom-cursor select,
-body.use-custom-cursor button {
-  cursor: auto !important;
+body.use-custom-cursor [contenteditable="true"] {
+  cursor: text !important;
 }
 
-/* styled image for the custom cursor (2x smaller) */
+/* Styling for the overlayed custom cursor image (fallback/extra hinting) */
 .custom-cursor-img {
-  width: 20px;
-  height: 20px;
-  image-rendering: optimizeQuality;
-}
-
-/* Ensure sidebar menu text and icons invert when the background changes on hover/active.
-   Some elements may not be direct descendants of the sidebar slot, so include global
-   selectors for data-sidebar attributes. */
-[data-sidebar="menu-button"],
-[data-sidebar="menu-sub-button"],
-[data-sidebar="menu-action"],
-[data-sidebar="menu-badge"] {
-  transition: color 120ms ease-in-out;
-}
-
-[data-sidebar="menu-button"]:hover,
-[data-sidebar="menu-button"][data-active="true"],
-[data-sidebar="menu-sub-button"]:hover,
-[data-sidebar="menu-sub-button"][data-active="true"],
-[data-sidebar="menu-action"]:hover,
-[data-sidebar="menu-action"][data-active="true"] {
-  color: var(--sidebar-accent-foreground) !important;
-}
-
-/* Ensure SVG icons inside menu items also use the inverted color */
-[data-sidebar="menu-button"]:hover svg,
-[data-sidebar="menu-button"][data-active="true"] svg,
-[data-sidebar="menu-sub-button"]:hover svg,
-[data-sidebar="menu-sub-button"][data-active="true"] svg,
-[data-sidebar="menu-action"]:hover svg,
-[data-sidebar="menu-action"][data-active="true"] svg,
-[data-sidebar="menu-badge"] svg {
-  color: var(--sidebar-accent-foreground) !important;
-  fill: currentColor !important;
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+  position: fixed;
+  z-index: 9999;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transition: opacity 80ms linear;
 }

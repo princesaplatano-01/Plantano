@@ -5,6 +5,7 @@ import { TranslationProvider } from '@/lib/translations'
 import { headers } from 'next/headers'
 import { CartProvider } from '@/components/cart'
 import './globals.css'
+import CustomCursor from '@/components/custom-cursor'
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -68,6 +69,7 @@ export default function RootLayout({
           </CartProvider>
         </TranslationProvider>
         <Analytics />
+        <CustomCursor />
       </body>
     </html>
   )

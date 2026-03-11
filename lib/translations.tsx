@@ -84,7 +84,8 @@ const translations = {
     privacyPolicy: "Privacy Policy",
     termsOfService: "Terms of Service",
     cookies: "Cookies",
-    footerCredit: "© 2026, PRINCESA PLÁTANO jewelry website by @bybambou",
+    footerCreditMain: "© 2026, PRINCESA PLÁTANO jewelry",
+    footerCreditBy: "website by @bybambou",
     
     // Promo
     subscribeNow: "Subscribe Now",
@@ -103,7 +104,7 @@ const translations = {
     product10: "Solar Lemon Necklace",
     product11: "Tangerine Meteor Necklace",
     // Home (force Spanish caps)
-    aboutPrincesaPlatanoHome: "SOBRE PRINCESA PLÁTANO",
+    aboutPrincesaPlatanoHome: " ABOUT PRINCESA PLÁTANO",
     
     // About page
     aboutHeading1: "Princesa Plátano is an ode to my inner child that's what I used to call myself.",
@@ -202,7 +203,8 @@ const translations = {
     privacyPolicy: "Política de Privacidad",
     termsOfService: "Términos de Servicio",
     cookies: "Cookies",
-    footerCredit: "© 2026, PRINCESA PLÁTANO jewelry . por @bybambou",
+    footerCreditMain: "© 2026, PRINCESA PLÁTANO jewelry",
+    footerCreditBy: "por @bybambou",
     
     // Promo
     subscribeNow: "Suscríbete",
