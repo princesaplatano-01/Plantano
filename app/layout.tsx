@@ -39,7 +39,7 @@ export const metadata: Metadata = {
   },
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -47,7 +47,7 @@ export default function RootLayout({
   // Read preferred language from the cookie header so server renders matching language
   let cookieHeader = ''
   try {
-    const h = headers()
+    const h = await headers()
     if (h && typeof (h as any).get === 'function') {
       cookieHeader = (h as any).get('cookie') || ''
     } else if (h && typeof (h as any).cookie === 'string') {
