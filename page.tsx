@@ -1,21 +1,24 @@
 import { Header } from "@/components/header"
-import { Footer } from "@/components/footer"
+import Link from "next/link"
 
-export default function NewInPage() {
+export default function SalePage() {
   return (
-    <main className="min-h-screen bg-background text-foreground">
+    <>
       <Header />
-      <div className="pt-24 px-4 md:px-6">
-        <h1 className="text-4xl font-bold mb-8">New In</h1>
-        {/* Placeholder for products */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-muted h-64 rounded"></div>
-          <div className="bg-muted h-64 rounded"></div>
-          <div className="bg-muted h-64 rounded"></div>
-          <div className="bg-muted h-64 rounded"></div>
+      <main className="min-h-screen pt-[90px] flex flex-col items-center bg-background text-foreground">
+        <div className="mt-8">
+          <Link href="/">
+            <img
+              src="/Front/PP-LOGO-LTTRNG-A-02.png"
+              alt="PP Logo"
+              className="mx-auto w-40 md:w-56 object-contain transform -translate-y-[90px] cursor-pointer"
+            />
+          </Link>
         </div>
-      </div>
-      <Footer />
-    </main>
+        <div className="flex-grow flex items-center justify-center -mt-20">
+          <p className="text-xl md:text-2xl text-[#d6d6d6]">No sales yet.</p>
+        </div>
+      </main>
+    </>
   )
 }

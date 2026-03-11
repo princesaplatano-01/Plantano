@@ -132,3 +132,11 @@
 .no-scrollbar::-webkit-scrollbar {
   display: none; /* Safari and Chrome */
 }
+
+/* Click invert animation: toggled class `inverted` will animate filter inversion for 0.2s */
+.click-invert {
+  transition: filter 0.2s ease;
+}
+.click-invert.inverted {
+  filter: invert(1);
+}

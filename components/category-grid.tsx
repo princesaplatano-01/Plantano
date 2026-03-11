@@ -101,8 +101,12 @@ export function CategoryGrid() {
               onMouseLeave={() => setHovered(null)}
               onClick={() => {
                 if (i === 0) router.push('/new-in/9')
+                if (i === 1) router.push('/new-in/2')
+                if (i === 2) router.push('/new-in/10')
+                if (i === 3) router.push('/new-in/4')
+                if (i === 4) router.push('/new-in/3')
               }}
-              className={`pointer-events-auto select-none rounded-sm transition-transform duration-300 ease-out ${i === 0 ? 'cursor-pointer' : ''}`}
+              className={`pointer-events-auto select-none rounded-sm transition-transform duration-300 ease-out ${i <= 4 ? 'cursor-pointer' : ''}`}
               style={{
                 position: "absolute",
                 left: item ? `${item.left}px` : "50%",

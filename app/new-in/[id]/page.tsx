@@ -98,17 +98,7 @@ export default function ProductPage() {
                     ›
                   </button>
 
-                <button
-                  onClick={(e) => {
-                    e.preventDefault()
-                    e.stopPropagation()
-                    nextImage()
-                  }}
-                  aria-label="Next image"
-                  className={`opacity-0 group-hover:opacity-100 transition absolute right-2 top-1/2 -translate-y-1/2 text-[#454545] rounded p-2 bg-white/10 ${id === 7 ? 'text-3xl p-4' : ''}`}
-                >
-                  ›
-                </button>
+                
               </>
             )}
           </div>

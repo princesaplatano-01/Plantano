@@ -72,24 +72,7 @@ export function Header() {
         </button>
 
 
-        {/* Center - Desktop nav (hidden on mobile) */}
-        <div className="hidden md:flex items-center gap-6 mx-4" style={{ color: navTextColor }}>
-          <Link href="/new-in" className="text-sm tracking-wider uppercase hover:opacity-80">
-            {t("newIn")}
-          </Link>
-          <Link href="/s26" className="text-sm tracking-wider uppercase hover:opacity-80">
-            {t("s26Collection")}
-          </Link>
-          <Link href="#" className="text-sm tracking-wider uppercase hover:opacity-80 text-accent">
-            {t("sale")}
-          </Link>
-          <Link href="/about" className="text-sm tracking-wider uppercase hover:opacity-80">
-            ABOUT US
-          </Link>
-          <Link href="/contact" className="text-sm tracking-wider uppercase hover:opacity-80">
-            CONTACT
-          </Link>
-        </div>
+        
 
         {/* Right - Search and Cart */}
         <div className="flex items-center gap-4">
@@ -130,7 +113,7 @@ export function Header() {
           </button>
               {/* Cart Drawer */}
               {cartOpen && (
-                <div className="fixed inset-0 z-[100]" onClick={() => setCartOpen(false)}>
+                <div className="fixed inset-0 z-[100]" role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.back(); }}>
                   <div onClick={(e) => e.stopPropagation()} className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-black text-white shadow-2xl flex flex-col">
                     <div className="flex items-center justify-between p-4 border-b border-border">
                       <span className="text-sm font-medium tracking-wider">Cart</span>
@@ -170,7 +153,9 @@ export function Header() {
                         <span className="text-sm text-muted-foreground">Subtotal</span>
                         <span className="text-sm">${cartItems.reduce((s, i) => s + i.price * i.quantity, 0)}</span>
                       </div>
-                      <button className="w-full py-3 bg-white text-black font-medium">GO TO CHECKOUT</button>
+                      <Link href="/checkout" onClick={() => setCartOpen(false)} className="w-full py-3 bg-white text-black font-medium text-center">
+                        GO TO CHECKOUT
+                      </Link>
                     </div>
                   </div>
                 </div>
@@ -179,15 +164,15 @@ export function Header() {
       </nav>
 
       {/* Slide-out Menu */}
-      {mobileMenuOpen && (
+          {mobileMenuOpen && (
         <>
           <div 
             className="fixed inset-0 bg-black/40 z-[9999]"
-            onClick={() => setMobileMenuOpen(false)}
+            role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.back(); }}
           />
           <div className="fixed top-0 left-0 h-full w-80 max-w-[85vw] z-[10001] shadow-2xl flex flex-col bg-black text-white" style={{border: 'none'}}>
             <div className="flex items-center justify-between p-4">
-              <span className="text-sm font-medium tracking-wider">{t("menu")}</span>
+              <Link href="/" onClick={() => setMobileMenuOpen(false)} className="text-sm font-medium tracking-wider">{t("menu")}</Link>
               <button
                 onClick={() => setMobileMenuOpen(false)}
                 aria-label="Close menu"
@@ -203,18 +188,16 @@ export function Header() {
               <Link href="/s26" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
                 {t("s26Collection")}
               </Link>
-              <Link href="#" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border text-accent">
+              <Link href="/sale" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border text-accent">
                 {t("sale")}
               </Link>
 
-              <div className="pl-6">
-                <Link href="/about" className="block px-6 py-3 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
-                  ABOUT US
-                </Link>
-                <Link href="/contact" className="block px-6 py-3 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
-                  CONTACT
-                </Link>
-              </div>
+              <Link href="/about" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
+                ABOUT US
+              </Link>
+              <Link href="/contact" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
+                CONTACT
+              </Link>
             </div>
             
             {/* Language Selector */}
