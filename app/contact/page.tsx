@@ -2,9 +2,11 @@
 import { Header } from "@/components/header"
 import Link from "next/link"
 import { useState } from "react"
+import { useTranslation } from "@/lib/translations"
 
 export default function ContactPage() {
   const [flash, setFlash] = useState(false)
+  const { t } = useTranslation()
   return (
     <>
       <Header />
@@ -19,21 +21,21 @@ export default function ContactPage() {
             />
           </Link>
           <p className="-mt-10 text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-left">
-            Contact
+            {t("contactHeading")}
           </p>
           <p className="text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-right mt-8">
-            We're here to help.
+            {t("contactSubheading")}
           </p>
 
           <p className="mt-6 text-sm md:text-base text-[#d6d6d6]" style={{ textAlign: 'justify' }}>
-            For inquiries, collaborations or custom pieces, please reach out via email at <a href="mailto:hello@princesaplatano.com" className="underline">hello@princesaplatano.com</a> or use the contact form below.
+            {t("contactIntro")} <a href="mailto:hello@princesaplatano.com" className="underline">hello@princesaplatano.com</a>
           </p>
 
           <div className="mt-6">
             <form className="flex flex-col gap-3">
-              <input placeholder="Your name" className="px-3 py-2 bg-transparent border border-[#454545] text-white" />
-              <input placeholder="Your email" className="px-3 py-2 bg-transparent border border-[#454545] text-white" />
-              <textarea placeholder="Message" className="px-3 py-2 bg-transparent border border-[#454545] text-white h-32" />
+              <input placeholder={t("placeholderName")} className="px-3 py-2 bg-transparent border border-[#454545] text-white" />
+              <input placeholder={t("placeholderEmail")} className="px-3 py-2 bg-transparent border border-[#454545] text-white" />
+              <textarea placeholder={t("placeholderMessage")} className="px-3 py-2 bg-transparent border border-[#454545] text-white h-32" />
               <button
                 type="button"
                 className="mt-2 py-2 bg-white text-black font-medium mb-12"
@@ -42,7 +44,7 @@ export default function ContactPage() {
                   setTimeout(() => setFlash(false), 200)
                 }}
               >
-                Send
+                {t("sendButton")}
               </button>
             </form>
           </div>

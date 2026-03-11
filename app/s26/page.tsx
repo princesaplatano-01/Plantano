@@ -22,7 +22,7 @@ export default function S26Page() {
             <img src="/Front/PP-LOGO-LTTRNG-A-02.png" alt="S26" width={192} height={50} className="object-contain" />
           </div>
 
-          <h1 className="text-xl md:text-2xl font-semibold mb-6 italic text-[#dbdbdb]">S26 Collection</h1>
+          <h1 className="text-xl md:text-2xl font-semibold mb-6 italic text-[#dbdbdb] text-center">S26 Collection</h1>
 
           <section className="columns-1 gap-4">
             {allImages.map((src, i) => (

@@ -4,7 +4,7 @@ import { Header } from "@/components/header"
 import Link from "next/link"
 import { useTranslation } from "@/lib/translations"
 
-export default function AboutPage() {
+export default function SalePage() {
   const { t } = useTranslation()
   return (
     <>
@@ -21,17 +21,7 @@ export default function AboutPage() {
         </div>
         <div className="max-w-xl mt-0 px-4" style={{ maxWidth: 'calc(36rem - 100px)' }}>
           <p className="-mt-10 text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-left">
-            {t("aboutHeading1")}
-          </p>
-          <p className="text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-right mt-8">
-            {t("aboutHeading2")}
-          </p>
-
-          <p className="mt-6 text-sm md:text-base text-[#d6d6d6]" style={{ textAlign: 'justify' }}>
-            {t("aboutPara1")}
-          </p>
-          <p className="mt-2 text-sm md:text-base text-[#d6d6d6] font-semibold">
-            {t("aboutPara2")}
+            {t("saleMessage")}
           </p>
         </div>
       </main>

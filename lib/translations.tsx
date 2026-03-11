@@ -41,6 +41,8 @@ const translations = {
     barefootTitle: "Meet styles designed for natural movement",
     theBrooch: "THE BROOCH",
     broochTitle: "A story about reinventing",
+    theDrop: "THE DROP",
+    sacredSpring: "SACRED SPRING",
     kidsTable: "THE KIDS' TABLE",
     kidsTitle: "Go back where the magic never ended.",
     leDetour: "LE DETOUR",
@@ -90,16 +92,36 @@ const translations = {
     // Newsletter
     backToShop: "Back to Shop",
     get10Off: "GET 10% OFF",
-    newsletterDesc: "Subscribe to our newsletter and receive 10% off your first order, plus early access to new collections and exclusive offers.",
-    enterEmail: "Enter your email",
-    subscribe: "Subscribe",
-    bySubscribing: "By subscribing, you agree to receive marketing emails from Platano.",
-    thankYou: "THANK YOU",
-    thankYouDesc: "Your discount code has been sent to your email. Check your inbox for 10% off your first order.",
-    startShopping: "Start Shopping",
+    product2: "Star Fig Necklace",
+    product3: "Roseberry Orbit Necklace",
+    product4: "Cosmic Apple Necklace",
+    product5: "Blue Neblua Necklace",
+    product6: "Orion Berry Necklace",
+    product7: "Solar Eclipse Necklace",
+    product8: "Cherry Chita Necklace",
+    product9: "Moon Pitaya Necklace",
+    product10: "Solar Lemon Necklace",
+    product11: "Tangerine Meteor Necklace",
+    // Home (force Spanish caps)
+    aboutPrincesaPlatanoHome: "SOBRE PRINCESA PLÁTANO",
     
-    // Language
-    language: "Language",
+    // About page
+    aboutHeading1: "Princesa Plátano is an ode to my inner child that's what I used to call myself.",
+    aboutHeading2: "Now it's a brand that celebrates being different and unique.",
+    aboutPara1: "Princesa Plátano creates one of a kind pieces, handmade in Mexico. Crafted with global treasures I’ve discovered through my adventures around the world. Each piece is eclectic, special, and truly unique.",
+    aboutPara2: "No repeats. No copies.",
+    
+    // Contact page
+    contactHeading: "Contact",
+    contactSubheading: "We're here to help.",
+    contactIntro: "For inquiries, collaborations or custom pieces, please reach out via email at hello@princesaplatano.com or use the contact form below.",
+    placeholderName: "Your name",
+    placeholderEmail: "Your email",
+    placeholderMessage: "Message",
+    sendButton: "Send",
+    
+    // Sale page
+    saleMessage: "No sales yet, stay tuned.",
   },
   ES: {
     // Announcement
@@ -137,6 +159,8 @@ const translations = {
     barefootTitle: "Conoce estilos diseñados para el movimiento natural",
     theBrooch: "EL BROCHE",
     broochTitle: "Una historia sobre reinventarse",
+    theDrop: "EL LANZAMIENTO",
+    sacredSpring: "PRIMAVERA SAGRADA",
     kidsTable: "LA MESA DE LOS NIÑOS",
     kidsTitle: "Vuelve donde la magia nunca terminó.",
     leDetour: "LE DETOUR",
@@ -153,17 +177,17 @@ const translations = {
     preOrder: "Pre-pedido 30%",
     inStock: "En stock",
     colors: "colores",
-    product1: "Producto 1",
-    product2: "Producto 2",
-    product3: "Producto 3",
-    product4: "Producto 4",
-    product5: "Producto 5",
-    product6: "Producto 6",
-    product7: "Producto 7",
-    product8: "Producto 8",
-    product9: "Producto 9",
-    product10: "Producto 10",
-    product11: "Producto 11",
+    product1: "UFO Plum Necklace",
+    product2: "Star Fig Necklace",
+    product3: "Roseberry Orbit Necklace",
+    product4: "Cosmic Apple Necklace",
+    product5: "Blue Neblua Necklace",
+    product6: "Orion Berry Necklace",
+    product7: "Solar Eclipse Necklace",
+    product8: "Cherry Chita Necklace",
+    product9: "Moon Pitaya Necklace",
+    product10: "Solar Lemon Necklace",
+    product11: "Tangerine Meteor Necklace",
     
     // Footer
     shop: "Tienda",
@@ -196,6 +220,26 @@ const translations = {
     
     // Language
     language: "Idioma",
+    // Home (force Spanish caps)
+    aboutPrincesaPlatanoHome: "SOBRE PRINCESA PLÁTANO",
+    
+    // About page
+    aboutHeading1: "Princesa Plátano es un homenaje a mi niña interior, así es como solía llamarme.",
+    aboutHeading2: "Ahora es una marca que celebra ser diferente y único.",
+    aboutPara1: "Princesa Plátano crea piezas únicas, hechas a mano en México. Elaboradas con tesoros globales que he descubierto en mis aventuras por el mundo. Cada pieza es ecléctica, especial y verdaderamente única.",
+    aboutPara2: "Sin repeticiones. Sin copias.",
+
+    // Contact page
+    contactHeading: "Contacto",
+    contactSubheading: "Estamos aquí para ayudarte.",
+    contactIntro: "Para consultas, colaboraciones o piezas personalizadas, contáctanos por correo a hello@princesaplatano.com o utiliza el formulario de contacto a continuación.",
+    placeholderName: "Tu nombre",
+    placeholderEmail: "Tu email",
+    placeholderMessage: "Mensaje",
+    sendButton: "Enviar",
+
+    // Sale page
+    saleMessage: "Aún no hay rebajas, mantente atento.",
   },
 }
 
@@ -207,12 +251,49 @@ type TranslationContextType = {
 
 const TranslationContext = createContext<TranslationContextType | undefined>(undefined)
 
-export function TranslationProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("EN")
+export function TranslationProvider({ children, initialLanguage }: { children: ReactNode, initialLanguage?: Language }) {
+  const getInitial = (): Language => {
+    // Prefer server-provided initialLanguage when available
+    if (initialLanguage === 'EN' || initialLanguage === 'ES') return initialLanguage
+    try {
+      if (typeof window !== 'undefined') {
+        const stored = window.localStorage.getItem('lang') as Language | null
+        if (stored === 'EN' || stored === 'ES') return stored
+        const nav = (navigator.language || (navigator as any).userLanguage || 'en').toLowerCase()
+        return nav.startsWith('es') ? 'ES' : 'EN'
+      }
+    } catch (e) {
+      // ignore
+    }
+    return 'EN'
+  }
+
+  const [language, setLanguageState] = useState<Language>(getInitial)
+
+  const setLanguage = (lang: Language) => {
+    setLanguageState(lang)
+    try {
+      if (typeof window !== 'undefined') window.localStorage.setItem('lang', lang)
+    } catch (e) {
+      // ignore
+    }
+  }
 
   const t = (key: keyof typeof translations.EN) => {
     return translations[language][key] || key
   }
+
+  // keep html lang in sync
+  ;(typeof window !== 'undefined') && (function useSyncLang() {
+    try {
+      if (typeof window !== 'undefined') {
+        // run in microtask to avoid SSR issues
+        setTimeout(() => {
+          document.documentElement.lang = language === 'ES' ? 'es' : 'en'
+        }, 0)
+      }
+    } catch (e) {}
+  })()
 
   return (
     <TranslationContext.Provider value={{ language, setLanguage, t }}>

@@ -55,10 +55,13 @@ export function ProductGrid() {
     <section className="py-12 md:py-16 px-4 md:px-6">
       <h2 className="text-lg md:text-xl font-medium text-center mb-10">{t("topFinds")}</h2>
       
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-8 md:gap-x-4">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-x-3 gap-y-8 md:gap-x-4 overflow-visible">
         {products.map((product) => (
-          <Link key={product.id} href="#" className="group">
-            <div className="relative aspect-square overflow-hidden bg-muted mb-3">
+          <div
+            key={product.id}
+            className="group relative inline-block will-change-transform transform-gpu transition-all duration-300 ease-out hover:scale-[1.03] hover:z-50 hover:shadow-[0_30px_60px_rgba(0,0,0,0.25)]"
+          >
+            <div className="relative aspect-square bg-muted mb-3">
               <Image
                 src={product.image}
                 alt={product.name}
@@ -78,7 +81,7 @@ export function ProductGrid() {
               )}
             </div>
             <h3 className="text-xs md:text-sm mb-1.5 leading-tight">
-              {product.name}
+              <Link href={`/new-in/${product.id}`} className="hover:underline">{product.name}</Link>
             </h3>
             <div className="flex items-center gap-2 text-xs">
               {product.salePrice ? (
@@ -91,7 +94,7 @@ export function ProductGrid() {
               )}
               <span className="text-muted-foreground">+{product.colors} {t("colors")}</span>
             </div>
-          </Link>
+          </div>
         ))}
       </div>
     </section>

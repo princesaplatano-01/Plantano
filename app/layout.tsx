@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { Inter, Playfair_Display } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { TranslationProvider } from '@/lib/translations'
+import { headers } from 'next/headers'
 import { CartProvider } from '@/components/cart'
 import './globals.css'
 
@@ -43,10 +44,25 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // Read preferred language from the cookie header so server renders matching language
+  let cookieHeader = ''
+  try {
+    const h = headers()
+    if (h && typeof (h as any).get === 'function') {
+      cookieHeader = (h as any).get('cookie') || ''
+    } else if (h && typeof (h as any).cookie === 'string') {
+      cookieHeader = (h as any).cookie || ''
+    }
+  } catch (e) {
+    cookieHeader = ''
+  }
+  const langCookie = cookieHeader.split(';').map(s => s.trim()).find(s => s.startsWith('lang='))?.split('=')[1]
+  const initialLang = langCookie === 'ES' ? 'ES' : 'EN'
+
   return (
-    <html lang="en">
+    <html lang={initialLang === 'ES' ? 'es' : 'en'}>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
-        <TranslationProvider>
+        <TranslationProvider initialLanguage={initialLang}>
           <CartProvider>
             {children}
           </CartProvider>

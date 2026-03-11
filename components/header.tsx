@@ -113,7 +113,7 @@ export function Header() {
           </button>
               {/* Cart Drawer */}
               {cartOpen && (
-                <div className="fixed inset-0 z-[100]" role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.back(); }}>
+                <div className="fixed inset-0 z-[100]" role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCartOpen(false); }}>
                   <div onClick={(e) => e.stopPropagation()} className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-black text-white shadow-2xl flex flex-col">
                     <div className="flex items-center justify-between p-4 border-b border-border">
                       <span className="text-sm font-medium tracking-wider">Cart</span>
@@ -153,7 +153,7 @@ export function Header() {
                         <span className="text-sm text-muted-foreground">Subtotal</span>
                         <span className="text-sm">${cartItems.reduce((s, i) => s + i.price * i.quantity, 0)}</span>
                       </div>
-                      <Link href="/checkout" onClick={() => setCartOpen(false)} className="w-full py-3 bg-white text-black font-medium text-center">
+                      <Link href="/checkout" onClick={() => setCartOpen(false)} className="block w-full py-4 bg-[#f8fa41] text-black font-medium text-center">
                         GO TO CHECKOUT
                       </Link>
                     </div>
@@ -168,7 +168,7 @@ export function Header() {
         <>
           <div 
             className="fixed inset-0 bg-black/40 z-[9999]"
-            role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); router.back(); }}
+            role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMobileMenuOpen(false); }}
           />
           <div className="fixed top-0 left-0 h-full w-80 max-w-[85vw] z-[10001] shadow-2xl flex flex-col bg-black text-white" style={{border: 'none'}}>
             <div className="flex items-center justify-between p-4">
@@ -193,10 +193,10 @@ export function Header() {
               </Link>
 
               <Link href="/about" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
-                ABOUT US
+                {t("aboutPrincesaPlatano")}
               </Link>
               <Link href="/contact" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
-                CONTACT
+                {t("contactUs")}
               </Link>
             </div>
             

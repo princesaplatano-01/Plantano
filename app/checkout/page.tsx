@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react"
 import { useCart } from "@/components/cart"
 import { Header } from "@/components/header"
+import Link from "next/link"
 
 type FormState = {
   shippingMethod: "ship"
@@ -15,6 +16,8 @@ type FormState = {
   state: string
   country: string
   phone: string
+  emailOrPhone: string
+  emailOffers: boolean
 }
 
 const defaultForm: FormState = {
@@ -28,6 +31,8 @@ const defaultForm: FormState = {
   state: "",
   country: "MX",
   phone: "",
+  emailOrPhone: "",
+  emailOffers: false,
 }
 
 export default function CheckoutPage() {
@@ -115,7 +120,9 @@ export default function CheckoutPage() {
       <main className="min-h-screen py-12 px-4">
       <div className="max-w-6xl mx-auto">
         <div className="mb-8 text-center">
-          <img src="/Front/PP-LOGO-LTTRNG-A-02.png" alt="Princesa Plátano" className="mx-auto w-40 h-auto" />
+          <Link href="/">
+            <img src="/Front/PP-LOGO-LTTRNG-A-02.png" alt="Princesa Plátano" className="mx-auto w-40 h-auto cursor-pointer" />
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-10 gap-8">
@@ -129,6 +136,27 @@ export default function CheckoutPage() {
             </div>
 
             <div className="bg-white p-6 shadow rounded">
+              <div className="mb-6">
+                <h2 className="text-sm font-semibold uppercase">Contact</h2>
+                <div className="mt-4">
+                  <input
+                    value={form.emailOrPhone}
+                    onChange={(e) => update('emailOrPhone', e.target.value)}
+                    placeholder="Email or phone number"
+                    className="p-3 border rounded w-full"
+                  />
+                </div>
+                <div className="mt-2 flex items-center">
+                  <input
+                    id="email-offers"
+                    type="checkbox"
+                    checked={form.emailOffers}
+                    onChange={(e) => update('emailOffers', e.target.checked)}
+                    className="h-4 w-4 rounded border-gray-300 accent-[#f8fa41]"
+                  />
+                  <label htmlFor="email-offers" className="ml-2 block text-sm text-gray-900">Send me news and offers by email</label>
+                </div>
+              </div>
               <h2 className="text-sm font-semibold uppercase">Delivery</h2>
               <div className="mt-4 flex gap-3">
                 <ClickableLabel className={`flex-1 p-3 border rounded cursor-pointer ${form.shippingMethod === 'ship' ? 'bg-gray-100' : ''}`}>

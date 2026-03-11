@@ -28,12 +28,12 @@ export default function NewInPage() {
     return (
       <div className="bg-transparent">
         <div className="group relative">
-          <div className="bg-muted overflow-hidden" style={{ aspectRatio: cardAspect }}>
+            <div className="bg-muted overflow-hidden" style={{ aspectRatio: cardAspect }}>
             <Link href={`/new-in/${idx + 1}`}>
               <img
                 src={images[imageIdx]}
                 alt={t((`product${idx + 1}`) as any)}
-                className={`w-full h-full object-cover block ${SOLD[idx] ? 'brightness-90' : ''}`}
+                className={`w-full h-full object-cover block transition-transform duration-500 ease-out will-change-transform transform-gpu group-hover:scale-105 ${SOLD[idx] ? 'brightness-90' : ''}`}
                 loading="lazy"
               />
             </Link>
@@ -104,7 +104,7 @@ export default function NewInPage() {
           <h1 className="text-xl md:text-2xl font-semibold mb-6 italic text-[#dbdbdb]">New In</h1>
 
           <div className="-mx-4 md:-mx-8 px-4 md:px-8">
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-0.5 gap-y-2 scrollbar-hide">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-0.5 gap-y-2 scrollbar-hide overflow-visible">
               {IMAGES.map((item, idx) => (
                 <ProductCard key={idx} item={item} idx={idx} total={IMAGES.length} />
               ))}

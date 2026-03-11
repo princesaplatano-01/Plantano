@@ -10,7 +10,7 @@ function MarqueeBar() {
   const baseMarqueeItems = [
     t("newCollection"),
     t("aLittleSacred"),
-    t("aboutPrincesaPlatano"),
+    t("aboutPrincesaPlatanoHome"),
     t("aLittleStrange"),
   ]
   // To ensure the marquee is long enough for a seamless loop on wide screens,

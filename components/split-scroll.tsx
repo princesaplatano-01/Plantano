@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
+import { useTranslation } from "@/lib/translations"
 
 export function SplitScroll() {
   const router = useRouter()
@@ -31,6 +32,8 @@ export function SplitScroll() {
     obs.observe(el)
     return () => obs.disconnect()
   }, [])
+
+  const { t } = useTranslation()
 
   return (
     <section aria-label="Split scroll section" className="w-full">
@@ -69,7 +72,7 @@ export function SplitScroll() {
                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/new-in') }}
                  className="text-lg font-semibold text-[#dbdbdb] cursor-pointer"
                >
-                 THE DROP
+                {t('theDrop')}
                </div>
                <div className="mt-4">
                  <span
@@ -79,7 +82,7 @@ export function SplitScroll() {
                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/new-in') }}
                    className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md cursor-pointer"
                  >
-                   SHOP NOW
+                  {t('shopNow')}
                  </span>
                </div>
              </div>
@@ -101,10 +104,10 @@ export function SplitScroll() {
                  onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/s26') }}
                  className="text-lg font-semibold text-[#dbdbdb] cursor-pointer"
                >
-                 SACRED SPRING
+                {t('sacredSpring')}
                </div>
                <div className="mt-4">
-                 <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">SHOP NOW</span>
+                <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">{t('shopNow')}</span>
                </div>
              </div>
           </div>
@@ -134,10 +137,10 @@ export function SplitScroll() {
                    onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/about') }}
                    className="text-lg font-semibold text-[#dbdbdb] cursor-pointer"
                  >
-                   ABOUT PRINCESA PLÁTANO
+                 {t('aboutPrincesaPlatanoHome')}
                  </div>
                  <div className="mt-4">
-                   <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">SHOP NOW</span>
+                  <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">{t('shopNow')}</span>
                  </div>
                </div>
           </div>
