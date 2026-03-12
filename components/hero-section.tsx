@@ -30,8 +30,8 @@ function MarqueeBar() {
             100% { transform: translateX(-50%); }
           }
           .animate-marquee {
-            /* Increased duration for the longer content */
-            animation: marquee 47s linear infinite;
+            /* Faster marquee */
+            animation: marquee 20s linear infinite;
             will-change: transform;
           }
         `}
@@ -56,6 +56,7 @@ export function HeroSection() {
   const containerRef = useRef<HTMLElement>(null)
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
+  const [isDesktop, setIsDesktop] = useState(false)
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -74,6 +75,14 @@ export function HeroSection() {
       container.addEventListener("mousemove", handleMouseMove)
       return () => container.removeEventListener("mousemove", handleMouseMove)
     }
+  }, [])
+
+  useEffect(() => {
+    const mq = () => window.matchMedia('(min-width: 1024px)').matches
+    const set = () => setIsDesktop(mq())
+    set()
+    window.addEventListener('resize', set)
+    return () => window.removeEventListener('resize', set)
   }, [])
 
   // Hide logo if menu is open
@@ -95,9 +104,9 @@ export function HeroSection() {
           <div 
             className="absolute inset-0 md:inset-[-20px] transition-transform duration-300 ease-out"
             style={{
-              transform: isHovering 
-                ? `translate(${mousePosition.x * -30}px, ${mousePosition.y * -30}px) scale(1.05)` 
-                : 'translate(0, 0) scale(1)'
+              transform: isHovering
+                ? `translate(${mousePosition.x * -30}px, ${mousePosition.y * -30}px) translateY(-70px) scale(1.05)`
+                : 'translate(0, 0) translateY(-70px) scale(1)'
             }}
           >
               <div className="relative w-full h-full">
@@ -142,18 +151,25 @@ export function HeroSection() {
               href="/new-in"
               className="inline-block text-[#1E1D1D] text-xs tracking-widest uppercase border-b border-[#1E1D1D] pb-0.5 transition-all duration-150 ease-out"
               style={{
-                transform: isHovering 
-                  ? `translate(${mousePosition.x * 8}px, ${mousePosition.y * 8}px)` 
-                  : 'translate(0, 0)'
+                transform: isHovering
+                  ? `translate(${mousePosition.x * 8}px, ${mousePosition.y * 8}px) ${isDesktop ? 'translateY(-40px)' : ''}`
+                  : `translate(0, 0) ${isDesktop ? 'translateY(-40px)' : ''}`
               }}
             >
               {t("shopNow")}
             </Link>
           </div>
 
+          {/* Marquee: overlay on desktop, static below hero on mobile so it's visible on open */}
+          <div className="hidden md:block absolute bottom-0 left-0 w-full z-50 pointer-events-auto">
+            <MarqueeBar />
+          </div>
         </div>
       </section>
-      <MarqueeBar />
+      {/* Mobile: show marquee directly below hero so it's visible on initial view */}
+      <div className="md:hidden">
+        <MarqueeBar />
+      </div>
     </>
   )
 }

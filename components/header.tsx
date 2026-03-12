@@ -24,6 +24,7 @@ export function Header() {
     return () => clearTimeout(timer);
   }, [searchOpen]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  // cart hover state removed — use subtle opacity hover like the search button
   const { language, setLanguage, t } = useTranslation()
   const pathname = usePathname()
   const isHome = pathname === "/"
@@ -102,14 +103,17 @@ export function Header() {
             )}
           </div>
                 {/* Search Bar Drawer */}
-          <button className="p-3 md:p-2 rounded hover:opacity-60 transition-opacity relative" aria-label="Cart" onClick={() => setCartOpen(true)}>
-              <ShoppingBag size={20} strokeWidth={1.5} color={iconColor} />
-            <span
-              className="absolute -top-1.5 -right-1.5 text-[9px] w-4 h-4 rounded-full flex items-center justify-center"
-              style={{ background: '#ffffff', color: '#1E1D1D' }}
-            >
-              {itemCount}
-            </span>
+          <button
+            onClick={() => setCartOpen(true)}
+            aria-label="Cart"
+            className="p-3 md:p-2 rounded hover:opacity-60 transition-opacity relative"
+          >
+            <ShoppingBag size={20} strokeWidth={1.5} color={iconColor} />
+            {itemCount > 0 && (
+              <span className="absolute -top-1 -right-1 bg-white text-black text-[10px] w-4 h-4 rounded-full flex items-center justify-center border border-border">
+                {itemCount}
+              </span>
+            )}
           </button>
               {/* Cart Drawer */}
               {cartOpen && (

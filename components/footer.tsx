@@ -83,7 +83,7 @@ export function Footer() {
                 className="inline-flex items-center justify-center w-10 h-10 p-2 rounded hover:bg-muted transition-colors"
                 aria-label="Instagram"
               >
-                <Instagram size={18} strokeWidth={1.5} />
+                <Instagram size={18} strokeWidth={1.5} className="text-[#dbdbdb]" />
               </a>
             </div>
           </div>

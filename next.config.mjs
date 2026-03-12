@@ -12,6 +12,12 @@ const nextConfig = {
   turbopack: {
     root: '.'
   },
+  // Allow dev server to serve _next assets to the LAN IP used by your phone.
+  // Replace or add additional origins if your phone's IP changes.
+  // See: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+  allowedDevOrigins: [
+    "http://192.168.20.172:3000"
+  ],
 }
 
 export default nextConfig

@@ -1,37 +1,11 @@
 "use client"
 
-import React, { useEffect, useRef } from "react"
+import React from "react"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "@/lib/translations"
 
 export function SplitScroll() {
   const router = useRouter()
-  const videoRef = useRef<HTMLVideoElement | null>(null)
-
-  useEffect(() => {
-    const el = videoRef.current
-    if (!el || typeof IntersectionObserver === "undefined") return
-
-    el.muted = true
-    el.loop = true
-    el.playsInline = true
-
-    const obs = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && entry.intersectionRatio > 0.25) {
-            el.play().catch(() => {})
-          } else {
-            el.pause()
-          }
-        })
-      },
-      { threshold: [0, 0.25, 0.5] }
-    )
-
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
 
   const { t } = useTranslation()
 
@@ -58,10 +32,10 @@ export function SplitScroll() {
         <div className="flex flex-col items-center">
           <div className="min-h-[60vh] w-full md:h-screen md:w-1/2 mb-[15vh]">
             <img
-              src="/SCROLL/DSC08190.jpg"
-              alt="Right item 1"
-              className="w-full h-auto object-cover cursor-pointer"
-              style={{ objectFit: "cover", aspectRatio: "3 / 4" }}
+              src="/SC26/gif%20collar.gif"
+              alt="Collar GIF"
+              className="w-full h-auto object-contain cursor-pointer"
+              style={{ objectFit: "contain", aspectRatio: "3 / 4" }}
               onClick={() => router.push('/new-in')}
             />
              <div className="mt-6 text-center">
@@ -113,21 +87,15 @@ export function SplitScroll() {
           </div>
 
           <div className="min-h-[60vh] w-full md:h-screen md:w-1/2" style={{ transform: 'translateY(-60px)' }}>
-            <video
-              ref={videoRef}
-              src="/SCROLL/Video_Adjustment_Less_Rotation_More_Sway.mp4"
-              poster="/SCROLL/DSC07548_72y.jpg"
-              className="w-full h-auto object-cover"
+            <img
+              src="/SCROLL/DSC07821.jpg"
+              alt="Right item 3"
+              className="w-full h-auto object-cover cursor-pointer"
               style={{ objectFit: "cover", aspectRatio: "3 / 4" }}
               role="button"
               tabIndex={0}
               onClick={() => router.push('/about')}
               onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/about') }}
-              muted
-              loop
-              autoPlay
-              playsInline
-              preload="auto"
             />
                <div className="mt-6 text-center">
                  <div

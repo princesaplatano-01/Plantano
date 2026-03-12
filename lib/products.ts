@@ -1,14 +1,14 @@
 export const IMAGES: (string | string[])[] = [
-  ["/SHOP/Pa_01.jpg", "/NEW IN/P_01.jpg", "/NEW IN/zoom in/Pb_01.jpg"],
-  ["/NEW IN/P_02.jpg", "/NEW IN/zoom in/Pb_02.jpg"],
-  ["/SHOP/Pa_03.jpg", "/NEW IN/P_03.jpg", "/NEW IN/zoom in/Pb_3.jpg"],
+  ["/SHOP/Pa_01.jpg", "/NEW IN/P_01.jpg", "/NEW IN/zoom in/Pb_01.jpg", "/SHOP/plum.jpg"],
+  ["/NEW IN/P_02.jpg", "/NEW IN/zoom in/Pb_02.jpg", "/SHOP/fig.jpg"],
+  ["/SHOP/Pa_03.jpg", "/NEW IN/P_03.jpg", "/NEW IN/zoom in/Pb_3.jpg", "/SHOP/orbit.jpg"],
   ["/SHOP/Pa_04.jpg", "/NEW IN/P_04.jpg", "/NEW IN/zoom in/Pb_04.jpg", "/NEW IN/zoom in/Pb_05.jpg"],
-  ["/NEW IN/P_05.jpg", "/NEW IN/zoom in/Pb_05.jpg"],
-  ["/SHOP/Pa_06.JPG", "/NEW IN/P_06.jpg", "/NEW IN/zoom in/Pb_06.jpg"],
-  ["/SHOP/Pa_07.jpg", "/NEW IN/P_07.jpg", "/NEW IN/zoom in/Pb_07.jpg"],
-  ["/SHOP/Pa_08.jpg", "/NEW IN/P_08.jpg", "/NEW IN/zoom in/Pb_08.jpg"],
-  ["/SHOP/Pa_09.jpg", "/NEW IN/P_09.jpg", "/NEW IN/zoom in/Pb_09.jpg"],
-  ["/NEW IN/P_10.jpg", "/NEW IN/zoom in/Pb_10.jpg"],
+  ["/NEW IN/P_05.jpg", "/NEW IN/zoom in/Pb_05.jpg", "/SHOP/nebula2.jpg"],
+  ["/SHOP/Pa_06.JPG", "/NEW IN/P_06.jpg", "/NEW IN/zoom in/Pb_06.jpg", "/SHOP/orion.jpg"],
+  ["/SHOP/Pa_07.jpg", "/NEW IN/P_07.jpg", "/NEW IN/zoom in/Pb_07.jpg", "/SHOP/eclipse.jpg"],
+  ["/SHOP/Pa_08.jpg", "/NEW IN/P_08.jpg", "/NEW IN/zoom in/Pb_08.jpg", "/SHOP/chita.jpg"],
+  ["/SHOP/Pa_09.jpg", "/NEW IN/P_09.jpg", "/NEW IN/zoom in/Pb_09.jpg", "/SHOP/pitaya.jpg"],
+  ["/NEW IN/P_10.jpg", "/NEW IN/zoom in/Pb_10.jpg", "/SHOP/lemon.jpg"],
   ["/NEW IN/P_11.jpg", "/NEW IN/zoom in/Pb_11.jpg"],
 ]
 

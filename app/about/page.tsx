@@ -13,9 +13,9 @@ export default function AboutPage() {
         <div className="mt-8">
           <Link href="/">
             <img
-              src="/Front/PP-LOGO-LTTRNG-A-02.png"
+              src="/SCROLL/DSC07821%203.png"
               alt="PP Logo"
-              className="mx-auto w-40 md:w-56 object-contain transform -translate-y-[90px] cursor-pointer"
+              className="mx-auto w-full max-w-[calc(36rem-100px)] object-contain transform -translate-y-[90px] cursor-pointer"
             />
           </Link>
         </div>

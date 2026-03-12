@@ -31,16 +31,6 @@ export default function S26Page() {
                   <img src={src} alt={`S26 ${i + 1}`} className="w-full h-auto rounded" loading="lazy" />
 
                   {/* coliflow overlay removed */}
-
-                  {src === "/SC26/gif collar.gif" && (
-                    <img
-                      src="/SC26/PP-LOGO-STKR-01 copy.png"
-                      alt="pp logo"
-                      className="absolute bottom-0 left-0 w-36 md:w-48 pointer-events-none z-10"
-                      style={{ transform: 'translateY(50%) translateX(-100px) rotate(-30deg)' }}
-                      loading="lazy"
-                    />
-                  )}
                 </div>
               </div>
             ))}
