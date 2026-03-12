@@ -27,8 +27,7 @@ export default function Home() {
           <img
             src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg"
             alt="Platano Logo"
-            className="w-[48.4%] md:w-[30.8%] h-auto"
-            style={{ transform: 'translateY(10px) translateX(10px) scale(0.8)' }}
+            className="w-[48.4%] md:w-[30.8%] h-auto bottom-logo"
           />
         </div>
       </div>

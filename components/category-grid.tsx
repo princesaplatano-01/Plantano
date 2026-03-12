@@ -16,6 +16,7 @@ export function CategoryGrid() {
   const [hovered, setHovered] = useState<number | null>(null)
   const containerRef = useRef<HTMLDivElement | null>(null)
   const [layout, setLayout] = useState<Array<any>>([])
+  const [containerMarginTop, setContainerMarginTop] = useState<number>(125)
 
   // seed rotates/jitter stable per mount
   const seed = useMemo(() => {
@@ -32,6 +33,20 @@ export function CategoryGrid() {
       const el = containerRef.current
       if (!el) return
       const width = el.clientWidth || 420
+
+      // measure marquee (moving text) height so we can position polaroids
+      // 50px below it on desktop
+      let marqueeHeight = 0
+      try {
+        const marqueeInner = document.querySelector('.animate-marquee') as HTMLElement | null
+        const marqueeWrapper = marqueeInner?.parentElement as HTMLElement | null
+        marqueeHeight = marqueeWrapper?.clientHeight ?? 0
+      } catch (err) {
+        marqueeHeight = 0
+      }
+
+      const desiredTopMargin = marqueeHeight > 0 ? marqueeHeight + 50 : 125
+      setContainerMarginTop(desiredTopMargin)
 
       const isDesktop = width >= 1024
 
@@ -59,7 +74,9 @@ export function CategoryGrid() {
           const pct = 0.12 + (i / (seed.length - 1)) * 0.76 // spread 12%..88%
           const left = Math.round(width * pct) + tx
           // move polaroids upward on desktop by reducing the vertical multiplier
-          const top = Math.round(el.clientHeight * 0.22) + ty
+          // use a guaranteed minimum height so initial measurements don't collapse
+          const measuredHeight = Math.max(el.clientHeight, 520)
+          const top = Math.round(measuredHeight * 0.22) + ty
           return { rotate: s.rotate, left, top, zBase, imgW, isDesktop }
         }
 
@@ -67,6 +84,24 @@ export function CategoryGrid() {
       })
 
       setLayout(results)
+
+      // After layout is applied, measure a rendered polaroid's height and
+      // adjust the container margin so the top edge of polaroids sits
+      // `50px` below the marquee. We measure the first image available.
+      if (isDesktop) {
+        setTimeout(() => {
+          try {
+            const imgEl = containerRef.current?.querySelector('img') as HTMLElement | null
+            const imgH = imgEl?.clientHeight ?? 0
+            if (imgH > 0) {
+              const marqueePart = marqueeHeight > 0 ? marqueeHeight : 0
+              setContainerMarginTop(Math.round(marqueePart + 50 + imgH / 2))
+            }
+          } catch (err) {
+            // ignore measurement errors
+          }
+        }, 40)
+      }
     }
 
     compute()
@@ -79,10 +114,11 @@ export function CategoryGrid() {
       <div
         ref={containerRef}
         className={
-          `relative grid grid-cols-1 gap-y-10 mt-[125px] pb-24 pr-4 justify-items-center ${
+          `relative grid grid-cols-1 gap-y-10 pb-24 pr-4 justify-items-center ${
             layout[0]?.isDesktop ? 'min-h-[520px]' : ''
           }`
         }
+        style={{ marginTop: `${containerMarginTop}px` }}
       >
         {images.map((src, i) => {
             const item = layout[i]

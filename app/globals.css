@@ -201,3 +201,17 @@ body.use-custom-cursor [contenteditable="true"] {
   backface-visibility: hidden;
   transition: opacity 80ms linear;
 }
+
+/* Bottom page logo: keep mobile size, make 20% larger and move down 30px on desktop */
+.bottom-logo {
+  transform: translateY(10px) translateX(10px) scale(0.8);
+  transform-origin: center;
+  display: block;
+}
+
+@media (min-width: 1024px) {
+  .bottom-logo {
+    /* 30% larger than mobile (0.8 * 1.3 = 1.04) and moved down 30px (10px + 30px) */
+    transform: translateY(40px) translateX(10px) scale(1.04);
+  }
+}
