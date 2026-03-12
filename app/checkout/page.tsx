@@ -185,7 +185,7 @@ export default function CheckoutPage() {
           <aside className="md:col-span-4">
             <div className="md:sticky md:top-24">
               <div className="mb-4 md:hidden">
-                <button onClick={() => setShowSummaryOnMobile((s) => !s)} className="w-full p-3 border rounded">{showSummaryOnMobile ? 'Hide order summary' : 'Show order summary'}</button>
+                <button onClick={() => setShowSummaryOnMobile((s) => !s)} className="w-full p-3 rounded bg-[#f8fa41] text-black font-medium">{showSummaryOnMobile ? 'Hide order summary' : 'Show order summary'}</button>
               </div>
 
               {(showSummaryOnMobile || typeof window !== 'undefined' && window.innerWidth >= 768) && (

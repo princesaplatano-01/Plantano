@@ -17,7 +17,7 @@ export default function ContactPage() {
             <img
               src="/Front/PP-LOGO-LTTRNG-A-02.png"
               alt="Platano Logo"
-              className="mx-auto w-40 md:w-56 object-contain transform -translate-y-[90px] cursor-pointer"
+              className="mx-auto w-40 md:w-56 object-contain transform -translate-y-[50px] cursor-pointer"
             />
           </Link>
           <p className="-mt-10 text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-left">

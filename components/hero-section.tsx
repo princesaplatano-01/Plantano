@@ -96,8 +96,13 @@ export function HeroSection() {
         onMouseLeave={() => setIsHovering(false)}
       >
         {/* Logo overlay */}
-        <div className="absolute top-8 left-[88px] z-[60] logo-overlay">
-          <img src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg" alt="Platano Logo Title" className="h-36 md:h-54" />
+        <div className="absolute top-8 left-[73px] md:left-[88px] z-[60] logo-overlay">
+          <img
+            src="/Front/PP-LOGO-LTTRNG-VERSION-02.svg"
+            alt="Platano Logo Title"
+            className="h-36 md:h-54"
+            style={{ transform: 'scale(1.15)', transformOrigin: 'center' }}
+          />
         </div>
         <div className="relative h-screen md:h-[100vh] overflow-hidden block">
           {/* Background Image with parallax */}
@@ -105,8 +110,8 @@ export function HeroSection() {
             className="absolute inset-0 md:inset-[-20px] transition-transform duration-300 ease-out"
             style={{
               transform: isHovering
-                ? `translate(${mousePosition.x * -30}px, ${mousePosition.y * -30}px) translateY(-70px) scale(1.05)`
-                : 'translate(0, 0) translateY(-70px) scale(1)'
+                ? `translate(${mousePosition.x * -30}px, ${mousePosition.y * -30}px) ${isDesktop ? 'translateY(-70px)' : ''} scale(1.05)`
+                : `${isDesktop ? 'translateY(-70px)' : 'translate(0, 0)'} scale(1)`
             }}
           >
               <div className="relative w-full h-full">
@@ -140,7 +145,7 @@ export function HeroSection() {
           
           {/* Text content with opposite parallax */}
           <div 
-            className="absolute bottom-8 left-6 md:bottom-16 md:left-12 transition-transform duration-200 ease-out"
+            className="absolute bottom-12 left-6 md:bottom-16 md:left-12 transition-transform duration-200 ease-out"
             style={{
               transform: isHovering 
                 ? `translate(${mousePosition.x * 20}px, ${mousePosition.y * 20}px)` 
@@ -152,7 +157,7 @@ export function HeroSection() {
               className="inline-block text-[#1E1D1D] text-xs tracking-widest uppercase border-b border-[#1E1D1D] pb-0.5 transition-all duration-150 ease-out"
               style={{
                 transform: isHovering
-                  ? `translate(${mousePosition.x * 8}px, ${mousePosition.y * 8}px) ${isDesktop ? 'translateY(-40px)' : ''}`
+                     ? `translate(${mousePosition.x * 8}px, ${mousePosition.y * 8}px) ${isDesktop ? 'translateY(-40px)' : 'translateY(-50px)'}`
                   : `translate(0, 0) ${isDesktop ? 'translateY(-40px)' : ''}`
               }}
             >

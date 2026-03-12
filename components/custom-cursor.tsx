@@ -8,8 +8,25 @@ export default function CustomCursor() {
   const rafRef = useRef<number | null>(null)
   const visibleRef = useRef(false)
   const modeRef = useRef<'default' | 'pointer'>('default')
+  const [enabled, setEnabled] = React.useState<boolean | null>(null)
 
   useEffect(() => {
+    // Detect touch / mobile devices and disable custom cursor there
+    const isTouch = typeof window !== 'undefined' && (
+      'ontouchstart' in window ||
+      (navigator.maxTouchPoints && navigator.maxTouchPoints > 0) ||
+      (window.matchMedia && window.matchMedia('(pointer: coarse)').matches)
+    )
+
+    if (isTouch) {
+      setEnabled(false)
+      // ensure no custom class remains
+      document.body.classList.remove('use-custom-cursor')
+      return
+    }
+
+    setEnabled(true)
+
     // Preload images
     const pre1 = new Image()
     const pre2 = new Image()
@@ -84,6 +101,8 @@ export default function CustomCursor() {
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
     }
   }, [])
+
+  if (enabled === false) return null
 
   return (
     <img

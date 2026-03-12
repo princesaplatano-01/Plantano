@@ -21,7 +21,7 @@ export function SplitScroll() {
         {/* Left column: sticky image (only on md and up) */}
         <div className="md:sticky md:top-0 md:h-screen">
           <img
-            src="/SCROLL/IMG_3221%20a.jpg"
+            src="/SCROLL/IMG_0224%20i.jpg"
             alt="Sticky artwork"
             className="w-full h-screen object-cover"
             style={{ objectFit: "cover" }}
@@ -30,11 +30,11 @@ export function SplitScroll() {
 
         {/* Right column: stacked items that scroll normally */}
         <div className="flex flex-col items-center">
-          <div className="min-h-[60vh] w-full md:h-screen md:w-1/2 mb-[15vh]">
+          <div className="min-h-[60vh] w-full md:h-screen md:w-1/2 mb-[15vh] mt-20 md:mt-0">
             <img
               src="/SC26/gif%20collar.gif"
               alt="Collar GIF"
-              className="w-full h-auto object-contain cursor-pointer"
+              className="w-full h-auto object-contain cursor-auto md:cursor-pointer"
               style={{ objectFit: "contain", aspectRatio: "3 / 4" }}
               onClick={() => router.push('/new-in')}
             />
@@ -66,7 +66,7 @@ export function SplitScroll() {
             <img
               src="/SCROLL/DSC07425.jpg"
               alt="Right item 2"
-              className="w-full h-auto object-cover cursor-pointer"
+              className="w-full h-auto object-cover cursor-auto md:cursor-pointer"
               style={{ objectFit: "cover", aspectRatio: "3 / 4" }}
               onClick={() => router.push('/s26')}
             />
@@ -90,7 +90,7 @@ export function SplitScroll() {
             <img
               src="/SCROLL/DSC07821.jpg"
               alt="Right item 3"
-              className="w-full h-auto object-cover cursor-pointer"
+              className="w-full h-auto object-cover cursor-auto md:cursor-pointer"
               style={{ objectFit: "cover", aspectRatio: "3 / 4" }}
               role="button"
               tabIndex={0}

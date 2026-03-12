@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 
 const images = [
   "/Polaroids/polar_1.jpg",
-  "/Polaroids/polar_2%202.jpg",
+  "/Polaroids/polar_2.jpg",
   "/Polaroids/polar_3.jpg",
   "/Polaroids/polar_4.jpg",
   "/Polaroids/polar_5.jpg",
@@ -44,7 +44,10 @@ export function CategoryGrid() {
       const results = seed.map((s, i) => {
         // random small translations to make layout messy
         const tx = Math.round(Math.random() * 30 - 15) // -15..15
-        const ty = isDesktop ? Math.round(Math.random() * 80 - 40) : Math.round(Math.random() * 100 - 40)
+        // move polaroids 60px upwards on desktop only (mobile unchanged)
+        const ty = isDesktop
+          ? Math.round(Math.random() * 80 - 40) - 60
+          : Math.round(Math.random() * 100 - 40) - 80
         // Use a consistent width for all polaroids (no per-item randomness)
         // Increase size by 30% (0.3x bigger)
         const imgW = Math.max(160, Math.floor(baseImgW * 1.3))
@@ -88,7 +91,7 @@ export function CategoryGrid() {
 
           return (
             <img
-              key={i}
+              key={src}
               src={src}
               alt={`Editorial ${i + 1}`}
               onMouseEnter={() => setHovered(i)}

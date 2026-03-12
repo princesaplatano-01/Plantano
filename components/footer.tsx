@@ -23,11 +23,13 @@ export function Footer() {
   return (
     <footer className="py-10 md:py-14 px-4 md:px-6 border-t border-border">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+        <div className="grid grid-cols-4 gap-4 mb-4 items-start">
           {/* Shop Links */}
           <div>
-            <h3 className="text-[11px] tracking-wider mb-4 uppercase text-[#dbdbdb]">{t("shop")}</h3>
-            <nav className="flex flex-col gap-2">
+            <h3 className="text-[11px] tracking-wider mb-0 md:mb-4 uppercase text-[#dbdbdb]">
+              <Link href="/new-in" className="hover:text-foreground transition-colors">{t("shop")}</Link>
+            </h3>
+            <nav className="hidden md:flex flex-col gap-2">
               {shopLinks.map((link) => (
                 <Link 
                   key={link.nameKey}
@@ -42,8 +44,10 @@ export function Footer() {
 
           {/* Help Links */}
           <div>
-            <h3 className="text-[11px] tracking-wider mb-4 uppercase text-[#dbdbdb]">{t("help")}</h3>
-            <nav className="flex flex-col gap-2">
+            <h3 className="text-[11px] tracking-wider mb-0 md:mb-4 uppercase text-[#dbdbdb]">
+              <Link href="/contact" className="hover:text-foreground transition-colors">{t("help")}</Link>
+            </h3>
+            <nav className="hidden md:flex flex-col gap-2">
               {helpLinks.map((link) => (
                 <Link 
                   key={link.nameKey}
@@ -58,8 +62,10 @@ export function Footer() {
 
           {/* About Links */}
           <div>
-            <h3 className="text-[11px] tracking-wider mb-4 uppercase text-[#dbdbdb]">{t("about")}</h3>
-            <nav className="flex flex-col gap-2">
+            <h3 className="text-[11px] tracking-wider mb-0 md:mb-4 uppercase text-[#dbdbdb]">
+              <Link href="/about" className="hover:text-foreground transition-colors">{t("about")}</Link>
+            </h3>
+            <nav className="hidden md:flex flex-col gap-2">
               {aboutLinks.map((link) => (
                 <Link 
                   key={link.nameKey}
@@ -74,30 +80,32 @@ export function Footer() {
 
           {/* Social */}
           <div>
-            <h3 className="text-[11px] tracking-wider mb-4 uppercase text-[#dbdbdb]">{t("followUs")}</h3>
+            <h3 className="text-[11px] tracking-wider mb-0 md:mb-4 uppercase text-[#dbdbdb]">
+              <span className="hover:text-foreground">{t("followUs")}</span>
+            </h3>
             <div className="flex gap-4">
               <a
                 href="https://www.instagram.com/princesa.platano?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center w-10 h-10 p-2 rounded hover:bg-muted transition-colors"
+                className="inline-flex items-center justify-center w-8 h-8 p-2 rounded hover:bg-muted transition-colors"
                 aria-label="Instagram"
               >
-                <Instagram size={18} strokeWidth={1.5} className="text-[#dbdbdb]" />
+                <Instagram size={16} strokeWidth={1.5} className="text-[#dbdbdb]" />
               </a>
             </div>
           </div>
         </div>
 
         {/* Bottom Bar */}
-        <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="pt-4 flex flex-row items-center justify-between gap-4">
           <div className="text-sm font-medium tracking-[0.02em] text-muted-foreground">
             <span>
               {t("footerCreditMain")}{' '}
               <span className="text-xs md:text-[0.72rem] text-muted-foreground">{t("footerCreditBy")}</span>
             </span>
           </div>
-          <div className="flex flex-wrap justify-center gap-4 text-[10px] text-muted-foreground">
+          <div className="flex flex-row justify-center gap-4 text-[10px] text-muted-foreground">
             <Link href="/privacy-policy" className="hover:text-foreground transition-colors">{t("privacyPolicy")}</Link>
             <Link href="/terms-of-service" className="hover:text-foreground transition-colors">{t("termsOfService")}</Link>
             <Link href="#" className="hover:text-foreground transition-colors">{t("cookies")}</Link>

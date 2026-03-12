@@ -34,6 +34,7 @@ export default function ProductPage() {
   const [modalOpen, setModalOpen] = useState(false)
   const notifyBtnRef = useRef<HTMLButtonElement | null>(null)
   const [modalCoords, setModalCoords] = useState<{ x: number; y: number; w: number } | null>(null)
+  const modalRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     if (!modalOpen) return
@@ -41,6 +42,26 @@ export default function ProductPage() {
     if (!btn) return
     const rect = btn.getBoundingClientRect()
     setModalCoords({ x: rect.left + rect.width / 2, y: rect.top, w: rect.width })
+  }, [modalOpen])
+
+  // After modal renders, measure its height and, if there's not enough space below the button,
+  // move the modal above the button so inputs aren't covered (mobile keyboards, etc.).
+  useEffect(() => {
+    if (!modalOpen) return
+    const btn = notifyBtnRef.current
+    const modalEl = modalRef.current
+    if (!btn || !modalEl) return
+
+    const rect = btn.getBoundingClientRect()
+    const modalH = modalEl.clientHeight
+    const spaceBelow = window.innerHeight - rect.bottom
+
+    // prefer below, but if not enough space then position above with 8px gap
+    if (spaceBelow < modalH + 80) {
+      let top = rect.top - modalH - 8
+      if (top < 8) top = 8
+      setModalCoords({ x: rect.left + rect.width / 2, y: top, w: rect.width })
+    }
   }, [modalOpen])
 
   const handleBack = () => {
@@ -151,7 +172,7 @@ export default function ProductPage() {
                       : { position: "fixed", top: "50%", left: "50%", transform: "translate(-50%, -50%)", zIndex: 1001 }
                   }
                 >
-                  <div className="bg-background p-6 rounded shadow-lg text-foreground" style={{ width: modalCoords ? modalCoords.w : 320 }}>
+                  <div ref={modalRef} className="bg-background p-6 rounded shadow-lg text-foreground" style={{ width: modalCoords ? modalCoords.w : 320 }}>
                     <div className="flex items-start justify-between">
                       <h2 className="text-lg font-semibold uppercase" style={{ color: '#dcdcdc' }}>DON'T MISS THE NEXT DROP</h2>
                       <button onClick={() => setModalOpen(false)} aria-label="Close" className="text-muted-foreground text-xl leading-none">×</button>

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { useCart } from "@/components/cart"
 import Link from "next/link"
@@ -11,18 +11,11 @@ export function Header() {
   const router = useRouter()
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchValue, setSearchValue] = useState("");
+  const [isSearchFocused, setIsSearchFocused] = useState(false)
+  const inputRef = useRef<HTMLInputElement | null>(null)
   const [cartOpen, setCartOpen] = useState(false);
   const { items: cartItems, removeFromCart, addToCart, itemCount } = useCart()
-  // Hide search after 2s of inactivity
-  useEffect(() => {
-    if (!searchOpen) return;
-    // Only auto-close when search is open AND the user is NOT typing (empty input)
-    if (searchValue && searchValue.trim().length > 0) return;
-    const timer = setTimeout(() => {
-      setSearchOpen(false);
-    }, 2000);
-    return () => clearTimeout(timer);
-  }, [searchOpen]);
+  // Search open state is now controlled manually; no auto-close timer.
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   // cart hover state removed — use subtle opacity hover like the search button
   const { language, setLanguage, t } = useTranslation()
@@ -57,11 +50,53 @@ export function Header() {
         return true
       }
     }
+    // Map common page keywords to routes (e.g., 'contact' -> /contact)
+    const pageMap: Record<string, string> = {
+      contact: '/contact',
+      about: '/about',
+      checkout: '/checkout',
+      'order summary': '/checkout',
+      shop: '/',
+      home: '/',
+      'new in': '/new-in',
+      'new-in': '/new-in',
+      newsletter: '/newsletter',
+      privacy: '/privacy-policy',
+      terms: '/terms-of-service',
+      sale: '/sale',
+      's26': '/s26',
+    }
+
+    const ql = q.toLowerCase()
+    for (const key of Object.keys(pageMap)) {
+      if (ql === key || ql.includes(key)) {
+        setSearchOpen(false)
+        router.push(pageMap[key])
+        setSearchValue("")
+        return true
+      }
+    }
+
+    // Try matching by product name (case-insensitive, partial match)
+    try {
+      for (let i = 1; i <= total; i++) {
+        const name = t((`product${i}`) as any)
+        if (!name) continue
+        if (name.toLowerCase().includes(ql)) {
+          setSearchOpen(false)
+          router.push(`/new-in/${i}`)
+          setSearchValue("")
+          return true
+        }
+      }
+    } catch (err) {
+      // ignore translation lookup errors
+    }
     return false
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50" style={{background: 'transparent', border: 'none'}}>
+    <header className="fixed top-0 left-0 right-0 z-[20000]" style={{background: 'transparent', border: 'none'}}>
       <nav className="flex items-center justify-between px-4 md:px-6 py-3" style={{background: 'transparent', border: 'none', color: navTextColor}}>
         {/* Left - Hamburger Menu */}
         <button
@@ -83,20 +118,23 @@ export function Header() {
             </button>
             {searchOpen && (
               <form
-                className="absolute top-0 right-0 flex items-center z-[100]"
+                className="absolute top-0 right-0 flex items-center z-[20001]"
                 style={{ width: '160px' }}
                 onSubmit={(e) => handleSearchSubmit(e)}
               >
                   <input
+                  ref={inputRef}
                   type="text"
                   value={searchValue}
                   onChange={e => setSearchValue(e.target.value)}
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSearchSubmit(e)
                   }}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
                   autoFocus
                   placeholder="Search"
-                  className="w-full px-2 py-1 text-xs rounded bg-transparent text-[#4b4b4b] placeholder:text-[#6b6b6b] focus:outline-none"
+                  className="w-full px-2 py-1 text-base md:text-xs rounded bg-transparent text-[#4b4b4b] placeholder:text-[#6b6b6b] focus:outline-none"
                   style={{ background: 'none', border: 'none' }}
                 />
               </form>
@@ -117,7 +155,7 @@ export function Header() {
           </button>
               {/* Cart Drawer */}
               {cartOpen && (
-                <div className="fixed inset-0 z-[100]" role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCartOpen(false); }}>
+                <div className="fixed inset-0 z-[20002]" role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCartOpen(false); }}>
                   <div onClick={(e) => e.stopPropagation()} className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-black text-white shadow-2xl flex flex-col">
                     <div className="flex items-center justify-between p-4 border-b border-border">
                       <span className="text-sm font-medium tracking-wider">Cart</span>
@@ -171,10 +209,10 @@ export function Header() {
           {mobileMenuOpen && (
         <>
           <div 
-            className="fixed inset-0 bg-black/40 z-[9999]"
+            className="fixed inset-0 bg-black/40 z-[20003]"
             role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); setMobileMenuOpen(false); }}
           />
-          <div className="fixed top-0 left-0 h-full w-80 max-w-[85vw] z-[10001] shadow-2xl flex flex-col bg-black text-white" style={{border: 'none'}}>
+          <div className="fixed top-0 left-0 h-full w-80 max-w-[85vw] z-[20004] shadow-2xl flex flex-col bg-black text-white" style={{border: 'none'}}>
             <div className="flex items-center justify-between p-4">
               <Link href="/" onClick={() => setMobileMenuOpen(false)} className="text-sm font-medium tracking-wider">{t("menu")}</Link>
               <button

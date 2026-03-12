@@ -124,26 +124,46 @@
   }
 }
 
-/* Custom cursors: default and interactive (clickable) */
-/* Uses public/Front/mouse1.svg for normal, public/Front/mouse2.svg for clickable */
-/* Default mouse (applied globally) */
-* {
-  cursor: url('/Front/mu1.png') 2 2, auto !important;
+/* Mobile-only scaling utility: make image 20% wider and center it (cropped by container) */
+@media (max-width: 767px) {
+  .mobile-scale-120 {
+    width: 120%;
+    margin-left: -10%;
+    display: block;
+    object-fit: cover;
+    height: auto;
+  }
+}
+@media (min-width: 768px) {
+  .mobile-scale-120 {
+    width: 100%;
+    margin-left: 0;
+    display: block;
+  }
 }
 
-/* Interactive / clickable elements */
-:where(a, button, [role="button"], input[type="button"], input[type="submit"], .cursor-pointer) {
-  cursor: url('/Front/mu2.png') 2 2, url('/Front/mouse2.svg') 2 2, pointer !important;
-}
+/* Custom cursors: default and interactive (clickable)
+   Apply only on non-touch / medium+ screens to avoid using custom cursors on mobile devices. */
+@media (min-width: 768px) {
+  /* Default mouse (applied globally) */
+  * {
+    cursor: url('/Front/mu1.png') 2 2, auto !important;
+  }
 
-/* Utility class to force clickable cursor when needed */
-.clickable {
-  cursor: url('/Front/mu2.png') 2 2, url('/Front/mouse2.svg') 2 2, pointer !important;
-}
+  /* Interactive / clickable elements */
+  :where(a, button, [role="button"], input[type="button"], input[type="submit"], .cursor-pointer) {
+    cursor: url('/Front/mu2.png') 2 2, url('/Front/mouse2.svg') 2 2, pointer !important;
+  }
 
-/* Specific class for custom buttons to use the custom cursor */
-.my-button {
-  cursor: url('/Front/mu2.png') 2 2, url('/Front/mouse2.svg') 2 2, pointer !important;
+  /* Utility class to force clickable cursor when needed */
+  .clickable {
+    cursor: url('/Front/mu2.png') 2 2, url('/Front/mouse2.svg') 2 2, pointer !important;
+  }
+
+  /* Specific class for custom buttons to use the custom cursor */
+  .my-button {
+    cursor: url('/Front/mu2.png') 2 2, url('/Front/mouse2.svg') 2 2, pointer !important;
+  }
 }
 
 /* Utility to hide scrollbar but keep scrolling functional */

@@ -16,7 +16,8 @@ const nextConfig = {
   // Replace or add additional origins if your phone's IP changes.
   // See: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
   allowedDevOrigins: [
-    "http://192.168.20.172:3000"
+    "http://192.168.20.172:3000",
+    "http://192.168.68.118:3000"
   ],
 }
 
