@@ -3,6 +3,7 @@
 import { Header } from "@/components/header"
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import React, { useEffect, useState } from 'react'
 
 // Full SC26 media list (images + videos)
 const SC26_IMAGES = [
@@ -31,6 +32,12 @@ const SC26_IMAGES = [
 export default function S26Page() {
   const allImages = SC26_IMAGES
   const router = useRouter()
+  const [cacheBuster, setCacheBuster] = useState<string>('')
+
+  useEffect(() => {
+    // set a client-only cache buster so images reload after hydration
+    setCacheBuster(String(Date.now()))
+  }, [])
 
   const handleMobileTap = (src: string) => {
     if (typeof window === 'undefined') return
@@ -139,7 +146,11 @@ export default function S26Page() {
                     {src.toLowerCase().endsWith('.mp4') ? (
                       <video src={src} className="w-full h-full object-cover" autoPlay loop muted playsInline />
                     ) : (
-                      <img src={src} alt={`S26 ${idx + 1}`} className="w-full h-full object-cover" loading="lazy" />
+                      (() => {
+                        const cb = cacheBuster ? (src.includes('?') ? `&cb=${cacheBuster}` : `?cb=${cacheBuster}`) : ''
+                        const displaySrc = `${src}${cb}`
+                        return <img src={displaySrc} alt={`S26 ${idx + 1}`} className="w-full h-full object-cover" loading="lazy" />
+                      })()
                     )}
                   </div>
                 )
