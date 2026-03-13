@@ -46,6 +46,7 @@ export default function CheckoutPage() {
   const subtotal = cartSubtotal
   const total = subtotal + shipping
   const prMounted = useRef(false)
+  const [isClient, setIsClient] = useState(false)
 
   function update<K extends keyof FormState>(k: K, v: FormState[K]) {
     setForm((s) => ({ ...s, [k]: v }))
@@ -65,6 +66,10 @@ export default function CheckoutPage() {
     )
   }
 
+  useEffect(() => {
+    setIsClient(true)
+    return () => {}
+  }, [])
   useEffect(() => {
     // Setup Stripe Payment Request Button (Google Pay / Apple Pay) when available
     let mounted = true
@@ -267,7 +272,7 @@ export default function CheckoutPage() {
                 <button onClick={() => setShowSummaryOnMobile((s) => !s)} className="w-full p-3 rounded bg-[#f8fa41] text-black font-medium">{showSummaryOnMobile ? 'Hide order summary' : 'Show order summary'}</button>
               </div>
 
-              {(showSummaryOnMobile || typeof window !== 'undefined' && window.innerWidth >= 768) && (
+              {(showSummaryOnMobile || (isClient && window.innerWidth >= 768)) && (
                 <div className="bg-gray-50 p-6 rounded">
                   <div className="flex flex-col gap-4">
                     {cartItems.length === 0 ? (
