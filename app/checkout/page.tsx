@@ -1,9 +1,10 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useRef } from "react"
 import { useCart } from "@/components/cart"
 import { Header } from "@/components/header"
 import Link from "next/link"
+import getStripe from '@/lib/stripe'
 
 type FormState = {
   shippingMethod: "ship"
@@ -44,6 +45,7 @@ export default function CheckoutPage() {
   const shipping = form.shippingMethod === "ship" ? 200 : 0
   const subtotal = cartSubtotal
   const total = subtotal + shipping
+  const prMounted = useRef(false)
 
   function update<K extends keyof FormState>(k: K, v: FormState[K]) {
     setForm((s) => ({ ...s, [k]: v }))
@@ -64,9 +66,85 @@ export default function CheckoutPage() {
   }
 
   useEffect(() => {
+    // Setup Stripe Payment Request Button (Google Pay / Apple Pay) when available
+    let mounted = true
+    async function initPaymentRequest() {
+      try {
+        const stripe = await getStripe()
+        if (!stripe || !mounted) return
+        const paymentRequest = stripe.paymentRequest({
+          country: 'MX',
+          currency: 'mxn',
+          total: { label: 'Total', amount: total },
+          requestPayerName: true,
+          requestPayerEmail: true,
+        })
+
+        const canMake = await paymentRequest.canMakePayment()
+        if (!canMake) return
+        const elements = stripe.elements()
+        const prButton = elements.create('paymentRequestButton', { paymentRequest })
+        const mountEl = document.getElementById('payment-request-button')
+        if (mountEl && !prMounted.current) {
+          prButton.mount('#payment-request-button')
+          prMounted.current = true
+        }
+
+        paymentRequest.on('paymentmethod', async (ev: any) => {
+          setLoading(true)
+          try {
+            const res = await fetch('/api/checkout/payment_intent', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ amount: total }),
+            })
+            const data = await res.json()
+            if (data.error || !data.clientSecret) {
+              ev.complete('fail')
+              setLoading(false)
+              return
+            }
+
+            const clientSecret = data.clientSecret
+            const confirmResult = await stripe.confirmCardPayment(clientSecret, { payment_method: ev.paymentMethod.id }, { handleActions: false })
+            if (confirmResult.error) {
+              ev.complete('fail')
+              setLoading(false)
+              return
+            }
+
+            if (confirmResult.paymentIntent && confirmResult.paymentIntent.status === 'requires_action') {
+              const finalResult = await stripe.confirmCardPayment(clientSecret)
+              if (finalResult.error) {
+                ev.complete('fail')
+                setLoading(false)
+                return
+              }
+              ev.complete('success')
+              window.location.href = `/checkout/success?session_id=${finalResult.paymentIntent.id}`
+            } else {
+              ev.complete('success')
+              window.location.href = `/checkout/success?session_id=${confirmResult.paymentIntent?.id ?? ''}`
+            }
+          } catch (err) {
+            console.error(err)
+            ev.complete('fail')
+          } finally {
+            setLoading(false)
+          }
+        })
+      } catch (err) {
+        // ignore
+      }
+    }
+
+    initPaymentRequest()
+    return () => { mounted = false }
+  }, [total])
+
+  useEffect(() => {
     if (process.env.NODE_ENV === 'production') return
     function logger(e: MouseEvent) {
-      // log target info to help diagnose unexpected navigation
       try {
         // eslint-disable-next-line no-console
         console.log('CLICK LOGGER:', { target: (e.target as Element)?.outerHTML?.slice?.(0, 200), path: (e as any).composedPath?.()?.map((n: any) => n?.nodeName).slice?.(0,8) })
@@ -133,6 +211,7 @@ export default function CheckoutPage() {
                 <ClickableButton onClick={() => alert('PayPal integration not configured')} className="py-3 px-4 bg-[#f8fa41] text-black font-medium">PayPal</ClickableButton>
                 <ClickableButton onClick={createCheckoutSession} className="py-3 px-4 bg-black text-white font-medium">GPay / Apple Pay</ClickableButton>
               </div>
+              <div id="payment-request-button" className="mt-4"></div>
             </div>
 
             <div className="bg-white p-6 shadow rounded">
