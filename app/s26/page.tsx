@@ -1,6 +1,7 @@
 "use client"
 
 import { Header } from "@/components/header"
+import Link from 'next/link'
 
 // Use images stored in public/SC26 for the masonry gallery
 const SC26_IMAGES = [
@@ -19,7 +20,9 @@ export default function S26Page() {
       <main className="min-h-screen pt-12 py-12 px-4 md:px-8 bg-background text-foreground">
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-center mb-6">
-            <img src="/Front/PP-LOGO-LTTRNG-A-02.png" alt="S26" width={192} height={50} className="object-contain" />
+            <Link href="/">
+              <img src="/Front/PP-LOGO-LTTRNG-A-02.png" alt="S26" width={192} height={50} className="object-contain cursor-pointer" />
+            </Link>
           </div>
 
           <h1 className="text-xl md:text-2xl font-semibold mb-6 italic text-[#dbdbdb] text-center">S26 Collection</h1>

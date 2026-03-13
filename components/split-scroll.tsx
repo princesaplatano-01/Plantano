@@ -10,7 +10,7 @@ export function SplitScroll() {
   const { t } = useTranslation()
 
   return (
-    <section aria-label="Split scroll section" className="w-full">
+    <section aria-label="Split scroll section" className="w-full mt-5">
       {/*
         Desktop: two columns, right column height = 3 * 100vh so the left sticky
         image remains visible while the right column is scrolled through.
@@ -20,11 +20,15 @@ export function SplitScroll() {
       <div className="md:grid md:grid-cols-2 md:h-[300vh]">
         {/* Left column: sticky image (only on md and up) */}
         <div className="md:sticky md:top-0 md:h-screen">
-          <img
-            src="/SCROLL/IMG_0224%20i.jpg"
-            alt="Sticky artwork"
+          <video
+            src="/SCROLL/video%20andres%20split.mp4"
+            aria-label="Sticky artwork"
             className="w-full h-screen object-cover"
             style={{ objectFit: "cover" }}
+            autoPlay
+            loop
+            muted
+            playsInline
           />
         </div>
 
@@ -108,7 +112,7 @@ export function SplitScroll() {
                  {t('aboutPrincesaPlatanoHome')}
                  </div>
                  <div className="mt-4">
-                  <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">{t('shopNow')}</span>
+                  <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">Know More</span>
                  </div>
                </div>
           </div>
