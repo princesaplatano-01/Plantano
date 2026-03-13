@@ -2,6 +2,7 @@
 
 import { Header } from "@/components/header"
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 // Full SC26 media list (images + videos)
 const SC26_IMAGES = [
@@ -29,6 +30,45 @@ const SC26_IMAGES = [
 
 export default function S26Page() {
   const allImages = SC26_IMAGES
+  const router = useRouter()
+
+  const handleMobileTap = (src: string) => {
+    if (typeof window === 'undefined') return
+    if (window.innerWidth >= 768) return // only on mobile (<768px)
+    if (src.includes('DSC06748.jpg') || src.includes('DSC07027.jpg')) {
+      router.push('/new-in/2')
+      return
+    }
+    if (src.includes('gif collar.gif')) {
+      router.push('/new-in/11')
+      return
+    }
+    if (
+      src.includes('IMG_0224 a.jpg') ||
+      src.includes('IMG_0224 i.jpg') ||
+      src.includes('IMG_1206.JPG') ||
+      src.includes('Pa_07.jpg')
+    ) {
+      router.push('/new-in/7')
+      return
+    }
+    if (src.includes('Pa_08.jpg')) {
+      router.push('/new-in/8')
+      return
+    }
+    if (src.includes('Pa_09.jpg')) {
+      router.push('/new-in/9')
+      return
+    }
+    if (src.includes('Pa_10.jpg')) {
+      router.push('/new-in/10')
+      return
+    }
+    if (src.includes('Pa_02.JPG')) {
+      router.push('/new-in/2')
+      return
+    }
+  }
 
   const ASPECT_RATIOS = [
     '3 / 4', // DSC06748.jpg
@@ -83,7 +123,7 @@ export default function S26Page() {
             </Link>
           </div>
 
-          <h1 className="text-xl md:text-2xl font-semibold mb-4 italic text-white text-center">S26 Collection</h1>
+          <h1 className="mt-[50px] md:mt-0 text-xl md:text-2xl font-semibold mb-4 italic text-white text-center">S26 Collection</h1>
 
           <section>
             <div className="flex flex-col md:grid md:grid-cols-[1fr_2fr_1fr] gap-2">
@@ -92,9 +132,10 @@ export default function S26Page() {
                 const isLarge = idx % 4 === 0
                 const largeGroup = Math.floor(idx / 4)
                 const startClass = largeGroup % 2 === 0 ? 'md:col-start-1' : 'md:col-start-2'
-                const containerClass = `relative overflow-hidden md:bg-muted md:rounded ${isLarge ? `${startClass} md:col-span-2` : ''} ${idx === 0 ? 'mt-[60px] md:mt-0' : ''}`
+                const isBottomUnlinked = src.includes('WhatsApp Video 2026-03-12 at 21.09.43.mp4')
+                const containerClass = `relative overflow-hidden md:bg-muted md:rounded ${isLarge ? `${startClass} md:col-span-2` : ''} ${idx === 0 ? 'mt-[40px] md:mt-0' : ''} ${isBottomUnlinked ? 'md:hidden' : ''}`
                 return (
-                  <div key={`g-${idx}`} className={containerClass} style={{ aspectRatio: aspect }}>
+                  <div key={`g-${idx}`} className={containerClass} style={{ aspectRatio: aspect }} onClick={() => handleMobileTap(src)}>
                     {src.toLowerCase().endsWith('.mp4') ? (
                       <video src={src} className="w-full h-full object-cover" autoPlay loop muted playsInline />
                     ) : (
