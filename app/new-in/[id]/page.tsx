@@ -103,7 +103,7 @@ export default function ProductPage() {
                     prevImage()
                   }}
                   aria-label="Previous image"
-                    className="opacity-0 group-hover:opacity-100 transition absolute left-2 top-1/2 -translate-y-1/2 text-[#454545] rounded text-3xl p-4 bg-white/10"
+                    className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition absolute left-2 top-1/2 -translate-y-1/2 text-[#454545] rounded text-3xl p-4 bg-white/10"
                 >
                   ‹
                 </button>
@@ -114,13 +114,29 @@ export default function ProductPage() {
                       nextImage()
                     }}
                     aria-label="Next image"
-                    className="opacity-0 group-hover:opacity-100 transition absolute right-2 top-1/2 -translate-y-1/2 text-[#454545] rounded text-3xl p-4 bg-white/10"
+                    className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition absolute right-2 top-1/2 -translate-y-1/2 text-[#454545] rounded text-3xl p-4 bg-white/10"
                   >
                     ›
                   </button>
 
                 
               </>
+            )}
+            {images.length > 1 && (
+              <div className="absolute left-1/2 -translate-x-1/2 bottom-3 flex items-center gap-2">
+                {images.map((_, i) => (
+                  <button
+                    key={i}
+                    aria-label={`Show image ${i + 1}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setImageIdx(i)
+                    }}
+                    className={`w-2 h-2 rounded-full transition-colors ${imageIdx === i ? 'bg-white' : 'bg-white/40'}`}
+                  />
+                ))}
+              </div>
             )}
           </div>
 
