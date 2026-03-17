@@ -227,7 +227,7 @@ export default function S26Page() {
                       [1000, 778, 881, 975], // b14: 137 x 197
 
                       // Row 4
-                      [60, 1200, 310, 1520],   // b15: 250 x 320
+                      [80, 1250, 1390, 1520],   // b15: 250 x 320
                       [380, 1250, 560, 1500],  // b16: 180 x 250
                       [620, 1180, 850, 1480],  // b17: 230 x 300
                       [880, 1220, 1050, 1550], // b18: 170 x 330
@@ -239,7 +239,26 @@ export default function S26Page() {
                     ]
 
                     return boxes.map((b, i) => {
-                      const [x1, y1, x2, y2] = b
+                      // Allow box entries to be either [x1, y1, x2, y2] or [x, y, width, height]
+                      let x1 = b[0]
+                      let y1 = b[1]
+                      let x2 = b[2]
+                      let y2 = b[3]
+
+                      // Detect [x, y, width, height] when the third/fourth values fall
+                      // into the expected width/height ranges (width:120-250, height:200-350).
+                      const maybeWidth = Number(b[2])
+                      const maybeHeight = Number(b[3])
+                      if (
+                        Number.isFinite(maybeWidth) &&
+                        Number.isFinite(maybeHeight) &&
+                        maybeWidth >= 120 && maybeWidth <= 250 &&
+                        maybeHeight >= 200 && maybeHeight <= 350
+                      ) {
+                        x2 = x1 + maybeWidth
+                        y2 = y1 + maybeHeight
+                      }
+
                       const left = (x1 / refW) * 100
                       const top = (y1 / refH) * 100
                       const width = ((x2 - x1) / refW) * 100
