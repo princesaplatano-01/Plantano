@@ -197,68 +197,32 @@ export default function S26Page() {
           <h1 className="mt-[40px] md:mt-0 text-xl md:text-2xl font-semibold mb-3 italic text-white text-center">S26 Collection</h1>
 
           <section>
-            {/* Desktop: absolute-positioned canvas based on reference coordinates */}
+            {/* Desktop: grid-based mosaic to increase tile sizes and avoid overlap */}
             <div className="hidden md:flex justify-center">
-              <div className="relative w-full" style={{ maxWidth: 985 }}>
-                {/* preserve aspect ratio of reference (985 x 896) */}
-                <div style={{ width: '100%', paddingTop: `${(896 / 985) * 100}%`, position: 'relative' }}>
-                  {/* bounding boxes (x1,y1,x2,y2) mapped to percentages of 985x896 */}
-                  {(() => {
-                    const refW = 985
-                    const refH = 896
-                    // User-provided boxes (converted to [x1, y1, x2, y2])
-                    const boxes = [
-                      // Row 1 (Top)
-                      [-100, -50, 400, 574], // b1: 253 x 319
-                      [303, 100, 400, 311], // b2: 97 x 254
-                      [430, 106, 572, 332], // b3: 142 x 226
-                      [602, 189, 720, 497], // b4: 118 x 308
-                      [745, 54, 886, 428], // b5: 141 x 374
-                      // Row 2 (Middle)
-                      [44, 376, 226, 613], // b6: 182 x 237
-                      [239, 361, 399, 610], // b7: 160 x 249
-                      [414, 399, 575, 588], // b8: 161 x 189
-                      [748, 446, 885, 765], // b9: 137 x 319
-                      // Row 3 (Bottom)
-                      [40, 635, 243, 873], // b10: 203 x 238
-                      [267, 643, 435, 865], // b11: 168 x 222
-                      [454, 634, 568, 930], // b12: 114 x 296
-                      [592, 542, 731, 867], // b13: 139 x 325
-                      [744, 778, 881, 975], // b14: 137 x 197
-                    ]
+              <div className="w-full" style={{ maxWidth: 1100 }}>
+                <div className="grid gap-4" style={{ gridTemplateColumns: 'repeat(6, 1fr)', alignItems: 'start' }}>
+                  {B_IMAGES.slice(0, 14).map((src, i) => {
+                    const cb = cacheBuster ? (src.includes('?') ? `&cb=${cacheBuster}` : `?cb=${cacheBuster}`) : ''
+                    const displaySrc = `${src}${cb}`
+                    // make the first tile larger to mimic the previous design
+                    const extraClass = i === 0 ? 'md:col-span-3 md:row-span-2' : LAYOUT_CLASSES[i] ?? 'md:col-span-2'
+                    const isEnlarged = enlarged.includes(i)
+                    const aspect = ASPECT_RATIOS[i] ?? '3 / 4'
+                    const [w, h] = aspect.split('/').map((s) => Number(s.trim()))
+                    const paddingTop = h && w ? `${(h / w) * 100}%` : '133%'
 
-                    return boxes.map((b, i) => {
-                      const [x1, y1, x2, y2] = b
-                      const left = (x1 / refW) * 100
-                      const top = (y1 / refH) * 100
-                      const width = ((x2 - x1) / refW) * 100
-                      const height = ((y2 - y1) / refH) * 100
-                      // use user-provided b-images in the exact provided order (b1..b20)
-                      const src = B_IMAGES[i]
-                      const cb = cacheBuster ? (src.includes('?') ? `&cb=${cacheBuster}` : `?cb=${cacheBuster}`) : ''
-                      const displaySrc = `${src}${cb}`
-
-                      const isEnlarged = enlarged.includes(i)
-                      const boxStyle: React.CSSProperties = {
-                        position: 'absolute',
-                        left: `${left}%`,
-                        top: `${top}%`,
-                        width: `${width}%`,
-                        height: `${height}%`,
-                        zIndex: isEnlarged ? 20 : undefined,
-                      }
-
-                      return (
-                        <div key={`box-${i}`} onClick={() => handleMobileTap(src)} style={boxStyle}>
-                          {displaySrc.toLowerCase().endsWith('.mp4') ? (
-                            <video src={displaySrc} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center' }} autoPlay loop muted playsInline />
+                    return (
+                      <div key={`box-${i}`} onClick={() => handleMobileTap(src)} className={`${extraClass} relative`} style={{ zIndex: isEnlarged ? 20 : undefined }}>
+                        <div style={{ width: '100%', paddingTop, position: 'relative' }}>
+                          {displaySrc.toLowerCase().endsWith('.mp4') || displaySrc.toLowerCase().endsWith('.gif') ? (
+                            <video src={displaySrc} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} autoPlay loop muted playsInline />
                           ) : (
-                            <img src={displaySrc} alt={`S26 ${i + 1}`} style={{ width: '100%', height: '100%', objectFit: 'contain', objectPosition: 'center', display: 'block' }} loading="lazy" />
+                            <img src={displaySrc} alt={`S26 ${i + 1}`} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }} loading="lazy" />
                           )}
                         </div>
-                      )
-                    })
-                  })()}
+                      </div>
+                    )
+                  })}
                 </div>
               </div>
             </div>
