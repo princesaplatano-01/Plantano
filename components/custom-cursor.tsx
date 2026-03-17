@@ -42,7 +42,8 @@ export default function CustomCursor() {
     el.style.top = '0'
     el.style.left = '0'
     el.style.pointerEvents = 'none'
-    el.style.zIndex = '9999'
+    // Ensure cursor sits above modal drawers and menus (which use z ~20000+)
+    el.style.zIndex = '30005'
     el.style.transform = 'translate3d(0,0,0) translate(-50%,-50%)'
     el.style.transition = 'opacity 80ms linear'
     el.style.opacity = '0'

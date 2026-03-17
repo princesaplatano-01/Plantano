@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useTranslation } from "@/lib/translations"
 
@@ -8,6 +8,12 @@ export function SplitScroll() {
   const router = useRouter()
 
   const { t } = useTranslation()
+  const [videoSrc, setVideoSrc] = useState<string>(encodeURI('/SCROLL/video andres split.mp4'))
+
+  useEffect(() => {
+    // append a client-only cache buster so updated video files reload
+    setVideoSrc(encodeURI('/SCROLL/video andres split.mp4') + `?cb=${Date.now()}`)
+  }, [])
 
   return (
     <section aria-label="Split scroll section" className="w-full mt-5">
@@ -21,7 +27,7 @@ export function SplitScroll() {
         {/* Left column: sticky image (only on md and up) */}
         <div className="md:sticky md:top-0 md:h-screen">
           <video
-            src="/SCROLL/video%20andres%20split.mp4"
+            src={videoSrc}
             aria-label="Sticky artwork"
             className="w-full h-screen object-cover"
             style={{ objectFit: "cover" }}

@@ -63,6 +63,7 @@ export default async function RootLayout({
   return (
     <html lang={initialLang === 'ES' ? 'es' : 'en'}>
       <body className={`${inter.variable} ${playfair.variable} font-sans antialiased`}>
+        <script src="https://js.stripe.com/v3/"></script>
         <TranslationProvider initialLanguage={initialLang}>
           <CartProvider>
             {children}

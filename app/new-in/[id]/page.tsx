@@ -6,7 +6,8 @@ import { useRouter, useParams } from "next/navigation"
 import { useCart } from "@/components/cart"
 import AddToCart from "@/components/add-to-cart"
 import { Header } from "@/components/header"
-import { IMAGES, PRICES, SOLD, DESCRIPTIONS } from "@/lib/products"
+import { IMAGES, PRICES, DESCRIPTIONS } from "@/lib/products"
+import { getStock, listenStockUpdate } from "@/lib/stock"
 import { useTranslation } from "@/lib/translations"
 import { useState, useRef, useEffect } from "react"
 
@@ -146,29 +147,48 @@ export default function ProductPage() {
             {DESCRIPTIONS[idx] && (
               <div className="text-sm text-muted-foreground mt-2">{DESCRIPTIONS[idx]}</div>
             )}
-            {SOLD[idx] ? (
-              <>
-                <div className="text-sm text-muted-foreground">OUT OF STOCK</div>
-                {!sent ? (
-                  <div className="mt-4">
-                    <button
-                      ref={notifyBtnRef}
-                      onClick={() => setModalOpen(true)}
-                      className="w-full py-2 bg-white text-black font-medium"
-                    >
-                      DON'T MISS THE NEXT DROP
-                    </button>
-                  </div>
-                ) : (
-                  <div className="mt-4 text-sm">Thank you — we'll notify you when available.</div>
-                )}
-              </>
-            ) : (
-              <>
-                <div className="text-sm text-muted-foreground">IN STOCK</div>
-                <AddToCart id={`newin-${id}`} name={t((`product${id}`) as any)} price={price} image={src} className="mt-4 px-4 py-2 border border-white text-white">Add to cart</AddToCart>
-              </>
-            )}
+                      {
+                        (() => {
+                          const [stock, setStock] = (() => {
+                            const s = getStock(idx)
+                            const [st, setSt] = useState(s)
+                            useEffect(() => {
+                              const cb = () => setSt(getStock(idx))
+                              const off = listenStockUpdate(cb)
+                              return off
+                            }, [idx])
+                            return [st, setSt] as const
+                          })()
+
+                          if (stock === 0) {
+                            return (
+                              <>
+                                <div className="text-sm text-muted-foreground">OUT OF STOCK</div>
+                                {!sent ? (
+                                  <div className="mt-4">
+                                    <button
+                                      ref={notifyBtnRef}
+                                      onClick={() => setModalOpen(true)}
+                                      className="w-full py-2 bg-white text-black font-medium"
+                                    >
+                                      DON'T MISS THE NEXT DROP
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <div className="mt-4 text-sm">Thank you — we'll notify you when available.</div>
+                                )}
+                              </>
+                            )
+                          }
+
+                          return (
+                            <>
+                              <div className="text-sm text-muted-foreground">IN STOCK</div>
+                              <AddToCart id={`newin-${id}`} name={t((`product${id}`) as any)} price={price} image={src} className="mt-4 px-4 py-2 border border-white text-white">Add to cart</AddToCart>
+                            </>
+                          )
+                        })()
+                      }
             </div>
 
             {/* Modal for notify */}

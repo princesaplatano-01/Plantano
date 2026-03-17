@@ -109,8 +109,8 @@ const translations = {
     // About page
     aboutHeading1: "Princesa Plátano is an ode to my inner child that's what I used to call myself.",
     aboutHeading2: "Now it's a brand that celebrates being different and unique.",
-    aboutPara1: "Princesa Plátano creates one of a kind pieces, handmade in Mexico. Crafted with global treasures I’ve discovered through my adventures around the world. Each piece is eclectic, special, and truly unique.",
-    aboutPara2: "No repeats. No copies.",
+    aboutPara1: "Princesa Plátano creates one of a kind pieces, handmade in Mexico slowly and intentionally by my own hands, almost like a small ritual of creation. Each design is made with global treasures I’ve discovered through my adventures around the world, using ethically and thoughtfully sourced materials that celebrate craftsmanship, culture, and individuality. Every piece is eclectic, special, and truly unique.",
+    aboutPara2: "",
     
     // Contact page
     contactHeading: "Contact",
@@ -229,7 +229,7 @@ const translations = {
     aboutHeading1: "Princesa Plátano es un homenaje a mi niña interior, así es como solía llamarme.",
     aboutHeading2: "Ahora es una marca que celebra ser diferente y único.",
     aboutPara1: "Princesa Plátano crea piezas únicas, hechas a mano en México. Elaboradas con tesoros globales que he descubierto en mis aventuras por el mundo. Cada pieza es ecléctica, especial y verdaderamente única.",
-    aboutPara2: "Sin repeticiones. Sin copias.",
+    aboutPara2: "",
 
     // Contact page
     contactHeading: "Contacto",

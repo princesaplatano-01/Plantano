@@ -5,6 +5,7 @@ import { useCart } from "@/components/cart"
 import { Header } from "@/components/header"
 import Link from "next/link"
 import getStripe from '@/lib/stripe'
+import GooglePayButton from '@/components/google-pay-button'
 
 type FormState = {
   shippingMethod: "ship"
@@ -17,6 +18,7 @@ type FormState = {
   state: string
   country: string
   phone: string
+  phoneCountryCode: string
   emailOrPhone: string
   emailOffers: boolean
 }
@@ -32,6 +34,7 @@ const defaultForm: FormState = {
   state: "",
   country: "MX",
   phone: "",
+  phoneCountryCode: "+52",
   emailOrPhone: "",
   emailOffers: false,
 }
@@ -42,10 +45,12 @@ export default function CheckoutPage() {
   const [showSummaryOnMobile, setShowSummaryOnMobile] = useState(false)
 
   const { items: cartItems, subtotal: cartSubtotal, itemCount } = useCart()
-  const shipping = form.shippingMethod === "ship" ? 200 : 0
+  // store amounts in centavos (smallest MXN unit)
+  const shipping = form.shippingMethod === "ship" ? 200 * 100 : 0
   const subtotal = cartSubtotal
   const total = subtotal + shipping
-  const prMounted = useRef(false)
+  const currencyFormatter = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' })
+  
   const [isClient, setIsClient] = useState(false)
 
   function update<K extends keyof FormState>(k: K, v: FormState[K]) {
@@ -70,82 +75,7 @@ export default function CheckoutPage() {
     setIsClient(true)
     return () => {}
   }, [])
-  useEffect(() => {
-    // Setup Stripe Payment Request Button (Google Pay / Apple Pay) when available
-    let mounted = true
-    async function initPaymentRequest() {
-      try {
-        const stripe = await getStripe()
-        if (!stripe || !mounted) return
-        const paymentRequest = stripe.paymentRequest({
-          country: 'MX',
-          currency: 'mxn',
-          total: { label: 'Total', amount: total },
-          requestPayerName: true,
-          requestPayerEmail: true,
-        })
-
-        const canMake = await paymentRequest.canMakePayment()
-        if (!canMake) return
-        const elements = stripe.elements()
-        const prButton = elements.create('paymentRequestButton', { paymentRequest })
-        const mountEl = document.getElementById('payment-request-button')
-        if (mountEl && !prMounted.current) {
-          prButton.mount('#payment-request-button')
-          prMounted.current = true
-        }
-
-        paymentRequest.on('paymentmethod', async (ev: any) => {
-          setLoading(true)
-          try {
-            const res = await fetch('/api/checkout/payment_intent', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ amount: total }),
-            })
-            const data = await res.json()
-            if (data.error || !data.clientSecret) {
-              ev.complete('fail')
-              setLoading(false)
-              return
-            }
-
-            const clientSecret = data.clientSecret
-            const confirmResult = await stripe.confirmCardPayment(clientSecret, { payment_method: ev.paymentMethod.id }, { handleActions: false })
-            if (confirmResult.error) {
-              ev.complete('fail')
-              setLoading(false)
-              return
-            }
-
-            if (confirmResult.paymentIntent && confirmResult.paymentIntent.status === 'requires_action') {
-              const finalResult = await stripe.confirmCardPayment(clientSecret)
-              if (finalResult.error) {
-                ev.complete('fail')
-                setLoading(false)
-                return
-              }
-              ev.complete('success')
-              window.location.href = `/checkout/success?session_id=${finalResult.paymentIntent.id}`
-            } else {
-              ev.complete('success')
-              window.location.href = `/checkout/success?session_id=${confirmResult.paymentIntent?.id ?? ''}`
-            }
-          } catch (err) {
-            console.error(err)
-            ev.complete('fail')
-          } finally {
-            setLoading(false)
-          }
-        })
-      } catch (err) {
-        // ignore
-      }
-    }
-
-    initPaymentRequest()
-    return () => { mounted = false }
-  }, [total])
+ 
 
   useEffect(() => {
     if (process.env.NODE_ENV === 'production') return
@@ -216,7 +146,7 @@ export default function CheckoutPage() {
                 <ClickableButton onClick={() => alert('PayPal integration not configured')} className="py-3 px-4 bg-[#f8fa41] text-black font-medium">PayPal</ClickableButton>
                 <ClickableButton onClick={createCheckoutSession} className="py-3 px-4 bg-black text-white font-medium">GPay / Apple Pay</ClickableButton>
               </div>
-              <div id="payment-request-button" className="mt-4"></div>
+              <GooglePayButton amount={total} />
             </div>
 
             <div className="bg-white p-6 shadow rounded">
@@ -249,20 +179,28 @@ export default function CheckoutPage() {
                 </ClickableLabel>
               </div>
 
-                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
-                <input value={form.firstName} onChange={(e) => update('firstName', e.target.value)} placeholder="First Name" className="p-3 border rounded" />
-                <input value={form.lastName} onChange={(e) => update('lastName', e.target.value)} placeholder="Last Name" className="p-3 border rounded" />
-                <input value={form.address} onChange={(e) => update('address', e.target.value)} placeholder="Address" className="p-3 border rounded md:col-span-2" />
-                <input value={form.apartment} onChange={(e) => update('apartment', e.target.value)} placeholder="Apartment (optional)" className="p-3 border rounded md:col-span-2" />
-                <input value={form.city} onChange={(e) => update('city', e.target.value)} placeholder="City" className="p-3 border rounded" />
-                <input value={form.postalCode} onChange={(e) => update('postalCode', e.target.value)} placeholder="Postal Code" className="p-3 border rounded" />
-                <input value={form.state} onChange={(e) => update('state', e.target.value)} placeholder="State" className="p-3 border rounded" />
-                <input value={form.phone} onChange={(e) => update('phone', e.target.value)} placeholder="Phone" className="p-3 border rounded" />
-                <select value={form.country} onChange={(e) => update('country', e.target.value)} className="p-3 border rounded">
-                  <option value="MX">Mexico</option>
-                  <option value="US">United States</option>
-                </select>
-              </div>
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <input value={form.firstName} onChange={(e) => update('firstName', e.target.value)} placeholder="First Name" className="p-3 border rounded h-12" />
+                  <input value={form.lastName} onChange={(e) => update('lastName', e.target.value)} placeholder="Last Name" className="p-3 border rounded h-12" />
+                  <input value={form.address} onChange={(e) => update('address', e.target.value)} placeholder="Address" className="p-3 border rounded md:col-span-2 h-12" />
+                  <input value={form.apartment} onChange={(e) => update('apartment', e.target.value)} placeholder="Apartment (optional)" className="p-3 border rounded md:col-span-2 h-12" />
+                  <input value={form.city} onChange={(e) => update('city', e.target.value)} placeholder="City" className="p-3 border rounded h-12" />
+                  <input value={form.postalCode} onChange={(e) => update('postalCode', e.target.value)} placeholder="Postal Code" className="p-3 border rounded h-12" />
+                  <input value={form.state} onChange={(e) => update('state', e.target.value)} placeholder="State" className="p-3 border rounded h-12" />
+                  <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
+                    <select value={form.phoneCountryCode} onChange={(e) => update('phoneCountryCode', e.target.value)} className="p-3 border rounded w-20 h-12 box-border">
+                      <option value="+52">+52 MX</option>
+                      <option value="+1">+1 US</option>
+                      <option value="+44">+44 UK</option>
+                      <option value="+34">+34 ES</option>
+                    </select>
+                    <input value={form.phone} onChange={(e) => update('phone', e.target.value)} placeholder="Phone" className="p-3 border rounded h-12 box-border w-full" />
+                  </div>
+                  <select value={form.country} onChange={(e) => update('country', e.target.value)} className="p-3 border rounded md:col-span-2 h-12">
+                    <option value="MX">Mexico</option>
+                    <option value="US">United States</option>
+                  </select>
+                </div>
             </div>
           </section>
 
@@ -286,7 +224,7 @@ export default function CheckoutPage() {
                           <div className="flex-1">
                             <div className="font-medium">{ci.name}</div>
                             <div className="text-sm text-muted-foreground">Qty: {ci.quantity}</div>
-                            <div className="text-sm text-muted-foreground">${(ci.price * ci.quantity).toFixed(0)}</div>
+                            <div className="text-sm text-muted-foreground">{currencyFormatter.format((ci.price * ci.quantity) / 100)}</div>
                           </div>
                         </div>
                       ))
@@ -296,15 +234,15 @@ export default function CheckoutPage() {
                   <div className="mt-6">
                     <div className="flex items-center justify-between text-sm">
                       <span>Subtotal</span>
-                      <span>${(subtotal / 100).toFixed(2)}</span>
+                      <span>{currencyFormatter.format(subtotal / 100)}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm mt-2">
                       <span>Shipping</span>
-                      <span>${(shipping / 100).toFixed(2)}</span>
+                      <span>{currencyFormatter.format(shipping / 100)}</span>
                     </div>
                     <div className="flex items-center justify-between text-base font-bold mt-4">
                       <span>Total</span>
-                      <span>${(total / 100).toFixed(2)}</span>
+                      <span>{currencyFormatter.format(total / 100)}</span>
                     </div>
                   </div>
                 </div>

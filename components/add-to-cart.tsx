@@ -2,6 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react"
 import { useCart } from "@/components/cart"
+import { decrementByProductId } from "@/lib/stock"
 
 type Props = {
   id: string
@@ -20,8 +21,14 @@ export default function AddToCart({ id, name, price, image, quantity = 1, classN
 
   function handleAdd(e?: React.MouseEvent) {
     if (e) e.stopPropagation()
-    addToCart({ id, name, price, quantity, image })
+    const priceInCentavos = Math.round(price * 100)
+    addToCart({ id, name, price: priceInCentavos, quantity, image })
     setClicked(true)
+    try {
+      decrementByProductId(id, quantity)
+    } catch (err) {
+      // ignore
+    }
     if (tRef.current) window.clearTimeout(tRef.current)
     tRef.current = window.setTimeout(() => setClicked(false), 200)
   }

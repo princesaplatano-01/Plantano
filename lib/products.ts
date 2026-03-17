@@ -59,3 +59,6 @@ export const SOLD = [
   false,
   false,
 ]
+
+// Initial stock for each product (1 item each necklace)
+export const STOCK = IMAGES.map(() => 1)

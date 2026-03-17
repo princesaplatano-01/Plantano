@@ -23,6 +23,7 @@ export function Header() {
   const isHome = pathname === "/"
   const navTextColor = isHome ? "#dbdbdb" : "#bdbdbd"
   const iconColor = isHome ? "#4b4b4b" : "#8b8b8b"
+  const currencyFormatter = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' })
 
   useEffect(() => {
     if (typeof document === "undefined") return
@@ -175,7 +176,7 @@ export function Header() {
                               </div>
                               <div className="flex-1">
                                 <div className="text-sm font-medium uppercase">{item.name}</div>
-                                <div className="text-xs text-muted-foreground">{item.price} MXN</div>
+                                  <div className="text-xs text-muted-foreground">{currencyFormatter.format(item.price / 100)}</div>
                                 <div className="mt-2 flex items-center gap-2">
                                   <button onClick={() => addToCart({ id: item.id, name: item.name, price: item.price, quantity: -1 })} className="px-2 py-1 border">-</button>
                                   <div className="px-2">{item.quantity}</div>
@@ -193,9 +194,9 @@ export function Header() {
                     <div className="p-4 border-t border-border">
                       <div className="flex items-center justify-between mb-4">
                         <span className="text-sm text-muted-foreground">Subtotal</span>
-                        <span className="text-sm">${cartItems.reduce((s, i) => s + i.price * i.quantity, 0)}</span>
+                        <span className="text-sm">{currencyFormatter.format(cartItems.reduce((s, i) => s + i.price * i.quantity, 0) / 100)}</span>
                       </div>
-                      <Link href="/checkout" onClick={() => setCartOpen(false)} className="block w-full py-4 bg-[#f8fa41] text-black font-medium text-center">
+                      <Link href="/checkout" onClick={() => setCartOpen(false)} className="block w-full py-4 bg-white text-black font-medium text-center">
                         GO TO CHECKOUT
                       </Link>
                     </div>

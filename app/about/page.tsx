@@ -16,11 +16,11 @@ export default function AboutPage() {
               src="/SCROLL/DSC07821%203.png"
               alt="PP Logo"
               className="mx-auto w-full max-w-[calc(36rem-100px)] object-contain cursor-pointer"
-              style={{ transform: 'translateY(-90px) scale(0.8)' }}
+              style={{ transform: 'translateY(-120px) scale(0.8)' }}
             />
           </Link>
         </div>
-        <div className="max-w-xl mt-0 px-4" style={{ maxWidth: 'calc(36rem - 100px)' }}>
+        <div className="max-w-xl mt-0 px-4" style={{ maxWidth: 'calc(36rem - 100px)', transform: 'translateY(-90px)' }}>
           <p className="-mt-[30px] md:mt-0 text-xl md:text-2xl italic font-semibold text-[#f2f2f2] text-left">
             {t("aboutHeading1")}
           </p>
@@ -31,9 +31,7 @@ export default function AboutPage() {
           <p className="mt-6 text-sm md:text-base text-[#d6d6d6]" style={{ textAlign: 'justify' }}>
             {t("aboutPara1")}
           </p>
-          <p className="mt-2 text-sm md:text-base text-[#d6d6d6] font-semibold">
-            {t("aboutPara2")}
-          </p>
+            {/* short tagline removed */}
         </div>
       </main>
     </>

@@ -6,7 +6,8 @@ import { useRouter } from "next/navigation"
 import { Header } from "@/components/header"
 import { useState, useEffect } from "react"
 
-import { IMAGES, PRICES, SOLD } from "@/lib/products"
+import { IMAGES, PRICES } from "@/lib/products"
+import { getStock, listenStockUpdate } from "@/lib/stock"
 import { useTranslation } from "@/lib/translations"
 
 export default function NewInPage() {
@@ -24,21 +25,28 @@ export default function NewInPage() {
 
     const price = PRICES[idx] ?? PRICES[0]
     const priceLabel = `${price.toLocaleString()} MXN`
+    const [stock, setStock] = useState(() => getStock(idx))
+
+    useEffect(() => {
+      const cb = () => setStock(getStock(idx))
+      const off = listenStockUpdate(cb)
+      return off
+    }, [idx])
 
     return (
       <div className="bg-transparent">
         <div className="group relative">
             <div className="bg-muted overflow-hidden" style={{ aspectRatio: cardAspect }}>
             <Link href={`/new-in/${idx + 1}`}>
-              <img
+                <img
                 src={images[imageIdx]}
                 alt={t((`product${idx + 1}`) as any)}
-                className={`w-full h-full object-cover block transition-transform duration-500 ease-out will-change-transform transform-gpu group-hover:scale-105 ${SOLD[idx] ? 'brightness-90' : ''}`}
+                className={`w-full h-full object-cover block transition-transform duration-500 ease-out will-change-transform transform-gpu group-hover:scale-105 ${stock === 0 ? 'brightness-90' : ''}`}
                 loading="lazy"
               />
             </Link>
 
-            {SOLD[idx] && (
+            {stock === 0 && (
               <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
                 <div className="text-center">
                   <div className="text-xs tracking-widest uppercase text-white">SOLD OUT</div>
