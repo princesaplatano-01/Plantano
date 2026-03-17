@@ -19,7 +19,8 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ clientSecret: paymentIntent.client_secret })
   } catch (err: any) {
-    console.error('Error creating PaymentIntent:', err)
+    console.error('Error creating PaymentIntent (/api/checkout):', err?.message || err)
+    if (err?.stack) console.error(err.stack)
     const message = err?.message || 'Internal server error'
     return NextResponse.json({ error: message }, { status: 500 })
   }

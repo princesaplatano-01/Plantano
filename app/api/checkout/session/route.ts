@@ -14,24 +14,31 @@ export async function POST(req: NextRequest) {
     const body = await req.json()
     const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
-    const item = body.item || { name: 'Macrame bag', price: 3500, quantity: 1 }
+    const items = body.items || (body.item ? [body.item] : [{ name: 'Macrame bag', price: 3500, quantity: 1 }])
+
+    const line_items = (items || []).map((it: any) => {
+      const rawImage = it.image
+      const imageUrl = rawImage
+        ? (rawImage.startsWith('http') ? rawImage : `${origin}${rawImage.startsWith('/') ? rawImage : `/${rawImage}`}`)
+        : `${origin}/images/placeholder.png`
+
+      return {
+        price_data: {
+          currency: 'mxn',
+          product_data: {
+            name: it.name,
+            images: [imageUrl],
+          },
+          unit_amount: Math.round(it.price || 0),
+        },
+        quantity: it.quantity || 1,
+      }
+    })
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
-      line_items: [
-        {
-          price_data: {
-            currency: 'mxn',
-            product_data: {
-              name: item.name,
-              images: [item.image || `${origin}/images/placeholder.png`],
-            },
-            unit_amount: Math.round(item.price || 0),
-          },
-          quantity: item.quantity || 1,
-        },
-      ],
+      line_items,
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout/cancel`,
       shipping_address_collection: {
@@ -43,8 +50,10 @@ export async function POST(req: NextRequest) {
     })
 
     return NextResponse.json({ url: session.url })
-  } catch (err) {
-    console.error(err)
-    return NextResponse.json({ error: 'server_error' }, { status: 500 })
+  } catch (err: any) {
+    console.error('Error creating checkout session (/api/checkout/session):', err?.message || err)
+    if (err?.stack) console.error(err.stack)
+    const message = err?.message || 'server_error'
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

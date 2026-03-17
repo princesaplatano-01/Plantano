@@ -39,8 +39,39 @@ const defaultForm: FormState = {
   emailOffers: false,
 }
 
+function ExpressCheckoutBox({ children, onCheckout }: { children?: React.ReactNode; onCheckout?: () => Promise<void> | (() => void) }) {
+  const [inverted, setInverted] = useState(false)
+
+  async function handleClick() {
+    setInverted(true)
+    try {
+      await onCheckout?.()
+    } catch (e) {
+      // allow error handling in caller
+    } finally {
+      setTimeout(() => setInverted(false), 200)
+    }
+  }
+
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      onClick={(e) => { e.preventDefault(); handleClick() }}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick() } }}
+      className={`py-2 px-4 rounded shadow click-invert ${inverted ? 'inverted' : ''} bg-[#f1ec48] hover:bg-[#e6e03f] transition-colors`}>
+      <div className="font-bold uppercase mb-2 text-sm text-center">PAY NOW</div>
+      <div className="flex gap-2 items-center">
+        <div className="flex-1" />
+        <div className="flex-shrink-0">{children}</div>
+      </div>
+    </div>
+  )
+}
+
 export default function CheckoutPage() {
   const [form, setForm] = useState<FormState>(defaultForm)
+  const [shippingReady, setShippingReady] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showSummaryOnMobile, setShowSummaryOnMobile] = useState(false)
 
@@ -55,6 +86,25 @@ export default function CheckoutPage() {
 
   function update<K extends keyof FormState>(k: K, v: FormState[K]) {
     setForm((s) => ({ ...s, [k]: v }))
+  }
+
+  function validateShippingForm() {
+    const required: (keyof FormState)[] = ['firstName', 'lastName', 'address', 'city', 'postalCode', 'country']
+    for (const k of required) {
+      const val = (form as any)[k]
+      if (!val || String(val).trim() === '') return false
+    }
+    return true
+  }
+
+  function continueToShipping() {
+    if (!validateShippingForm()) {
+      alert('Please complete the required shipping fields before continuing.')
+      return
+    }
+    setShippingReady(true)
+    // small UX: scroll to order summary
+    try { document.querySelector('aside')?.scrollIntoView({ behavior: 'smooth' }) } catch (e) {}
   }
 
   function ClickableButton({ children, onClick, className, disabled, type }: { children: React.ReactNode; onClick?: (e: any) => void; className?: string; disabled?: boolean; type?: 'button' | 'submit' }) {
@@ -108,6 +158,26 @@ export default function CheckoutPage() {
   async function createCheckoutSession() {
     setLoading(true)
     try {
+      // If cart items include Stripe price IDs, use the price-id Checkout Sessions endpoint
+      const hasPriceIds = cartItems.length > 0 && cartItems.every((it: any) => Boolean((it as any).priceId || (it as any).price_id))
+      if (hasPriceIds) {
+        const items = cartItems.map((it: any) => ({ priceId: it.priceId || it.price_id, quantity: it.quantity }))
+        const res = await fetch('/api/checkout_sessions', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items, form }),
+        })
+        const data = await res.json()
+        if (data.url) {
+          window.location.href = data.url
+          return
+        } else {
+          alert('Unable to create checkout session (priceId flow). Check server logs.')
+          return
+        }
+      }
+
+      // Fallback: existing name/price flow
       const res = await fetch("/api/checkout/session", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -140,14 +210,7 @@ export default function CheckoutPage() {
 
         <div className="grid grid-cols-1 md:grid-cols-10 gap-8">
           <section className="md:col-span-6">
-            <div className="mb-6">
-              <div className="flex gap-3 items-center">
-                <ClickableButton onClick={createCheckoutSession} disabled={loading} className="flex-1 py-3 bg-black text-white uppercase font-semibold">Pay with Card</ClickableButton>
-                <ClickableButton onClick={() => alert('PayPal integration not configured')} className="py-3 px-4 bg-[#f8fa41] text-black font-medium">PayPal</ClickableButton>
-                <ClickableButton onClick={createCheckoutSession} className="py-3 px-4 bg-black text-white font-medium">GPay / Apple Pay</ClickableButton>
-              </div>
-              <GooglePayButton amount={total} />
-            </div>
+            {/* Left-side action buttons moved to right sidebar (Express Checkout) */}
 
             <div className="bg-white p-6 shadow rounded">
               <div className="mb-6">
@@ -201,6 +264,9 @@ export default function CheckoutPage() {
                     <option value="US">United States</option>
                   </select>
                 </div>
+                <div className="mt-6">
+                  <button onClick={continueToShipping} className="w-full py-3 bg-black text-white uppercase font-semibold">Continue to Shipping</button>
+                </div>
             </div>
           </section>
 
@@ -244,6 +310,16 @@ export default function CheckoutPage() {
                       <span>Total</span>
                       <span>{currencyFormatter.format(total / 100)}</span>
                     </div>
+                  </div>
+
+                  <div className="mt-4">
+                    {shippingReady ? (
+                      <ExpressCheckoutBox onCheckout={createCheckoutSession}>
+                        <GooglePayButton amount={total} />
+                      </ExpressCheckoutBox>
+                    ) : (
+                      <div className="py-2 px-4 rounded shadow bg-gray-100 text-center text-sm text-gray-500">Complete shipping info to enable payment</div>
+                    )}
                   </div>
                 </div>
               )}
