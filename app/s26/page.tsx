@@ -213,12 +213,12 @@ export default function S26Page() {
                       [430, -70, 660, 571], // b2: 97 x 254
                       [690, -190, 992, 552], // b3: 142 x 226
                       [738, 120, 940, 817], // b4: 118 x 308
-                      [955, -14, 176, 1018], // b5: 141 x 374
+                      [925, 304, 1246, 500], // b5: 141 x 374
                       // Row 2 (Middle)
                       [-144, 446, 236, 623], // b6: 182 x 237
                       [90, 451, 519, 660], // b7: 160 x 249
                       [484, 375, 715, 728], // b8: 161 x 189
-                      [908, 406, 1285, 1165], // b9: 137 x 319
+                      [900, 406, 1285, 1165], // b9: 137 x 319
                       // Row 3 (Bottom)
                       [-200, 635, 243, 993], // b10: 203 x 238
                       [-457, 1043, 1005, 1705], // b11: 168 x 222
@@ -239,26 +239,7 @@ export default function S26Page() {
                     ]
 
                     return boxes.map((b, i) => {
-                      // Allow box entries to be either [x1, y1, x2, y2] or [x, y, width, height]
-                      let x1 = b[0]
-                      let y1 = b[1]
-                      let x2 = b[2]
-                      let y2 = b[3]
-
-                      // Detect [x, y, width, height] when the third/fourth values fall
-                      // into the expected width/height ranges (width:120-250, height:200-350).
-                      const maybeWidth = Number(b[2])
-                      const maybeHeight = Number(b[3])
-                      if (
-                        Number.isFinite(maybeWidth) &&
-                        Number.isFinite(maybeHeight) &&
-                        maybeWidth >= 120 && maybeWidth <= 250 &&
-                        maybeHeight >= 200 && maybeHeight <= 350
-                      ) {
-                        x2 = x1 + maybeWidth
-                        y2 = y1 + maybeHeight
-                      }
-
+                      const [x1, y1, x2, y2] = b
                       const left = (x1 / refW) * 100
                       const top = (y1 / refH) * 100
                       const width = ((x2 - x1) / refW) * 100
