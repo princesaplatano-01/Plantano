@@ -16,7 +16,7 @@ const SC26_IMAGES = [
   "/SC26/DSC07773.jpg",
   "/SC26/DSC07989-2.jpg",
   "/SC26/eclipse.jpg",
-  "/SC26/gif collar.gif",
+  "/SC26/b12.gif",
   "/SC26/IMG_1206.jpg",
   "/SC26/IMG_1207.JPG",
   "/SC26/IMG_3212.jpg",
@@ -80,7 +80,7 @@ export default function S26Page() {
       router.push('/new-in/2')
       return
     }
-    if (src.includes('gif collar.gif')) {
+    if (src.includes('b12.gif')) {
       router.push('/new-in/11')
       return
     }
@@ -120,7 +120,7 @@ export default function S26Page() {
     '3 / 4', // DSC07773.jpg
     '3 / 4', // DSC07989-2.jpg
     '1 / 1', // eclipse.jpg
-    '1 / 1', // gif collar.gif
+    '1 / 1', // b12.gif (collar)
     '3 / 4', // IMG_1206.jpg
     '3 / 4', // IMG_1207.JPG
     '3 / 4', // IMG_3212.jpg
@@ -147,7 +147,7 @@ export default function S26Page() {
     'md:col-span-2 md:row-span-1', // DSC07773.jpg
     'md:col-span-3 md:row-span-1', // DSC07989-2.jpg
     'md:col-span-2 md:row-span-1', // eclipse.jpg
-    'md:col-span-2 md:row-span-1', // gif collar.gif
+    'md:col-span-2 md:row-span-1', // b12.gif (collar)
     'md:col-span-2 md:row-span-1', // IMG_1206.jpg
     'md:col-span-2 md:row-span-1', // IMG_1207.JPG
     'md:col-span-2 md:row-span-1', // IMG_3212.jpg
