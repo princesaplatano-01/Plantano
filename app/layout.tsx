@@ -6,6 +6,7 @@ import { headers } from 'next/headers'
 import { CartProvider } from '@/components/cart'
 import './globals.css'
 import CustomCursor from '@/components/custom-cursor'
+import StripeRefRedirect from '@/components/stripe-ref-redirect'
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -66,6 +67,7 @@ export default async function RootLayout({
         <script src="https://js.stripe.com/v3/"></script>
         <TranslationProvider initialLanguage={initialLang}>
           <CartProvider>
+            <StripeRefRedirect />
             {children}
           </CartProvider>
         </TranslationProvider>
