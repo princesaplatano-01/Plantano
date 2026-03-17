@@ -245,7 +245,8 @@ export default function S26Page() {
                       const width = ((x2 - x1) / refW) * 100
                       const height = ((y2 - y1) / refH) * 100
                       // use user-provided b-images in the exact provided order (b1..b20)
-                      const src = B_IMAGES[i]
+                      const src = B_IMAGES[i] ?? ''
+                      if (!src) return null
                       const cb = cacheBuster ? (src.includes('?') ? `&cb=${cacheBuster}` : `?cb=${cacheBuster}`) : ''
                       const displaySrc = `${src}${cb}`
 
