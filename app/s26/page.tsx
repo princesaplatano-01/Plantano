@@ -1,6 +1,7 @@
 "use client"
 
 import { Header } from "@/components/header"
+import { FileX2 } from "lucide-react"
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
@@ -164,19 +165,22 @@ export default function S26Page() {
     <>
       <Header />
       <style>{`
+        /* Default: desktop-style background (used for non-touch/desktop devices).
+           Mobile/touch devices will use the mobile background via the pointer coarse rule below.
+           This prevents desktop browsers from swapping to the mobile image when the window is resized. */
         .s26-bg {
-          background-image: url('/SC26/props/mobile_a b.jpg');
-          /* make mobile background slightly larger on mobile and align to top-center */
-          background-size: 90% auto;
-          background-position: top center;
+          background-image: url('/SC26/props/figs copy.jpg');
+          background-size: contain;
+          background-position: center top;
           background-repeat: no-repeat;
         }
-        @media (min-width: 1024px) {
+
+        /* For touch / coarse-pointer devices (phones, many tablets), use the mobile background. */
+        @media (pointer: coarse), (hover: none) {
           .s26-bg {
-            background-image: url('/SC26/props/figs copy.jpg');
-            /* preserve original proportions and scale to fit desktop */
-            background-size: contain;
-            background-position: center top;
+            background-image: url('/SC26/props/mobile_a b.jpg');
+            background-size: 90% auto;
+            background-position: top center;
             background-repeat: no-repeat;
           }
         }
@@ -205,8 +209,8 @@ export default function S26Page() {
                     // User-provided boxes (converted to [x1, y1, x2, y2])
                     const boxes = [
                       // Row 1 (Top)
-                      [27, 25, 280, 344], // b1: 253 x 319
-                      [303, 57, 400, 311], // b2: 97 x 254
+                      [-100, -50, 400, 574], // b1: 253 x 319
+                      [303, 100, 400, 311], // b2: 97 x 254
                       [430, 106, 572, 332], // b3: 142 x 226
                       [602, 189, 720, 497], // b4: 118 x 308
                       [745, 54, 886, 428], // b5: 141 x 374
