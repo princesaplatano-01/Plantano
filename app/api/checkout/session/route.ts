@@ -15,6 +15,7 @@ export async function POST(req: NextRequest) {
     const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
 
     const items = body.items || (body.item ? [body.item] : [{ name: 'Macrame bag', price: 3500, quantity: 1 }])
+    const discountPercent = Number((body && body.discount && body.discount.percent) || 0)
 
     const line_items = (items || []).map((it: any) => {
       const rawImage = it.image
@@ -22,6 +23,8 @@ export async function POST(req: NextRequest) {
         ? (rawImage.startsWith('http') ? rawImage : `${origin}${rawImage.startsWith('/') ? rawImage : `/${rawImage}`}`)
         : `${origin}/images/placeholder.png`
 
+      const baseAmount = Math.round(it.price || 0)
+      const finalAmount = Math.max(0, Math.round(baseAmount * (1 - (discountPercent / 100))))
       return {
         price_data: {
           currency: 'mxn',
@@ -29,7 +32,7 @@ export async function POST(req: NextRequest) {
             name: it.name,
             images: [imageUrl],
           },
-          unit_amount: Math.round(it.price || 0),
+          unit_amount: finalAmount,
         },
         quantity: it.quantity || 1,
       }
@@ -46,6 +49,7 @@ export async function POST(req: NextRequest) {
       },
       metadata: {
         shipping: JSON.stringify(body.form || {}),
+        discount: JSON.stringify(body.discount || {}),
       },
     })
 

@@ -7,12 +7,17 @@ import { Header } from "@/components/header"
 import { useState, useEffect } from "react"
 
 import { IMAGES, PRICES } from "@/lib/products"
-import { getStock, listenStockUpdate } from "@/lib/stock"
+import { getStock, listenStockUpdate, setStock } from "@/lib/stock"
 import { useTranslation } from "@/lib/translations"
 
 export default function NewInPage() {
   const router = useRouter()
   const cardAspect = "3 / 4"
+
+  // Ensure UFO Plum Necklace (product 1, index 0) is marked in stock on the listing
+  useEffect(() => {
+    try { setStock(0, 1) } catch (e) { /* ignore */ }
+  }, [])
 
   function ProductCard({ item, idx, total }: { item: string | string[]; idx: number; total: number }) {
     const { t } = useTranslation()
@@ -41,7 +46,14 @@ export default function NewInPage() {
                 <img
                 src={images[imageIdx]}
                 alt={t((`product${idx + 1}`) as any)}
-                className={`w-full h-full object-cover block transition-transform duration-500 ease-out will-change-transform transform-gpu group-hover:scale-105 ${stock === 0 ? 'brightness-90' : ''}`}
+                className={(() => {
+                  const base = 'w-full h-full object-cover block transition-transform duration-500 ease-out will-change-transform transform-gpu group-hover:scale-105'
+                  // For the UFO Plum Necklace (Pa_01) use the fixed class (no dynamic brightness)
+                  if (images[imageIdx] === '/SHOP/Pa_01.jpg' || t((`product${idx + 1}`) as any) === 'UFO Plum Necklace') {
+                    return base
+                  }
+                  return `${base} ${stock === 0 ? 'brightness-90' : ''}`
+                })()}
                 loading="lazy"
               />
             </Link>

@@ -3,10 +3,12 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useRef, useState, useEffect } from "react"
+import { useRouter } from 'next/navigation'
 import { useTranslation } from "@/lib/translations"
 
 function MarqueeBar() {
   const { t } = useTranslation()
+  
   const baseMarqueeItems = [
     t("newCollection"),
     t("aLittleSacred"),
@@ -58,6 +60,7 @@ export function HeroSection() {
   const [isHovering, setIsHovering] = useState(false)
   const [isDesktop, setIsDesktop] = useState(false)
   const { t } = useTranslation()
+  const router = useRouter()
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -154,6 +157,10 @@ export function HeroSection() {
           >
             <Link
               href="/new-in"
+              onClick={(e) => {
+                e.preventDefault()
+                router.push('/new-in')
+              }}
               className="inline-block text-[#1E1D1D] text-xs tracking-widest uppercase border-b border-[#1E1D1D] pb-0.5 transition-all duration-150 ease-out"
               style={{
                 transform: isHovering

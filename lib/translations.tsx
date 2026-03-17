@@ -89,6 +89,7 @@ const translations = {
     
     // Promo
     subscribeNow: "Subscribe Now",
+    apply: "Apply",
     
     // Newsletter
     backToShop: "Back to Shop",
@@ -208,6 +209,7 @@ const translations = {
     
     // Promo
     subscribeNow: "Suscríbete",
+    apply: "Aplicar",
     
     // Newsletter
     backToShop: "Volver a la Tienda",

@@ -6,6 +6,7 @@ import { Header } from "@/components/header"
 import Link from "next/link"
 import getStripe from '@/lib/stripe'
 import GooglePayButton from '@/components/google-pay-button'
+import { useTranslation } from '@/lib/translations'
 
 type FormState = {
   shippingMethod: "ship"
@@ -84,6 +85,7 @@ export default function CheckoutPage() {
   const currencyFormatter = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' })
   
   const [isClient, setIsClient] = useState(false)
+  const { t } = useTranslation()
 
   function update<K extends keyof FormState>(k: K, v: FormState[K]) {
     setForm((s) => ({ ...s, [k]: v }))
@@ -321,7 +323,6 @@ export default function CheckoutPage() {
                       <span>{currencyFormatter.format(total / 100)}</span>
                     </div>
                   </div>
-
                   <div className="mt-4">
                     {shippingReady ? (
                       <ExpressCheckoutBox onCheckout={createCheckoutSession}>

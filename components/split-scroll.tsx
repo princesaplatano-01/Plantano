@@ -9,10 +9,13 @@ export function SplitScroll() {
 
   const { t } = useTranslation()
   const [videoSrc, setVideoSrc] = useState<string>(encodeURI('/SCROLL/video andres split.mp4'))
+  const [collarSrc, setCollarSrc] = useState<string>(encodeURI('/SC26/b12.gif'))
 
   useEffect(() => {
     // append a client-only cache buster so updated video files reload
     setVideoSrc(encodeURI('/SCROLL/video andres split.mp4') + `?cb=${Date.now()}`)
+    // append cache buster for the collar gif so updated GIF reloads in-browser
+    setCollarSrc(encodeURI('/SC26/b12.gif') + `?cb=${Date.now()}`)
   }, [])
 
   return (
@@ -41,19 +44,19 @@ export function SplitScroll() {
         {/* Right column: stacked items that scroll normally */}
         <div className="flex flex-col items-center">
           <div className="min-h-[60vh] w-full md:h-screen md:w-1/2 mb-[15vh] mt-20 md:mt-0">
-            <img
-              src="/SC26/gif%20collar.gif"
-              alt="Collar GIF"
-              className="w-full h-auto object-contain cursor-auto md:cursor-pointer"
-              style={{ objectFit: "contain", aspectRatio: "3 / 4" }}
-              onClick={() => router.push('/new-in')}
-            />
+                <img
+                  src={collarSrc}
+                  alt="Collar GIF"
+                  className="w-full h-auto object-contain cursor-auto md:cursor-pointer"
+                  style={{ objectFit: "contain", aspectRatio: "3 / 4" }}
+                  onClick={() => router.push('/')}
+                />
              <div className="mt-6 text-center">
                <div
                  role="button"
                  tabIndex={0}
-                 onClick={() => router.push('/new-in')}
-                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/new-in') }}
+                 onClick={() => router.push('/')}
+                 onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') router.push('/') }}
                  className="text-lg font-semibold text-[#dbdbdb] cursor-pointer"
                >
                 {t('theDrop')}

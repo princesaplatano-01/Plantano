@@ -186,7 +186,7 @@ export default function S26Page() {
         }
       `}</style>
 
-      <main className="s26-bg min-h-screen pt-6 py-6 px-3 md:px-6 text-foreground">
+      <main className="s26-bg min-h-screen pt-6 py-6 px-3 md:px-6 text-foreground" style={{ paddingBottom: '60px' }}>
         <div className="max-w-6xl mx-auto">
           <div className="flex justify-center mb-6 mt-[15px] md:mt-5">
             <Link href="/">
@@ -201,7 +201,7 @@ export default function S26Page() {
             <div className="hidden md:flex justify-center">
               <div className="relative w-full" style={{ maxWidth: 985 }}>
                 {/* preserve aspect ratio of reference (985 x 896) */}
-                <div style={{ width: '100%', paddingTop: `${(896 / 985) * 100}%`, position: 'relative' }}>
+                <div style={{ width: '100%', paddingTop: `${(896 / 985) * 100}%`, paddingBottom: '60px', position: 'relative' }}>
                   {/* bounding boxes (x1,y1,x2,y2) mapped to percentages of 985x896 */}
                   {(() => {
                     const refW = 985
@@ -212,18 +212,18 @@ export default function S26Page() {
                       [-170, -100, 410, 584], // b1: 253 x 319
                       [430, -70, 670, 581], // b2: 97 x 254
                       [690, -190, 992, 552], // b3: 142 x 226
-                      [738, 120, 940, 817], // b4: 118 x 308
-                      [925, 304, 1246, 500], // b5: 141 x 374
+                      [728, 120, 940, 817], // b4: 118 x 308
+                      [935, 304, 1246, 500], // b5: 141 x 374
                       // Row 2 (Middle)
-                      [-144, 446, 236, 623], // b6: 182 x 237
+                      [-184, 476, 236, 623], // b6: 182 x 237
                       [90, 451, 519, 660], // b7: 160 x 249
                       [484, 375, 715, 728], // b8: 161 x 189
-                      [900, 406, 1285, 1165], // b9: 137 x 319
+                      [900, 406, 1225, 1105], // b9: 137 x 319
                       // Row 3 (Bottom)
                       [-200, 635, 243, 993], // b10: 203 x 238
-                      [-457, 1043, 1005, 1705], // b11: 168 x 222
+                      [-487, 1043, 1005, 1705], // b11: 168 x 222
                       [95, 700, 668, 1030], // b12: 114 x 296
-                      [412, 670, 991, 1167], // b13: 139 x 325
+                      [482, 670, 931, 1107], // b13: 139 x 325
                       [1000, 778, 881, 975], // b14: 137 x 197
 
                       // Row 4 (as [x, y, width, height])
@@ -281,8 +281,13 @@ export default function S26Page() {
                 {B_IMAGES.map((src, idx) => {
                   const cb = cacheBuster ? (src.includes('?') ? `&cb=${cacheBuster}` : `?cb=${cacheBuster}`) : ''
                   const displaySrc = `${src}${cb}`
-                    return (
-                    <div key={`m-${idx}`} style={{ breakInside: 'avoid', marginBottom: 12, marginTop: idx === 0 ? '3cm' : undefined }} onClick={() => handleMobileTap(src)}>
+                  const isB20 = src.includes('b20.jpg')
+                  return (
+                    <div
+                      key={`m-${idx}`}
+                      style={{ breakInside: 'avoid', marginBottom: isB20 ? 60 : 12, marginTop: idx === 0 ? '3cm' : undefined }}
+                      onClick={() => handleMobileTap(src)}
+                    >
                       {displaySrc.toLowerCase().endsWith('.mp4') || displaySrc.toLowerCase().endsWith('.gif') ? (
                         <video src={displaySrc} className="w-full object-contain block" style={{ width: '100%', height: 'auto', objectFit: 'contain' }} autoPlay loop muted playsInline />
                       ) : (

@@ -7,7 +7,7 @@ import { useCart } from "@/components/cart"
 import AddToCart from "@/components/add-to-cart"
 import { Header } from "@/components/header"
 import { IMAGES, PRICES, DESCRIPTIONS } from "@/lib/products"
-import { getStock, listenStockUpdate } from "@/lib/stock"
+import { getStock, listenStockUpdate, setStock } from "@/lib/stock"
 import { useTranslation } from "@/lib/translations"
 import { useState, useRef, useEffect } from "react"
 
@@ -17,6 +17,13 @@ export default function ProductPage() {
   const params = useParams()
   const id = parseInt((params?.id as string) || "1", 10)
   const idx = Math.max(0, Math.min(IMAGES.length - 1, id - 1))
+
+  // Ensure UFO Plum Necklace (product 1, index 0) is available when viewing its page
+  useEffect(() => {
+    if (idx === 0) {
+      try { setStock(0, 1) } catch (e) { /* ignore */ }
+    }
+  }, [idx])
   const raw = IMAGES[idx]
   const images = Array.isArray(raw) ? raw : [raw]
   const [imageIdx, setImageIdx] = useState(0)

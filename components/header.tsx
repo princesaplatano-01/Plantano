@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useRef } from "react"
 import { useRouter, usePathname } from "next/navigation"
 import { useCart } from "@/components/cart"
+import { getStock } from '@/lib/stock'
 import Link from "next/link"
 import { Search, ShoppingBag, Menu, X, Globe } from "lucide-react"
 import { useTranslation } from "@/lib/translations"
@@ -178,9 +179,36 @@ export function Header() {
                                 <div className="text-sm font-medium uppercase">{item.name}</div>
                                   <div className="text-xs text-muted-foreground">{currencyFormatter.format(item.price / 100)}</div>
                                 <div className="mt-2 flex items-center gap-2">
-                                  <button onClick={() => addToCart({ id: item.id, name: item.name, price: item.price, quantity: -1 })} className="px-2 py-1 border">-</button>
-                                  <div className="px-2">{item.quantity}</div>
-                                  <button onClick={() => addToCart({ id: item.id, name: item.name, price: item.price, quantity: 1 })} className="px-2 py-1 border">+</button>
+                                        <button onClick={() => addToCart({ id: item.id, name: item.name, price: item.price, quantity: -1 })} className="px-2 py-1 border">-</button>
+                                        <div className="px-2">{item.quantity}</div>
+                                        {(() => {
+                                          // Determine available stock for this product id (expects ids like `newin-1`)
+                                          let disabled = false
+                                          try {
+                                            if (typeof item.id === 'string' && item.id.startsWith('newin-')) {
+                                              const parts = item.id.split('-')
+                                              const n = parseInt(parts[1] || '', 10)
+                                              if (!Number.isNaN(n) && n > 0) {
+                                                const stock = getStock(n - 1)
+                                                if (typeof stock === 'number') {
+                                                  disabled = item.quantity >= stock
+                                                }
+                                              }
+                                            }
+                                          } catch (e) {
+                                            // ignore
+                                          }
+                                          return (
+                                            <button
+                                              onClick={() => { if (!disabled) addToCart({ id: item.id, name: item.name, price: item.price, quantity: 1 }) }}
+                                              className={"px-2 py-1 border " + (disabled ? 'opacity-40 cursor-not-allowed' : '')}
+                                              aria-disabled={disabled}
+                                              disabled={disabled}
+                                            >
+                                              +
+                                            </button>
+                                          )
+                                        })()}
                                 </div>
                               </div>
                               <div className="flex items-start">
