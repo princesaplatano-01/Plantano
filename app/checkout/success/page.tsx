@@ -1,12 +1,34 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import Link from 'next/link'
 import { useSearchParams } from 'next/navigation'
+import { decrementByProductId } from '@/lib/stock'
 
 export default function SuccessPage() {
   const sp = useSearchParams()
   const sessionId = sp?.get('session_id')
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem('platano_cart')
+      if (!raw) return
+      const items = JSON.parse(raw)
+      if (Array.isArray(items)) {
+        items.forEach((it: any) => {
+          try {
+            // decrement local stock by product id and quantity
+            if (it.id) decrementByProductId(it.id, it.quantity || 1)
+          } catch (e) {}
+        })
+        // clear cart after successful payment
+        localStorage.removeItem('platano_cart')
+        try { window.dispatchEvent(new CustomEvent('platano_cart:cleared')) } catch (e) {}
+      }
+    } catch (e) {
+      // ignore
+    }
+  }, [])
 
   return (
     <main className="min-h-screen flex items-center justify-center py-24 px-4">

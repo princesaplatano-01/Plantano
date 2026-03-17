@@ -25,7 +25,11 @@ export default function AddToCart({ id, name, price, image, quantity = 1, classN
     addToCart({ id, name, price: priceInCentavos, quantity, image })
     setClicked(true)
     try {
-      decrementByProductId(id, quantity)
+      // On desktop/tablet, decrement local stock immediately to reflect availability.
+      // On mobile (small screens) avoid showing out-of-stock immediately — defer until after payment success.
+      if (typeof window !== 'undefined' && (window.innerWidth ?? 0) >= 768) {
+        decrementByProductId(id, quantity)
+      }
     } catch (err) {
       // ignore
     }
