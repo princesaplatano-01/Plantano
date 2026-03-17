@@ -74,6 +74,7 @@ export default function CheckoutPage() {
   const [shippingReady, setShippingReady] = useState(false)
   const [loading, setLoading] = useState(false)
   const [showSummaryOnMobile, setShowSummaryOnMobile] = useState(false)
+  const [summaryLocked, setSummaryLocked] = useState(false)
 
   const { items: cartItems, subtotal: cartSubtotal, itemCount } = useCart()
   // store amounts in centavos (smallest MXN unit)
@@ -103,6 +104,13 @@ export default function CheckoutPage() {
       return
     }
     setShippingReady(true)
+    // On mobile, open the order summary so users see the PAY NOW box
+    try {
+      if (typeof window !== 'undefined' && window.innerWidth < 768) {
+        setShowSummaryOnMobile(true)
+        setSummaryLocked(true)
+      }
+    } catch (e) {}
     // small UX: scroll to order summary
     try { document.querySelector('aside')?.scrollIntoView({ behavior: 'smooth' }) } catch (e) {}
   }
@@ -272,9 +280,11 @@ export default function CheckoutPage() {
 
           <aside className="md:col-span-4">
             <div className="md:sticky md:top-24">
-              <div className="mb-4 md:hidden">
-                <button onClick={() => setShowSummaryOnMobile((s) => !s)} className="w-full p-3 rounded bg-[#f8fa41] text-black font-medium">{showSummaryOnMobile ? 'Hide order summary' : 'Show order summary'}</button>
-              </div>
+              {!summaryLocked && (
+                <div className="mb-4 md:hidden">
+                  <button onClick={() => setShowSummaryOnMobile((s) => !s)} className="w-full p-3 rounded bg-[#f8fa41] text-black font-medium">{showSummaryOnMobile ? 'Hide order summary' : 'Show order summary'}</button>
+                </div>
+              )}
 
               {(showSummaryOnMobile || (isClient && window.innerWidth >= 768)) && (
                 <div className="bg-gray-50 p-6 rounded">
