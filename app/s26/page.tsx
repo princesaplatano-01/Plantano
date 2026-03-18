@@ -76,7 +76,6 @@ export default function S26Page() {
 
   const handleMobileTap = (src: string) => {
     if (typeof window === 'undefined') return
-    if (window.innerWidth >= 768) return // only on mobile (<768px)
 
     const basename = (src || '').split('/').pop()?.split('?')[0].toLowerCase() || ''
 
