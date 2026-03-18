@@ -12,6 +12,7 @@ import { useTranslation } from "@/lib/translations"
 
 export default function NewInPage() {
   const router = useRouter()
+  const { t } = useTranslation()
   const cardAspect = "3 / 4"
 
   // Ensure UFO Plum Necklace (product 1, index 0) is marked in stock on the listing
@@ -59,11 +60,11 @@ export default function NewInPage() {
             </Link>
 
             {stock === 0 && (
-              <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
-                <div className="text-center">
-                  <div className="text-xs tracking-widest uppercase text-white">SOLD OUT</div>
+                <div className="absolute inset-0 flex items-center justify-center bg-black/20 pointer-events-none">
+                  <div className="text-center">
+                    <div className="text-xs tracking-widest uppercase text-white">{t('outOfStock') || 'SOLD OUT'}</div>
+                  </div>
                 </div>
-              </div>
             )}
           </div>
 
@@ -113,7 +114,7 @@ export default function NewInPage() {
             <Link href="/">
               <Image
                 src="/Front/PP-LOGO-LTTRNG-A-02.png"
-                alt="NEW IN"
+                alt={t('newIn')}
                 width={192}
                 height={50}
                 className="object-contain"
@@ -121,7 +122,7 @@ export default function NewInPage() {
             </Link>
           </div>
 
-          <h1 className="text-xl md:text-2xl font-semibold mb-6 italic text-[#dbdbdb]">New In</h1>
+          <h1 className="text-xl md:text-2xl font-semibold mb-6 italic text-[#dbdbdb]">{t('newIn')}</h1>
 
           <div className="-mx-4 md:-mx-8 px-4 md:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-x-0.5 gap-y-2 scrollbar-hide overflow-visible">

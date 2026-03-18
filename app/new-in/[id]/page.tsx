@@ -151,8 +151,25 @@ export default function ProductPage() {
           <div className="space-y-4">
             <h2 className="text-2xl font-semibold text-[#dbdbdb]">{t((`product${id}`) as any)}</h2>
             <div className="text-xl" style={{ color: "#909090" }}>{priceLabel}</div>
-            {DESCRIPTIONS[idx] && (
-              <div className="text-sm text-muted-foreground mt-2">{DESCRIPTIONS[idx]}</div>
+            {(
+              (() => {
+                const key = `productDesc${id}` as keyof any
+                const desc = t(key as any)
+                // If translation key wasn't defined, fall back to DESCRIPTIONS
+                if (typeof desc === 'string' && desc.startsWith('productDesc')) {
+                  return DESCRIPTIONS[idx]
+                }
+                return desc || DESCRIPTIONS[idx]
+              })()
+            ) && (
+              <div className="text-sm text-muted-foreground mt-2">{(() => {
+                const key = `productDesc${id}` as keyof any
+                const desc = t(key as any)
+                if (typeof desc === 'string' && desc.startsWith('productDesc')) {
+                  return DESCRIPTIONS[idx]
+                }
+                return desc || DESCRIPTIONS[idx]
+              })()}</div>
             )}
                       {
                         (() => {
@@ -170,7 +187,7 @@ export default function ProductPage() {
                           if (stock === 0) {
                             return (
                               <>
-                                <div className="text-sm text-muted-foreground">OUT OF STOCK</div>
+                                <div className="text-sm text-muted-foreground">{t('outOfStock') || 'OUT OF STOCK'}</div>
                                 {!sent ? (
                                   <div className="mt-4">
                                     <button
@@ -178,7 +195,7 @@ export default function ProductPage() {
                                       onClick={() => setModalOpen(true)}
                                       className="w-full py-2 bg-white text-black font-medium"
                                     >
-                                      DON'T MISS THE NEXT DROP
+                                      {"DON'T MISS THE NEXT DROP"}
                                     </button>
                                   </div>
                                 ) : (
@@ -190,8 +207,8 @@ export default function ProductPage() {
 
                           return (
                             <>
-                              <div className="text-sm text-muted-foreground">IN STOCK</div>
-                              <AddToCart id={`newin-${id}`} name={t((`product${id}`) as any)} price={price} image={src} className="mt-4 px-4 py-2 border border-white text-white">Add to cart</AddToCart>
+                              <div className="text-sm text-muted-foreground">{t('inStock') || 'IN STOCK'}</div>
+                              <AddToCart id={`newin-${id}`} name={t((`product${id}`) as any)} price={price} image={src} className="mt-4 px-4 py-2 border border-white text-white">{t('addToCart') || 'Add to cart'}</AddToCart>
                             </>
                           )
                         })()

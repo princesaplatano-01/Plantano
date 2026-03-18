@@ -1,6 +1,7 @@
 "use client"
 
 import { Header } from "@/components/header"
+import { useTranslation } from "@/lib/translations"
 import { FileX2 } from "lucide-react"
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -76,36 +77,53 @@ export default function S26Page() {
   const handleMobileTap = (src: string) => {
     if (typeof window === 'undefined') return
     if (window.innerWidth >= 768) return // only on mobile (<768px)
-    if (src.includes('DSC06748.jpg') || src.includes('DSC07027.jpg')) {
+
+    const basename = (src || '').split('/').pop()?.split('?')[0].toLowerCase() || ''
+
+    const mapping: Record<string, string> = {
+      'b2.jpg': '/new-in/7',
+      'b3.jpg': '/new-in/4',
+      'b4.jpg': '/new-in/2',
+      'b6.jpg': '/new-in/6',
+      'b7.jpg': '/new-in/3',
+      'b8.jpg': '/new-in/2',
+      'b10.jpg': '/new-in/2',
+      'b11.jpg': '/new-in/8',
+      'b12.jpg': '/new-in/11',
+      'b12.gif': '/new-in/11',
+      'b13.jpg': '/new-in/7',
+      'b14.jpg': '/new-in/1',
+      'b17.jpg': '/new-in/10',
+      'b18.jpg': '/new-in/7',
+    }
+
+    if (mapping[basename]) {
+      router.push(mapping[basename])
+      return
+    }
+
+    // fallback / legacy mappings for other filenames
+    if (basename.includes('dsc06748.jpg') || basename.includes('dsc07027.jpg')) {
       router.push('/new-in/2')
       return
     }
-    if (src.includes('b12.gif')) {
-      router.push('/new-in/11')
-      return
-    }
-    if (
-      src.includes('IMG_0224 a.jpg') ||
-      src.includes('IMG_0224 i.jpg') ||
-      src.includes('IMG_1206.JPG') ||
-      src.includes('Pa_07.jpg')
-    ) {
+    if (basename.includes('img_1206') || basename.includes('img_0224') || basename.includes('pa_07')) {
       router.push('/new-in/7')
       return
     }
-    if (src.includes('Pa_08.jpg')) {
+    if (basename.includes('pa_08')) {
       router.push('/new-in/8')
       return
     }
-    if (src.includes('Pa_09.jpg')) {
+    if (basename.includes('pa_09')) {
       router.push('/new-in/9')
       return
     }
-    if (src.includes('Pa_10.jpg')) {
+    if (basename.includes('pa_10')) {
       router.push('/new-in/10')
       return
     }
-    if (src.includes('Pa_02.JPG')) {
+    if (basename.includes('pa_02')) {
       router.push('/new-in/2')
       return
     }
@@ -161,6 +179,8 @@ export default function S26Page() {
     'md:col-span-2 md:row-span-1', // Pa_09 .jpg
     'md:col-span-2 md:row-span-1', // Pa_10.jpg
   ]
+  const { t } = useTranslation()
+
   return (
     <>
       <Header />
@@ -194,7 +214,7 @@ export default function S26Page() {
             </Link>
           </div>
 
-          <h1 className="mt-[40px] md:mt-0 text-xl md:text-2xl font-semibold mb-3 italic text-white text-center">S26 Collection</h1>
+          <h1 className="mt-[40px] md:mt-0 text-xl md:text-2xl font-semibold mb-3 italic text-white text-center">{t('s26Collection')}</h1>
 
           <section>
             {/* Desktop: absolute-positioned canvas based on reference coordinates */}

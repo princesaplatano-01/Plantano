@@ -40,7 +40,7 @@ const defaultForm: FormState = {
   emailOffers: false,
 }
 
-function ExpressCheckoutBox({ children, onCheckout }: { children?: React.ReactNode; onCheckout?: () => Promise<void> | (() => void) }) {
+function ExpressCheckoutBox({ children, onCheckout, label }: { children?: React.ReactNode; onCheckout?: () => Promise<void> | (() => void); label?: string }) {
   const [inverted, setInverted] = useState(false)
 
   async function handleClick() {
@@ -61,7 +61,7 @@ function ExpressCheckoutBox({ children, onCheckout }: { children?: React.ReactNo
       onClick={(e) => { e.preventDefault(); handleClick() }}
       onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleClick() } }}
       className={`py-2 px-4 rounded shadow click-invert ${inverted ? 'inverted' : ''} bg-[#f1ec48] hover:bg-[#e6e03f] transition-colors`}>
-      <div className="font-bold uppercase mb-2 text-sm text-center">PAY NOW</div>
+      <div className="font-bold uppercase mb-2 text-sm text-center">{label ?? 'PAY NOW'}</div>
       <div className="flex gap-2 items-center">
         <div className="flex-1" />
         <div className="flex-shrink-0">{children}</div>
@@ -224,12 +224,12 @@ export default function CheckoutPage() {
 
             <div className="bg-white p-6 shadow rounded">
               <div className="mb-6">
-                <h2 className="text-sm font-semibold uppercase">Contact</h2>
+                <h2 className="text-sm font-semibold uppercase">{t('contact')}</h2>
                 <div className="mt-4">
                   <input
                     value={form.emailOrPhone}
                     onChange={(e) => update('emailOrPhone', e.target.value)}
-                    placeholder="Email or phone number"
+                    placeholder={t('emailOrPhone')}
                     className="p-3 border rounded w-full"
                   />
                 </div>
@@ -241,25 +241,25 @@ export default function CheckoutPage() {
                     onChange={(e) => update('emailOffers', e.target.checked)}
                     className="h-4 w-4 rounded border-gray-300 accent-[#f8fa41]"
                   />
-                  <label htmlFor="email-offers" className="ml-2 block text-sm text-gray-900">Send me news and offers by email</label>
+                  <label htmlFor="email-offers" className="ml-2 block text-sm text-gray-900">{t('sendNewsOffers')}</label>
                 </div>
               </div>
-              <h2 className="text-sm font-semibold uppercase">Delivery</h2>
+              <h2 className="text-sm font-semibold uppercase">{t('delivery')}</h2>
               <div className="mt-4 flex gap-3">
                 <ClickableLabel className={`flex-1 p-3 border rounded cursor-pointer ${form.shippingMethod === 'ship' ? 'bg-gray-100' : ''}`}>
                   <input type="radio" name="shipping" checked={form.shippingMethod === 'ship'} onChange={() => update('shippingMethod', 'ship')} className="hidden" />
-                  <div className="text-sm font-medium">Ship</div>
+                  <div className="text-sm font-medium">{t('ship')}</div>
                 </ClickableLabel>
               </div>
 
                 <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <input value={form.firstName} onChange={(e) => update('firstName', e.target.value)} placeholder="First Name" className="p-3 border rounded h-12" />
-                  <input value={form.lastName} onChange={(e) => update('lastName', e.target.value)} placeholder="Last Name" className="p-3 border rounded h-12" />
-                  <input value={form.address} onChange={(e) => update('address', e.target.value)} placeholder="Address" className="p-3 border rounded md:col-span-2 h-12" />
-                  <input value={form.apartment} onChange={(e) => update('apartment', e.target.value)} placeholder="Apartment (optional)" className="p-3 border rounded md:col-span-2 h-12" />
-                  <input value={form.city} onChange={(e) => update('city', e.target.value)} placeholder="City" className="p-3 border rounded h-12" />
-                  <input value={form.postalCode} onChange={(e) => update('postalCode', e.target.value)} placeholder="Postal Code" className="p-3 border rounded h-12" />
-                  <input value={form.state} onChange={(e) => update('state', e.target.value)} placeholder="State" className="p-3 border rounded h-12" />
+                  <input value={form.firstName} onChange={(e) => update('firstName', e.target.value)} placeholder={t('firstName')} className="p-3 border rounded h-12" />
+                  <input value={form.lastName} onChange={(e) => update('lastName', e.target.value)} placeholder={t('lastName')} className="p-3 border rounded h-12" />
+                  <input value={form.address} onChange={(e) => update('address', e.target.value)} placeholder={t('address')} className="p-3 border rounded md:col-span-2 h-12" />
+                  <input value={form.apartment} onChange={(e) => update('apartment', e.target.value)} placeholder={t('apartmentOptional')} className="p-3 border rounded md:col-span-2 h-12" />
+                  <input value={form.city} onChange={(e) => update('city', e.target.value)} placeholder={t('city')} className="p-3 border rounded h-12" />
+                  <input value={form.postalCode} onChange={(e) => update('postalCode', e.target.value)} placeholder={t('postalCode')} className="p-3 border rounded h-12" />
+                  <input value={form.state} onChange={(e) => update('state', e.target.value)} placeholder={t('state')} className="p-3 border rounded h-12" />
                   <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
                     <select value={form.phoneCountryCode} onChange={(e) => update('phoneCountryCode', e.target.value)} className="p-3 border rounded w-20 h-12 box-border">
                       <option value="+52">+52 MX</option>
@@ -267,7 +267,7 @@ export default function CheckoutPage() {
                       <option value="+44">+44 UK</option>
                       <option value="+34">+34 ES</option>
                     </select>
-                    <input value={form.phone} onChange={(e) => update('phone', e.target.value)} placeholder="Phone" className="p-3 border rounded h-12 box-border w-full" />
+                    <input value={form.phone} onChange={(e) => update('phone', e.target.value)} placeholder={t('phoneLabel')} className="p-3 border rounded h-12 box-border w-full" />
                   </div>
                   <select value={form.country} onChange={(e) => update('country', e.target.value)} className="p-3 border rounded md:col-span-2 h-12">
                     <option value="MX">Mexico</option>
@@ -275,7 +275,7 @@ export default function CheckoutPage() {
                   </select>
                 </div>
                 <div className="mt-6">
-                  <button onClick={continueToShipping} className="w-full py-3 bg-black text-white uppercase font-semibold">Continue to Shipping</button>
+                  <button onClick={continueToShipping} className="w-full py-3 bg-black text-white uppercase font-semibold">{t('continueToShipping')}</button>
                 </div>
             </div>
           </section>
@@ -284,7 +284,7 @@ export default function CheckoutPage() {
             <div className="md:sticky md:top-24">
               {!summaryLocked && (
                 <div className="mb-4 md:hidden">
-                  <button onClick={() => setShowSummaryOnMobile((s) => !s)} className="w-full p-3 rounded bg-[#f8fa41] text-black font-medium">{showSummaryOnMobile ? 'Hide order summary' : 'Show order summary'}</button>
+                  <button onClick={() => setShowSummaryOnMobile((s) => !s)} className="w-full p-3 rounded bg-[#f8fa41] text-black font-medium">{showSummaryOnMobile ? t('hideOrderSummary') : t('showOrderSummary')}</button>
                 </div>
               )}
 
@@ -292,7 +292,7 @@ export default function CheckoutPage() {
                 <div className="bg-gray-50 p-6 rounded">
                   <div className="flex flex-col gap-4">
                     {cartItems.length === 0 ? (
-                      <div className="text-sm">Your cart is empty</div>
+                      <div className="text-sm">{t('cartEmpty')}</div>
                     ) : (
                       cartItems.map((ci, idx) => (
                         <div key={idx} className="flex gap-4">
@@ -301,7 +301,7 @@ export default function CheckoutPage() {
                           </div>
                           <div className="flex-1">
                             <div className="font-medium">{ci.name}</div>
-                            <div className="text-sm text-muted-foreground">Qty: {ci.quantity}</div>
+                            <div className="text-sm text-muted-foreground">{t('qtyPrefix')} {ci.quantity}</div>
                             <div className="text-sm text-muted-foreground">{currencyFormatter.format((ci.price * ci.quantity) / 100)}</div>
                           </div>
                         </div>
@@ -309,27 +309,27 @@ export default function CheckoutPage() {
                     )}
                   </div>
 
-                  <div className="mt-6">
+                    <div className="mt-6">
                     <div className="flex items-center justify-between text-sm">
-                      <span>Subtotal</span>
+                      <span>{t('subtotal')}</span>
                       <span>{currencyFormatter.format(subtotal / 100)}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm mt-2">
-                      <span>Shipping</span>
+                      <span>{t('shippingLabel')}</span>
                       <span>{currencyFormatter.format(shipping / 100)}</span>
                     </div>
                     <div className="flex items-center justify-between text-base font-bold mt-4">
-                      <span>Total</span>
+                      <span>{t('totalLabel')}</span>
                       <span>{currencyFormatter.format(total / 100)}</span>
                     </div>
                   </div>
                   <div className="mt-4">
                     {shippingReady ? (
-                      <ExpressCheckoutBox onCheckout={createCheckoutSession}>
+                      <ExpressCheckoutBox onCheckout={createCheckoutSession} label={t('payNow')}>
                         <GooglePayButton amount={total} />
                       </ExpressCheckoutBox>
                     ) : (
-                      <div className="py-2 px-4 rounded shadow bg-gray-100 text-center text-sm text-gray-500">Complete shipping info to enable payment</div>
+                      <div className="py-2 px-4 rounded shadow bg-gray-100 text-center text-sm text-gray-500">{t('completeShippingInfo')}</div>
                     )}
                   </div>
                 </div>

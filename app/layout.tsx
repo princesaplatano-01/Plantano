@@ -7,6 +7,7 @@ import { CartProvider } from '@/components/cart'
 import './globals.css'
 import CustomCursor from '@/components/custom-cursor'
 import StripeRefRedirect from '@/components/stripe-ref-redirect'
+import AntiDownload from '@/components/anti-download'
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -68,6 +69,7 @@ export default async function RootLayout({
         <TranslationProvider initialLanguage={initialLang}>
           <CartProvider>
             <StripeRefRedirect />
+            <AntiDownload />
             {children}
           </CartProvider>
         </TranslationProvider>

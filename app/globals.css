@@ -215,3 +215,28 @@ body.use-custom-cursor [contenteditable="true"] {
     transform: translateY(40px) translateX(10px) scale(1.04);
   }
 }
+
+/* Prevent image downloads: disable dragging, long-press menus and selection */
+img, picture, figure {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none; /* iOS long-press menu */
+}
+
+/* More aggressive: hide callout actions on images for supported browsers */
+img {
+  pointer-events: auto; /* keep images interactive if needed */
+}
+
+/* Utility class: apply to any element to protect contained images */
+.no-download img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}

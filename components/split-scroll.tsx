@@ -121,7 +121,7 @@ export function SplitScroll() {
                  {t('aboutPrincesaPlatanoHome')}
                  </div>
                  <div className="mt-4">
-                  <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">Know More</span>
+                  <span className="inline-block px-4 py-1 border border-[#dbdbdb] text-[#dbdbdb] rounded-md">{t('knowMore')}</span>
                  </div>
                </div>
           </div>

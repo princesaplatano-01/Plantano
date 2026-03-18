@@ -28,7 +28,7 @@ export default function ContactPage() {
           </p>
 
           <p className="mt-6 text-sm md:text-base text-[#d6d6d6]" style={{ textAlign: 'justify' }}>
-            {t("contactIntro")} <a href="mailto:hello@princesaplatano.com" className="underline">hello@princesaplatano.com</a>
+            {t("contactIntro")}
           </p>
 
           <div className="mt-6">

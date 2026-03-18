@@ -160,14 +160,14 @@ export function Header() {
                 <div className="fixed inset-0 z-[20002]" role="button" tabIndex={0} onClick={(e) => { e.preventDefault(); e.stopPropagation(); setCartOpen(false); }}>
                   <div onClick={(e) => e.stopPropagation()} className="fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-black text-white shadow-2xl flex flex-col">
                     <div className="flex items-center justify-between p-4 border-b border-border">
-                      <span className="text-sm font-medium tracking-wider">Cart</span>
-                      <button onClick={() => setCartOpen(false)} aria-label="Close cart">
+                      <span className="text-sm font-medium tracking-wider">{t("cartTitle")}</span>
+                      <button onClick={() => setCartOpen(false)} aria-label={t("closeCart")}>
                         <X size={20} strokeWidth={1.5} />
                       </button>
                     </div>
                     <div className="flex-1 p-6">
                       {cartItems.length === 0 ? (
-                        <p className="text-center text-white text-sm">Your cart is empty</p>
+                        <p className="text-center text-white text-sm">{t("cartEmpty")}</p>
                       ) : (
                         <div className="flex flex-col gap-4">
                           {cartItems.map((item, idx) => (
@@ -211,8 +211,8 @@ export function Header() {
                                         })()}
                                 </div>
                               </div>
-                              <div className="flex items-start">
-                                <button className="text-xs underline ml-2" onClick={() => removeFromCart(item.id)}>Remove</button>
+                                <div className="flex items-start">
+                                <button className="text-xs underline ml-2" onClick={() => removeFromCart(item.id)}>{t("remove")}</button>
                               </div>
                             </div>
                           ))}
@@ -221,11 +221,11 @@ export function Header() {
                     </div>
                     <div className="p-4 border-t border-border">
                       <div className="flex items-center justify-between mb-4">
-                        <span className="text-sm text-muted-foreground">Subtotal</span>
+                        <span className="text-sm text-muted-foreground">{t("subtotal")}</span>
                         <span className="text-sm">{currencyFormatter.format(cartItems.reduce((s, i) => s + i.price * i.quantity, 0) / 100)}</span>
                       </div>
                       <Link href="/checkout" onClick={() => setCartOpen(false)} className="block w-full py-4 bg-white text-black font-medium text-center">
-                        GO TO CHECKOUT
+                        {t("goToCheckout")}
                       </Link>
                     </div>
                   </div>
@@ -253,20 +253,75 @@ export function Header() {
               </button>
             </div>
             <div className="flex flex-col py-2 flex-1">
-              <Link href="/new-in" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
+              <Link
+                href="/new-in"
+                className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border"
+                onClick={(e) => {
+                  if (pathname === '/new-in') {
+                    e.preventDefault()
+                    setMobileMenuOpen(false)
+                  } else {
+                    setMobileMenuOpen(false)
+                  }
+                }}
+              >
                 {t("newIn")}
               </Link>
-              <Link href="/s26" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
+              <Link
+                href="/s26"
+                className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border"
+                onClick={(e) => {
+                  if (pathname === '/s26') {
+                    e.preventDefault()
+                    setMobileMenuOpen(false)
+                  } else {
+                    setMobileMenuOpen(false)
+                  }
+                }}
+              >
                 {t("s26Collection")}
               </Link>
-              <Link href="/sale" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border text-accent">
+              <Link
+                href="/sale"
+                className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border text-accent"
+                onClick={(e) => {
+                  if (pathname === '/sale') {
+                    e.preventDefault()
+                    setMobileMenuOpen(false)
+                  } else {
+                    setMobileMenuOpen(false)
+                  }
+                }}
+              >
                 {t("sale")}
               </Link>
 
-              <Link href="/about" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
+              <Link
+                href="/about"
+                className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border"
+                onClick={(e) => {
+                  if (pathname === '/about') {
+                    e.preventDefault()
+                    setMobileMenuOpen(false)
+                  } else {
+                    setMobileMenuOpen(false)
+                  }
+                }}
+              >
                 {t("aboutPrincesaPlatano")}
               </Link>
-              <Link href="/contact" className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border">
+              <Link
+                href="/contact"
+                className="px-6 py-4 text-sm tracking-wider uppercase hover:bg-muted transition-colors border-b border-border"
+                onClick={(e) => {
+                  if (pathname === '/contact') {
+                    e.preventDefault()
+                    setMobileMenuOpen(false)
+                  } else {
+                    setMobileMenuOpen(false)
+                  }
+                }}
+              >
                 {t("contactUs")}
               </Link>
             </div>
