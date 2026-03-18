@@ -83,7 +83,7 @@ export default function AddToCart({ id, name, price, image, quantity = 1, classN
 
   return (
     <button onClick={handleAdd} disabled={addDisabled} className={`${base} ${clicked ? inverse : ""} transition-colors duration-200 ${addDisabled ? 'opacity-40 cursor-not-allowed' : ''}`}>
-      {children ?? "Add to cart"}
+      {children ?? "ADD TO CARD"}
     </button>
   )
 }

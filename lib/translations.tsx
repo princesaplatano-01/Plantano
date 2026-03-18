@@ -78,6 +78,7 @@ const translations = {
     product9: "Moon Pitaya Necklace",
     product10: "Solar Lemon Necklace",
     product11: "Tangerine Meteor Necklace",
+    addToCart: "ADD TO CARD",
     // Product descriptions
     productDesc1: "Oaxaca black clay - Indian ceramic - Tiger eye - Hematit",
     productDesc2: "UNKNOWN clay piece - Oaxaca black clay - African krobo glass - coral - stainless steel - mother of pearl shell",
@@ -196,7 +197,7 @@ const translations = {
     productDesc11: "Cuenta de arcilla de Pakistán - Coral - Jade - Acero inoxidable - Hematita",
     // Availability / cart
     outOfStock: "AGOTADO",
-    addToCart: "Añadir al carrito",
+    addToCart: "ADD TO CARD",
     // Checkout / Cart
     payNow: "PAGAR",
     contact: "Contacto",
