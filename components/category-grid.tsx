@@ -57,8 +57,9 @@ export function CategoryGrid() {
         const desiredTopMargin = marqueeHeight > 0 ? marqueeHeight + 60 : 140
         setContainerMarginTop(desiredTopMargin + manualOffset)
       } else {
-        const desiredTopMarginMobile = marqueeHeight > 0 ? marqueeHeight + 50 : 125
-        setContainerMarginTop(desiredTopMarginMobile + mobileOffset)
+        // Mobile: position polaroids ~30px below the marquee
+        const desiredTopMarginMobile = marqueeHeight > 0 ? marqueeHeight + 30 : 30
+        setContainerMarginTop(desiredTopMarginMobile)
       }
 
       // mobile / narrow: single-column large images
@@ -70,16 +71,20 @@ export function CategoryGrid() {
       const results = seed.map((s, i) => {
         // random small translations to make layout messy
         const tx = Math.round(Math.random() * 30 - 15) // -15..15
-        // move polaroids 60px upwards on desktop only (mobile unchanged)
-        const ty = isDesktop
+        // move polaroids 60px upwards on desktop only
+        // on mobile keep vertical jitter small and never move them up
+        // (ensure ty is at least +6px so top of frame isn't cropped)
+        const rawTy = isDesktop
           ? Math.round(Math.random() * 80 - 40) - 60
-          : Math.round(Math.random() * 100 - 40) - 80
+          : Math.round(Math.random() * 24 - 12)
+        const ty = isDesktop ? rawTy : Math.max(rawTy, 6)
         // Use a consistent width for all polaroids (no per-item randomness)
         // Increase size by 30% (0.3x bigger). Apply desktop-only scale so
-        // mobile sizing remains unchanged.
+        // mobile sizing remains unchanged, but shrink mobile images by 10%.
         const desktopScale = 0.8
         const sizeScale = isDesktop ? desktopScale : 1
-        const imgW = Math.max(160, Math.floor(baseImgW * 1.3 * sizeScale))
+        const mobileShrink = isDesktop ? 1 : 0.9 // make mobile images 10% smaller
+        const imgW = Math.max(160, Math.floor(baseImgW * 1.3 * sizeScale * mobileShrink))
         const zBase = s.zBase + Math.round(Math.random() * 6)
 
         // desktop-specific absolute positions (spread across width)
@@ -173,61 +178,88 @@ export function CategoryGrid() {
 
   return (
     <section className="py-12 md:py-16 px-4 md:px-6">
+      { /* determine render mode from computed layout so we can switch container classes */ }
+      {(() => {})()}
+      
+      {/* ensure we know whether layout computed desktop positions */}
+      
       <div
         ref={containerRef}
         className={
-          `relative grid grid-cols-1 gap-y-10 pb-24 pr-4 justify-items-center ${
-            layout[0]?.isDesktop ? 'min-h-[520px]' : ''
-          }`
+          (layout[0]?.isDesktop
+            ? `relative grid grid-cols-1 gap-y-10 pb-24 pr-4 justify-items-center ${layout[0]?.isDesktop ? 'min-h-[520px]' : ''}`
+            : `relative flex flex-row items-center overflow-x-auto pb-24 pr-4 gap-x-0 snap-x snap-mandatory touch-pan-x`) + ' polaroid-scroll'
         }
-        style={{ marginTop: `${containerMarginTop}px` }}
+            style={{ marginTop: `${containerMarginTop}px`, overflowY: 'visible', paddingTop: '36px', paddingBottom: '20px', zIndex: 50 }}
       >
         {images.map((src, i) => {
             const item = layout[i]
           const isHovered = hovered === i
           const zIndex = isHovered ? 999 : 10 + (item?.zBase ?? i)
 
+          // Desktop: absolute positioned images (unchanged)
+          if (item?.isDesktop) {
+            return (
+              <img
+                key={src}
+                src={src}
+                alt={`Editorial ${i + 1}`}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => {
+                  if (i === 0) router.push('/new-in/3')
+                  if (i === 1) router.push('/new-in/2')
+                  if (i === 2) router.push('/new-in/10')
+                  if (i === 3) router.push('/new-in/9')
+                  if (i === 4) router.push('/new-in/1')
+                }}
+                className={`pointer-events-auto select-none rounded-sm transition-transform duration-300 ease-out ${i <= 4 ? 'cursor-pointer' : ''}`}
+                style={{
+                  position: 'absolute' as const,
+                  left: item.left + 'px',
+                  top: item.top + 'px',
+                  transform: `translate(-50%, -50%) rotate(${item.rotate}deg) ${isHovered ? 'scale(1.06)' : 'scale(1)'}`,
+                  zIndex,
+                  boxShadow: '8px 8px 30px rgba(0,0,0,0.16)',
+                  width: item ? `${item.imgW}px` : '320px',
+                  maxWidth: '40%',
+                  height: 'auto',
+                }}
+              />
+            )
+          }
+
+          // Mobile: wrap the image in a padded container so rotated frames are visible
           return (
-            <img
+            <div
               key={src}
-              src={src}
-              alt={`Editorial ${i + 1}`}
-              onMouseEnter={() => setHovered(i)}
-              onMouseLeave={() => setHovered(null)}
-              onClick={() => {
-                if (i === 0) router.push('/new-in/3')
-                if (i === 1) router.push('/new-in/2')
-                if (i === 2) router.push('/new-in/10')
-                if (i === 3) router.push('/new-in/9')
-                if (i === 4) router.push('/new-in/4')
-              }}
-              className={`pointer-events-auto select-none rounded-sm transition-transform duration-300 ease-out ${i <= 4 ? 'cursor-pointer' : ''}`}
-              style={
-                item?.isDesktop
-                  ? {
-                      position: 'absolute' as const,
-                      left: item.left + 'px',
-                      top: item.top + 'px',
-                      transform: `translate(-50%, -50%) rotate(${item.rotate}deg) ${isHovered ? 'scale(1.06)' : 'scale(1)'}`,
-                      zIndex,
-                      boxShadow: '8px 8px 30px rgba(0,0,0,0.16)',
-                      width: item ? `${item.imgW}px` : '320px',
-                      maxWidth: '40%',
-                      height: 'auto',
-                    }
-                  : {
-                      display: 'block',
-                      transform: `rotate(${item ? item.rotate : 0}deg) translate(${item ? item.tx : 0}px, ${item ? item.ty : 0}px) ${isHovered ? 'scale(1.06)' : 'scale(1)'}`,
-                      zIndex,
-                      boxShadow: '8px 8px 30px rgba(0,0,0,0.16)',
-                      width: item ? `${item.imgW}px` : '320px',
-                      maxWidth: '92%',
-                      height: 'auto',
-                      marginBottom: '-24px',
-                      marginLeft: '0px',
-                    }
-              }
-            />
+              className="flex-shrink-0 snap-center"
+              style={{ padding: '32px', overflow: 'visible', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: (i === images.length - 1) ? '0px' : `-${Math.round((item?.imgW ?? 240) * 0.2)}px`, position: 'relative' as const, zIndex: 9999 }}
+            >
+              <img
+                src={src}
+                alt={`Editorial ${i + 1}`}
+                onMouseEnter={() => setHovered(i)}
+                onMouseLeave={() => setHovered(null)}
+                onClick={() => {
+                  if (i === 0) router.push('/new-in/3')
+                  if (i === 1) router.push('/new-in/2')
+                  if (i === 2) router.push('/new-in/10')
+                  if (i === 3) router.push('/new-in/9')
+                  if (i === 4) router.push('/new-in/1')
+                }}
+                className={`pointer-events-auto select-none rounded-sm transition-transform duration-300 ease-out ${i <= 4 ? 'cursor-pointer' : ''}`}
+                style={{
+                  display: 'block',
+                  transform: `rotate(${item ? item.rotate : 0}deg) translate(${item ? item.tx : 0}px, ${item ? item.ty : 0}px) ${isHovered ? 'scale(1.06)' : 'scale(1)'}`,
+                  zIndex: 10001,
+                  boxShadow: '8px 8px 30px rgba(0,0,0,0.16)',
+                  width: item ? `${item.imgW}px` : '320px',
+                  flex: '0 0 auto',
+                  height: 'auto',
+                }}
+              />
+            </div>
           )
         })}
       </div>

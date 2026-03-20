@@ -40,6 +40,14 @@ const defaultForm: FormState = {
   emailOffers: false,
 }
 
+const MEX_STATES = [
+  'Aguascalientes','Baja California','Baja California Sur','Campeche','Chiapas','Chihuahua','Coahuila','Colima','Ciudad de México','Durango','Guanajuato','Guerrero','Hidalgo','Jalisco','Estado de México','Michoacán','Morelos','Nayarit','Nuevo León','Oaxaca','Puebla','Querétaro','Quintana Roo','San Luis Potosí','Sinaloa','Sonora','Tabasco','Tamaulipas','Tlaxcala','Veracruz','Yucatán','Zacatecas'
+]
+
+const US_STATES = [
+  'Alabama','Alaska','Arizona','Arkansas','California','Colorado','Connecticut','Delaware','District of Columbia','Florida','Georgia','Hawaii','Idaho','Illinois','Indiana','Iowa','Kansas','Kentucky','Louisiana','Maine','Maryland','Massachusetts','Michigan','Minnesota','Mississippi','Missouri','Montana','Nebraska','Nevada','New Hampshire','New Jersey','New Mexico','New York','North Carolina','North Dakota','Ohio','Oklahoma','Oregon','Pennsylvania','Rhode Island','South Carolina','South Dakota','Tennessee','Texas','Utah','Vermont','Virginia','Washington','West Virginia','Wisconsin','Wyoming'
+]
+
 function ExpressCheckoutBox({ children, onCheckout, label }: { children?: React.ReactNode; onCheckout?: () => Promise<void> | (() => void); label?: string }) {
   const [inverted, setInverted] = useState(false)
 
@@ -259,7 +267,11 @@ export default function CheckoutPage() {
                   <input value={form.apartment} onChange={(e) => update('apartment', e.target.value)} placeholder={t('apartmentOptional')} className="p-3 border rounded md:col-span-2 h-12" />
                   <input value={form.city} onChange={(e) => update('city', e.target.value)} placeholder={t('city')} className="p-3 border rounded h-12" />
                   <input value={form.postalCode} onChange={(e) => update('postalCode', e.target.value)} placeholder={t('postalCode')} className="p-3 border rounded h-12" />
-                  <input value={form.state} onChange={(e) => update('state', e.target.value)} placeholder={t('state')} className="p-3 border rounded h-12" />
+                  <select value={form.state} onChange={(e) => update('state', e.target.value)} className="p-3 border rounded h-12">
+                    {(form.country === 'US' ? US_STATES : MEX_STATES).map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
                   <div className="grid grid-cols-[auto_1fr] gap-2 items-center">
                     <select value={form.phoneCountryCode} onChange={(e) => update('phoneCountryCode', e.target.value)} className="p-3 border rounded w-20 h-12 box-border">
                       <option value="+52">+52 MX</option>

@@ -213,7 +213,7 @@ export default function S26Page() {
             </Link>
           </div>
 
-          <h1 className="mt-[40px] md:mt-0 text-xl md:text-2xl font-semibold mb-3 italic text-white text-center">{t('s26Collection')}</h1>
+          <h1 className="mt-[60px] md:mt-0 ml-[-5px] md:ml-0 text-xl md:text-2xl font-semibold mb-3 italic text-white text-center">{t('s26Collection')}</h1>
 
           <section>
             {/* Desktop: absolute-positioned canvas based on reference coordinates */}

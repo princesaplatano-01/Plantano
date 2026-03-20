@@ -107,7 +107,7 @@ export function HeroSection() {
             style={{ transform: 'scale(1.15)', transformOrigin: 'center' }}
           />
         </div>
-        <div className="relative h-screen md:h-[100vh] overflow-hidden block">
+          <div className="relative h-screen md:h-[100vh] md:overflow-hidden overflow-visible block">
           {/* Background Image with parallax */}
           <div 
             className="absolute inset-0 md:inset-[-20px] transition-transform duration-300 ease-out"

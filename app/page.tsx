@@ -13,7 +13,7 @@ export default function Home() {
       <HeroSection />
       <CategoryGrid />
       <SplitScroll />
-      <div className="mt-[100px] relative overflow-hidden">
+      <div className="mt-[100px] relative md:overflow-hidden overflow-visible">
         <picture>
           <source media="(min-width: 1024px)" srcSet="/SCROLL/DSC07548_72y.jpg" />
           <img
