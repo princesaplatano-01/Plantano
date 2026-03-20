@@ -46,8 +46,8 @@ export async function POST(request: Request) {
     // 1. Send the Welcome Email
     const resendClient = getResend();
     if (!resendClient) {
-      console.error('Missing RESEND_API_KEY');
-      return NextResponse.json({ error: 'Missing RESEND_API_KEY' }, { status: 500 });
+      console.error('Resend client not configured (RESEND_API_KEY missing)');
+      return NextResponse.json({ error: 'Service temporarily unavailable' }, { status: 500 });
     }
 
     const sendResult = await resendClient.emails.send({

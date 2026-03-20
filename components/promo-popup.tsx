@@ -70,7 +70,8 @@ export function PromoPopup() {
                         alert('Check your inbox! ✨')
                       } else {
                         const json = await response.json().catch(() => ({}))
-                        alert(json?.error || 'Subscription failed')
+                        console.error('Subscribe API error:', json?.error)
+                        alert('Subscription failed')
                       }
                     } catch (err) {
                       alert('Subscription failed')
