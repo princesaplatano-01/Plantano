@@ -47,7 +47,7 @@ export default function NewsletterPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder={t("enterEmail")}
                   required
-                  className="w-full px-4 py-3 border border-border bg-transparent text-sm tracking-wide placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
+                  className="w-full px-4 py-3 border border-border bg-transparent text-sm tracking-wide placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors text-white"
                 />
                 <button
                   type="submit"

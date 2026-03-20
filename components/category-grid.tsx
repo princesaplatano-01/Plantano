@@ -20,6 +20,8 @@ export function CategoryGrid() {
   // manual vertical offset to nudge polaroids (negative moves them up)
   // moved up 50px previously; subtract ~38px (1cm) to move up 1cm more
   const manualOffset = -88
+  // global upward nudge (px). Use negative to move content up.
+  const moveUp = -30
   // mobile-only downward offset (~0.5cm ≈ 19px)
   const mobileOffset = 19
 
@@ -55,11 +57,11 @@ export function CategoryGrid() {
       // Desktop-only margin adjustments: keep mobile behavior unchanged.
       if (isDesktop) {
         const desiredTopMargin = marqueeHeight > 0 ? marqueeHeight + 60 : 140
-        setContainerMarginTop(desiredTopMargin + manualOffset)
+        setContainerMarginTop(desiredTopMargin + manualOffset + moveUp)
       } else {
         // Mobile: position polaroids ~30px below the marquee
         const desiredTopMarginMobile = marqueeHeight > 0 ? marqueeHeight + 30 : 30
-        setContainerMarginTop(desiredTopMarginMobile)
+        setContainerMarginTop(desiredTopMarginMobile + moveUp)
       }
 
       // mobile / narrow: single-column large images
@@ -83,7 +85,8 @@ export function CategoryGrid() {
         // mobile sizing remains unchanged, but shrink mobile images by 10%.
         const desktopScale = 0.8
         const sizeScale = isDesktop ? desktopScale : 1
-        const mobileShrink = isDesktop ? 1 : 0.9 // make mobile images 10% smaller
+        // Mobile-only: reduce mobile polaroid size by an additional 10% (0.7 * 0.9 = 0.63)
+        const mobileShrink = isDesktop ? 1 : 0.63
         const imgW = Math.max(160, Math.floor(baseImgW * 1.3 * sizeScale * mobileShrink))
         const zBase = s.zBase + Math.round(Math.random() * 6)
 
@@ -149,7 +152,7 @@ export function CategoryGrid() {
                 const delta = desiredAbsCenter - currentAbsCenter
                 const computed = getComputedStyle(containerRef.current!)
                 const currentMargin = parseFloat(computed.marginTop || '0')
-                const newMargin = Math.round(currentMargin + delta) + manualOffset
+                const newMargin = Math.round(currentMargin + delta) + manualOffset + moveUp
                 setContainerMarginTop(newMargin)
               }
 
@@ -234,7 +237,7 @@ export function CategoryGrid() {
             <div
               key={src}
               className="flex-shrink-0 snap-center"
-              style={{ padding: '32px', overflow: 'visible', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: (i === images.length - 1) ? '0px' : `-${Math.round((item?.imgW ?? 240) * 0.2)}px`, position: 'relative' as const, zIndex: 9999 }}
+              style={{ padding: '16px', overflow: 'visible', display: 'flex', alignItems: 'center', justifyContent: 'center', marginRight: (i === images.length - 1) ? '0px' : `-${Math.round((item?.imgW ?? 240) * 0.25)}px`, position: 'relative' as const, zIndex: 9999 }}
             >
               <img
                 src={src}

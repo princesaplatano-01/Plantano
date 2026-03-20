@@ -56,9 +56,25 @@ export function PromoPopup() {
                 <p className="text-sm mb-2 text-center" style={{ color: '#dcdcdc' }}>BE THE FIRST TO DISCOVER OUR NEW ARRIVALS—SUBSCRIBE NOW</p>
                 <form
                   className="flex flex-col items-center w-full"
-                  onSubmit={e => {
+                  onSubmit={async (e) => {
                     e.preventDefault();
-                    setSubmitted(true);
+                    try {
+                      const response = await fetch('/api/subscribe', {
+                        method: 'POST',
+                        body: JSON.stringify({ email }),
+                        headers: { 'Content-Type': 'application/json' },
+                      })
+
+                      if (response.ok) {
+                        setSubmitted(true)
+                        alert('Check your inbox! ✨')
+                      } else {
+                        const json = await response.json().catch(() => ({}))
+                        alert(json?.error || 'Subscription failed')
+                      }
+                    } catch (err) {
+                      alert('Subscription failed')
+                    }
                   }}
                 >
                   <input
@@ -67,7 +83,7 @@ export function PromoPopup() {
                     placeholder="Your email"
                     value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="mb-2 px-3 py-1 rounded border border-border w-full text-sm"
+                    className="mb-2 px-3 py-1 rounded border border-border w-full text-sm text-white bg-transparent placeholder:text-[#dcdcdc]"
                   />
                   <button
                     type="submit"
@@ -78,7 +94,7 @@ export function PromoPopup() {
                 </form>
               </>
             ) : (
-              <p className="text-center text-sm">You're in! Check your email.</p>
+              <p className="text-center text-sm text-white">You're in! Check your email.</p>
             )}
           </div>
         </div>
