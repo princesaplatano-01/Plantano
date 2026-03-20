@@ -1,7 +1,15 @@
 import { Resend } from 'resend';
 import { NextResponse } from 'next/server';
 
-const resend = new Resend(process.env.RESEND_API_KEY as string);
+let resend: Resend | null = null;
+function getResend(): Resend | null {
+  if (!resend) {
+    const key = process.env.RESEND_API_KEY;
+    if (!key) return null;
+    resend = new Resend(key);
+  }
+  return resend;
+}
 
 export async function POST(request: Request) {
   try {
@@ -20,8 +28,14 @@ export async function POST(request: Request) {
       </div>
     `;
 
-    await resend.emails.send({
-      from: 'Princesa Platano <hello@princesaplatano.com>',
+    const resendClient = getResend();
+    if (!resendClient) {
+      console.error('Missing RESEND_API_KEY');
+      return NextResponse.json({ error: 'Missing RESEND_API_KEY' }, { status: 500 });
+    }
+
+    await resendClient.emails.send({
+      from: 'Princesa Plátano <hello@princesaplatano.com>',
       to: ['princesaplatano@gmail.com'],
       reply_to: email,
       subject: `Website contact: ${name ?? email}`,
