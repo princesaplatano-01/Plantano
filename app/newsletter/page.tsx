@@ -10,9 +10,22 @@ export default function NewsletterPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const { t } = useTranslation()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    if (email) {
+    if (!email) return
+    try {
+      const res = await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
+      })
+      if (res.ok) {
+        try { localStorage.setItem('newsletterSubscribed', 'true') } catch (err) {}
+        setIsSubmitted(true)
+      } else {
+        setIsSubmitted(true)
+      }
+    } catch (err) {
       setIsSubmitted(true)
     }
   }

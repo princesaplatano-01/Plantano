@@ -203,17 +203,30 @@ export default function S26Page() {
             background-repeat: no-repeat;
           }
         }
+        /* Mobile adjustments: move logo up 10px and title down 20px (mobile-only) */
+        @media (max-width: 640px) {
+          .s26-logo-wrap {
+            margin-top: 5px !important; /* original was 15px; 15 - 10 = 5 */
+          }
+          .s26-title {
+            margin-top: 120px !important; /* original was 60px; +60 total = 120 (moved 30px further) */
+          }
+          /* Move first mobile image up another 30px (total 60px up) */
+          .s26-mobile-first {
+            margin-top: calc(3cm - 60px) !important;
+          }
+        }
       `}</style>
 
       <main className="s26-bg min-h-screen pt-6 py-6 px-3 md:px-6 text-foreground" style={{ paddingBottom: '60px' }}>
         <div className="max-w-6xl mx-auto">
-          <div className="flex justify-center mb-6 mt-[15px] md:mt-5">
+          <div className="flex justify-center mb-6 mt-[15px] md:mt-5 s26-logo-wrap">
             <Link href="/">
               <img src="/Front/PP-LOGO-LTTRNG-A-02.png" alt="S26" width={192} height={50} className="object-contain cursor-pointer transform scale-90 md:scale-100" />
             </Link>
           </div>
 
-          <h1 className="mt-[60px] md:mt-0 ml-[-5px] md:ml-0 text-xl md:text-2xl font-semibold mb-3 italic text-white text-center">{t('s26Collection')}</h1>
+          <h1 className="mt-[60px] md:mt-0 ml-[-5px] md:ml-0 text-xl md:text-2xl font-semibold mb-3 italic text-white text-center s26-title">{t('s26Collection')}</h1>
 
           <section>
             {/* Desktop: absolute-positioned canvas based on reference coordinates */}
@@ -302,11 +315,12 @@ export default function S26Page() {
                   const displaySrc = `${src}${cb}`
                   const isB20 = src.includes('b20.jpg')
                   return (
-                    <div
-                      key={`m-${idx}`}
-                      style={{ breakInside: 'avoid', marginBottom: isB20 ? 60 : 12, marginTop: idx === 0 ? '3cm' : undefined }}
-                      onClick={() => handleMobileTap(src)}
-                    >
+                            <div
+                              key={`m-${idx}`}
+                              className={idx === 0 ? 's26-mobile-first' : undefined}
+                              style={{ breakInside: 'avoid', marginBottom: isB20 ? 60 : 12 }}
+                              onClick={() => handleMobileTap(src)}
+                            >
                       {displaySrc.toLowerCase().endsWith('.mp4') || displaySrc.toLowerCase().endsWith('.gif') ? (
                         <video src={displaySrc} className="w-full object-contain block" style={{ width: '100%', height: 'auto', objectFit: 'contain' }} autoPlay loop muted playsInline />
                       ) : (

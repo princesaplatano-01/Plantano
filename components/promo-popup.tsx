@@ -14,6 +14,17 @@ export function PromoPopup() {
   const { t } = useTranslation()
 
   useEffect(() => {
+    // If user already subscribed, don't show the popup
+    try {
+      const subscribed = localStorage.getItem('newsletterSubscribed') === 'true'
+      if (subscribed) {
+        setIsDismissed(true)
+        return
+      }
+    } catch (err) {
+      // ignore storage errors
+    }
+
     const timer = setTimeout(() => {
       setIsVisible(true)
     }, 2000)
@@ -66,6 +77,11 @@ export function PromoPopup() {
                       })
 
                       if (response.ok) {
+                        try {
+                          localStorage.setItem('newsletterSubscribed', 'true')
+                        } catch (err) {
+                          // ignore
+                        }
                         setSubmitted(true)
                         alert('Check your inbox! ✨')
                       } else {
