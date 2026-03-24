@@ -41,22 +41,41 @@ export function CategoryGrid() {
       if (!el) return
       const width = el.clientWidth || 420
 
-      // measure marquee (moving text) height so we can position polaroids
-      // 60px below it on desktop
+      // measure marquee (moving text) so we can position polaroids
+      // Prefer using the marquee's viewport position (bounding rect) so the
+      // polaroids are always placed visually below the bar on desktop.
       let marqueeHeight = 0
+      let marqueeRect: DOMRect | null = null
       try {
         const marqueeInner = document.querySelector('.animate-marquee') as HTMLElement | null
         const marqueeWrapper = marqueeInner?.parentElement as HTMLElement | null
         marqueeHeight = marqueeWrapper?.clientHeight ?? 0
+        marqueeRect = marqueeWrapper?.getBoundingClientRect() ?? null
       } catch (err) {
         marqueeHeight = 0
+        marqueeRect = null
       }
 
       const isDesktop = width >= 1024
 
       // Desktop-only margin adjustments: keep mobile behavior unchanged.
       if (isDesktop) {
-        const desiredTopMargin = marqueeHeight > 0 ? marqueeHeight + 60 : 140
+        // If we have the marquee's bounding rect and the container, compute
+        // the exact margin so the top of the polaroids container sits just
+        // below the marquee's bottom (plus a small gap). Fall back to the
+        // previous heuristic when measurements are not available.
+        const containerRect = el.getBoundingClientRect()
+        const gap = 20 // px gap below marquee
+        let desiredTopMargin: number
+        if (marqueeRect && containerRect) {
+          desiredTopMargin = Math.round(marqueeRect.bottom - containerRect.top + gap)
+          // keep a sensible minimum based on marquee height
+          const minMargin = marqueeHeight > 0 ? marqueeHeight + 60 : 140
+          if (desiredTopMargin < minMargin) desiredTopMargin = minMargin
+        } else {
+          desiredTopMargin = marqueeHeight > 0 ? marqueeHeight + 60 : 140
+        }
+
         setContainerMarginTop(desiredTopMargin + manualOffset + moveUp)
       } else {
         // Mobile: position polaroids ~30px below the marquee

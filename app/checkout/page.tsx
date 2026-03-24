@@ -87,7 +87,18 @@ export default function CheckoutPage() {
 
   const { items: cartItems, subtotal: cartSubtotal, itemCount } = useCart()
   // store amounts in centavos (smallest MXN unit)
-  const shipping = form.shippingMethod === "ship" ? 200 * 100 : 0
+  function computeShippingAmount(form: FormState) {
+    if (form.country === 'US') return 250 * 100
+    // Mexico
+    if (form.country === 'MX') {
+      // exact match for Ciudad de México
+      if ((form.state || '').toLowerCase() === 'ciudad de méxico' || (form.state || '').toLowerCase() === 'ciudad de mexico') return 100 * 100
+      return 150 * 100
+    }
+    // fallback
+    return 200 * 100
+  }
+  const shipping = form.shippingMethod === "ship" ? computeShippingAmount(form) : 0
   const subtotal = cartSubtotal
   const total = subtotal + shipping
   const currencyFormatter = new Intl.NumberFormat('es-MX', { style: 'currency', currency: 'MXN' })

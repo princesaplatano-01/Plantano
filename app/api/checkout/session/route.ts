@@ -38,6 +38,21 @@ export async function POST(req: NextRequest) {
       }
     })
 
+    // compute shipping based on form values (posted in body.form)
+    const form = body.form || {}
+    function computeShippingAmount(formData: any) {
+      const country = (formData.country || '').toUpperCase()
+      const state = (formData.state || '').toLowerCase()
+      if (country === 'US') return 250 * 100
+      if (country === 'MX') {
+        if (state === 'ciudad de méxico' || state === 'ciudad de mexico') return 100 * 100
+        return 150 * 100
+      }
+      return 200 * 100
+    }
+
+    const shippingAmount = computeShippingAmount(form)
+
     const session = await stripe.checkout.sessions.create({
       allow_promotion_codes: true,
       payment_method_types: ['card'],
@@ -48,6 +63,17 @@ export async function POST(req: NextRequest) {
       shipping_address_collection: {
         allowed_countries: ['MX', 'US'],
       },
+      // Add a single fixed shipping option computed from the form so Stripe
+      // shows the same shipping amount the user saw in the UI.
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: { amount: shippingAmount, currency: 'mxn' },
+            display_name: 'Shipping',
+          },
+        },
+      ],
       metadata: {
         shipping: JSON.stringify(body.form || {}),
         discount: JSON.stringify(body.discount || {}),

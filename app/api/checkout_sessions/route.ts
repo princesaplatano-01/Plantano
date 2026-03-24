@@ -27,6 +27,19 @@ export async function POST(req: NextRequest) {
       return { price: priceId, quantity }
     })
 
+    const form = body.form || {}
+    function computeShippingAmount(formData: any) {
+      const country = (formData.country || '').toUpperCase()
+      const state = (formData.state || '').toLowerCase()
+      if (country === 'US') return 250 * 100
+      if (country === 'MX') {
+        if (state === 'ciudad de méxico' || state === 'ciudad de mexico') return 100 * 100
+        return 150 * 100
+      }
+      return 200 * 100
+    }
+    const shippingAmount = computeShippingAmount(form)
+
     const session = await stripe.checkout.sessions.create({
       allow_promotion_codes: true,
       payment_method_types: ['card'],
@@ -36,6 +49,15 @@ export async function POST(req: NextRequest) {
       shipping_address_collection: {
         allowed_countries: ['MX', 'US', 'PT', 'BE'],
       },
+      shipping_options: [
+        {
+          shipping_rate_data: {
+            type: 'fixed_amount',
+            fixed_amount: { amount: shippingAmount, currency: 'mxn' },
+            display_name: 'Shipping',
+          },
+        },
+      ],
       phone_number_collection: { enabled: true },
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout`,
