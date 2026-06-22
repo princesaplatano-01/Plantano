@@ -188,7 +188,7 @@ export default function CheckoutPage() {
     setLoading(true)
     try {
       // If cart items include Stripe price IDs, use the price-id Checkout Sessions endpoint
-      const hasPriceIds = cartItems.length > 0 && cartItems.every((it: any) => Boolean((it as any).priceId || (it as any).price_id))
+      const hasPriceIds = cartItems.some((it: any) => Boolean((it as any).priceId || (it as any).price_id))
       if (hasPriceIds) {
         const items = cartItems.map((it: any) => ({ priceId: it.priceId || it.price_id, quantity: it.quantity }))
         const res = await fetch('/api/checkout_sessions', {

@@ -4,6 +4,7 @@ import React, { useRef, useState, useEffect } from "react"
 import { useCart } from "@/components/cart"
 import { getStock } from '@/lib/stock'
 import { decrementByProductId } from "@/lib/stock"
+import { STRIPE_PRICE_IDS } from '@/lib/products'
 
 type Props = {
   id: string
@@ -13,9 +14,10 @@ type Props = {
   quantity?: number
   className?: string
   children?: React.ReactNode
+  priceId?: string
 }
 
-export default function AddToCart({ id, name, price, image, quantity = 1, className, children }: Props) {
+export default function AddToCart({ id, name, price, image, quantity = 1, className, children, priceId }: Props) {
   const { addToCart, items: cartItems } = useCart()
   const [clicked, setClicked] = useState(false)
   const tRef = useRef<number | null>(null)
@@ -42,7 +44,7 @@ export default function AddToCart({ id, name, price, image, quantity = 1, classN
       // ignore and allow
     }
 
-    addToCart({ id, name, price: priceInCentavos, quantity, image })
+    addToCart({ id, name, price: priceInCentavos, quantity, image, priceId: priceId ?? STRIPE_PRICE_IDS[id] })
     setClicked(true)
     try {
       // Only update stock after confirmed payment. Previously desktop decremented immediately;

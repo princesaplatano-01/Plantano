@@ -1,3 +1,7 @@
+export const STRIPE_PRICE_IDS: Record<string, string> = {
+  'newin-7': 'price_1TlFOu3NFaqaTHGIxSYWnI97',
+}
+
 export const IMAGES: (string | string[])[] = [
   ["/SHOP/Pa_01.jpg", "/NEW IN/P_01.jpg", "/NEW IN/zoom in/Pb_01.jpg", "/SHOP/plum.jpg"],
   ["/NEW IN/P_02.jpg", "/NEW IN/zoom in/Pb_02.jpg", "/SHOP/fig.jpg"],
