@@ -1,10 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripeSecret = process.env.STRIPE_SECRET_KEY || ''
-
 export async function GET(req: NextRequest) {
   try {
+    const stripeSecret = process.env.STRIPE_SECRET_KEY
     if (!stripeSecret) return NextResponse.json({ error: 'Stripe secret key not configured' }, { status: 500 })
     const stripe = new Stripe(stripeSecret, { apiVersion: '2022-11-15' })
 
