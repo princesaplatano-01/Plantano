@@ -1,15 +1,14 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripeSecret = process.env.STRIPE_SECRET_KEY || ''
-
 export async function POST(req: NextRequest) {
   try {
+    const stripeSecret = process.env.STRIPE_SECRET_KEY
     if (!stripeSecret) {
       return NextResponse.json({ error: 'Stripe secret key not configured' }, { status: 500 })
     }
 
-    const stripe = new Stripe(stripeSecret, { apiVersion: '2022-11-15' })
+    const stripe = new Stripe(stripeSecret, { apiVersion: '2022-11-15' as const })
     const body = await req.json()
     const amount = Math.round(body.amount || 0)
     const currency = body.currency || 'mxn'

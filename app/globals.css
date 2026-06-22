@@ -184,6 +184,13 @@ button,
 body.use-custom-cursor * {
   cursor: none !important;
 }
+body.use-custom-cursor a,
+body.use-custom-cursor button,
+body.use-custom-cursor [role="button"],
+body.use-custom-cursor [role="link"],
+body.use-custom-cursor .cursor-pointer {
+  cursor: url('/Front/mu2.png') 2 2, pointer !important;
+}
 body.use-custom-cursor input,
 body.use-custom-cursor textarea,
 body.use-custom-cursor [contenteditable="true"] {
