@@ -207,7 +207,7 @@ export default function CheckoutPage() {
       }
 
       // Fallback: existing name/price flow
-      const res = await fetch("/api/checkout/session", {
+      const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ items: cartItems, form }),
