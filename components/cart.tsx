@@ -68,18 +68,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("platano_cart")
-      if (raw) {
-        const parsed: CartItem[] = JSON.parse(raw)
-        const converted = parsed.map((p) => {
-          // If stored price looks like pesos (e.g. 2000), convert to centavos (x100).
-          // Heuristic: treat prices < 10000 as pesos and convert.
-          const price = Number(p.price) || 0
-          const normalizedPrice = price > 0 && price < 10000 ? Math.round(price * 100) : price
-          return { ...p, price: normalizedPrice }
-        })
-        dispatch({ type: "HYDRATE", payload: converted })
-      }
+      // Ensure the site opens with an empty shopping cart by clearing any
+      // persisted cart data on mount. This prevents previously stored items
+      // from appearing when the website is opened.
+      localStorage.removeItem("platano_cart")
+      // No hydrate dispatch; keep initial state empty.
     } catch (e) {
       // ignore
     }
