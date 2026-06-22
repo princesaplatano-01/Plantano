@@ -93,28 +93,93 @@ export async function POST(req: NextRequest) {
     }
     const shippingAmount = computeShippingAmount(form)
 
-    const session = await stripe.checkout.sessions.create({
-      allow_promotion_codes: true,
-      payment_method_types: ['card'],
-      mode: 'payment',
-      line_items,
-      billing_address_collection: 'required',
-      shipping_address_collection: {
-        allowed_countries: ['MX', 'US', 'PT', 'BE'],
-      },
-      shipping_options: [
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: { amount: shippingAmount, currency: 'mxn' },
-            display_name: 'Shipping',
-          },
+    let session
+    try {
+      session = await stripe.checkout.sessions.create({
+        allow_promotion_codes: true,
+        payment_method_types: ['card'],
+        mode: 'payment',
+        line_items,
+        billing_address_collection: 'required',
+        shipping_address_collection: {
+          allowed_countries: ['MX', 'US', 'PT', 'BE'],
         },
-      ],
-      phone_number_collection: { enabled: true },
-      success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${origin}/checkout`,
-    })
+        shipping_options: [
+          {
+            shipping_rate_data: {
+              type: 'fixed_amount',
+              fixed_amount: { amount: shippingAmount, currency: 'mxn' },
+              display_name: 'Shipping',
+            },
+          },
+        ],
+        phone_number_collection: { enabled: true },
+        success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        cancel_url: `${origin}/checkout`,
+      })
+    } catch (e: any) {
+      console.error('[/api/checkout_sessions] Stripe session create error:', e?.message || e)
+      const msg = String(e?.message || '')
+      // If a provided priceId was invalid, try to resolve price details from Stripe
+      if (msg.includes('No such price') || e?.code === 'resource_missing') {
+        try {
+          const resolved_line_items = await Promise.all((items || []).map(async (it: any) => {
+            const priceId = it.priceId || it.price_id || it.price
+            const quantity = Number.isInteger(it.quantity) ? it.quantity : parseInt(it.quantity, 10) || 1
+            if (priceId) {
+              // Try to retrieve price and its product info from Stripe
+              const p = await stripe.prices.retrieve(priceId, { expand: ['product'] }) as any
+              const unit_amount = p.unit_amount
+              const currency = (p.currency || 'mxn').toLowerCase()
+              const product = p.product || {}
+              const name = product.name || it.name || 'Item'
+              const images = (product.images && product.images.length) ? product.images : (it.images ? (Array.isArray(it.images) ? it.images : [it.images]) : [])
+              return {
+                price_data: {
+                  currency,
+                  product_data: { name, images },
+                  unit_amount,
+                },
+                quantity,
+              }
+            }
+
+            // fallback: accept inline unit amounts if present
+            const unitAmt = toIntegerAmount(it.unit_amount ?? it.price ?? it.unitAmount)
+            if (unitAmt == null || unitAmt <= 0) {
+              throw new Error('Each item must include a valid unit_amount (in cents) or a priceId')
+            }
+            return {
+              price_data: {
+                currency: (it.currency || 'mxn').toLowerCase(),
+                product_data: { name: it.name || it.title || 'Item', images: Array.isArray(it.images) ? it.images : [] },
+                unit_amount: unitAmt,
+              },
+              quantity,
+            }
+          }))
+
+          session = await stripe.checkout.sessions.create({
+            allow_promotion_codes: true,
+            payment_method_types: ['card'],
+            mode: 'payment',
+            line_items: resolved_line_items,
+            billing_address_collection: 'required',
+            shipping_address_collection: { allowed_countries: ['MX', 'US', 'PT', 'BE'] },
+            shipping_options: [ { shipping_rate_data: { type: 'fixed_amount', fixed_amount: { amount: shippingAmount, currency: 'mxn' }, display_name: 'Shipping' } } ],
+            phone_number_collection: { enabled: true },
+            success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+            cancel_url: `${origin}/checkout`,
+            metadata: { shipping: JSON.stringify(body.form || {}), discount: JSON.stringify(body.discount || {}) },
+          })
+        } catch (err2: any) {
+          console.error('[/api/checkout_sessions] fallback resolution failed:', err2?.message || err2)
+          throw e
+        }
+      } else {
+        throw e
+      }
+    }
 
     if (!session.url) {
       return NextResponse.json({ error: 'Could not create checkout session' }, { status: 500 })
