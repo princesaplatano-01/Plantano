@@ -12,26 +12,54 @@ export async function POST(req: NextRequest) {
     const stripe = new Stripe(stripeSecret, { apiVersion: '2022-11-15' })
 
     const body = await req.json()
-    const origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    console.log('[/api/checkout/session] incoming headers origin:', req.headers.get('origin'))
+    console.log('[/api/checkout/session] NEXT_PUBLIC_SITE_URL:', process.env.NEXT_PUBLIC_SITE_URL)
+    try {
+      console.log('[/api/checkout/session] request body:', JSON.stringify(body))
+    } catch (e) {
+      console.log('[/api/checkout/session] request body (unserializable)')
+    }
+    let origin = req.headers.get('origin') || process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'
+    try {
+      // validate origin is a proper URL; fallback to localhost if not
+      // eslint-disable-next-line no-new
+      new URL(origin)
+    } catch (e) {
+      console.warn('Invalid origin header or NEXT_PUBLIC_SITE_URL, falling back to http://localhost:3000', origin)
+      origin = 'http://localhost:3000'
+    }
+    console.log('[/api/checkout/session] using origin:', origin)
 
     const items = body.items || (body.item ? [body.item] : [{ name: 'Macrame bag', price: 3500, quantity: 1 }])
     const discountPercent = Number((body && body.discount && body.discount.percent) || 0)
 
     const line_items = (items || []).map((it: any) => {
       const rawImage = it.image
-      const imageUrl = rawImage
-        ? (rawImage.startsWith('http') ? rawImage : `${origin}${rawImage.startsWith('/') ? rawImage : `/${rawImage}`}`)
-        : `${origin}/images/placeholder.png`
+      let imageUrl: string | null = null
+      if (rawImage) {
+        // coerce relative paths to absolute using origin
+        const candidate = rawImage.startsWith('http') ? rawImage : `${origin}${rawImage.startsWith('/') ? rawImage : `/${rawImage}`}`
+        try {
+          // eslint-disable-next-line no-new
+          const u = new URL(candidate)
+          // Only send HTTPS images to Stripe (Stripe requires secure URLs)
+          if (u.protocol === 'https:') imageUrl = candidate
+          else console.warn('Image URL not HTTPS; omitting from product_data.images:', candidate)
+        } catch (e) {
+          console.warn('Invalid item image URL, omitting image:', rawImage)
+          imageUrl = null
+        }
+      }
 
       const baseAmount = Math.round(it.price || 0)
       const finalAmount = Math.max(0, Math.round(baseAmount * (1 - (discountPercent / 100))))
+      const product_data: any = { name: it.name }
+      if (imageUrl) product_data.images = [imageUrl]
+
       return {
         price_data: {
           currency: 'mxn',
-          product_data: {
-            name: it.name,
-            images: [imageUrl],
-          },
+          product_data,
           unit_amount: finalAmount,
         },
         quantity: it.quantity || 1,
@@ -53,7 +81,15 @@ export async function POST(req: NextRequest) {
 
     const shippingAmount = computeShippingAmount(form)
 
-    const session = await stripe.checkout.sessions.create({
+    try {
+      console.log('[/api/checkout/session] computed line_items:', JSON.stringify(line_items, null, 2))
+    } catch (e) {
+      console.log('[/api/checkout/session] computed line_items (unserializable)')
+    }
+
+    let session
+    try {
+      session = await stripe.checkout.sessions.create({
       allow_promotion_codes: true,
       payment_method_types: ['card'],
       mode: 'payment',
@@ -79,6 +115,10 @@ export async function POST(req: NextRequest) {
         discount: JSON.stringify(body.discount || {}),
       },
     })
+    } catch (e: any) {
+      console.error('[/api/checkout/session] Stripe session create error:', e?.message || e)
+      throw e
+    }
 
     return NextResponse.json({ url: session.url })
   } catch (err: any) {
